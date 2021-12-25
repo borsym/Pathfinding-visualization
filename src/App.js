@@ -1,14 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
+import NavBar from "./NavBar";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <h1>Hali</h1>
-      <h2>update</h2>
-    <h3>mergeld mar</h3>
-    </div>
+    <>
+      <NavBar />
+      <h1 className="text-3xl font-bold ">Hello world!</h1>
+    </>
   );
 }
-
-export default App;

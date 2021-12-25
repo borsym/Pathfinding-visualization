@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-navbar {
+    @apply bg-gray-800 hover:bg-gray-700 hover:text-emerald-500 text-white font-bold py-2 px-4 rounded-full mr-4 ease-in duration-200;
+  }
+}
