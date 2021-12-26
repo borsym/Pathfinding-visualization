@@ -14,8 +14,7 @@ export default function Grid(props) {
 
   function handleMouseDown(row, col) {
     const newGrid = getNewGridWithWallToggled(grid, row, col);
-    // this.setState({ grid: newGrid, mouseIsPressed: true });
-    // set grid to newGrid and set mousispressed to true
+
     setGrid(newGrid);
     setMouseIsPressed(true);
   }
@@ -23,12 +22,10 @@ export default function Grid(props) {
   function handleMouseEnter(row, col) {
     if (!mouseIsPressed) return;
     const newGrid = getNewGridWithWallToggled(grid, row, col);
-    // this.setState({ grid: newGrid });
     setGrid(newGrid);
   }
 
   function handleMouseUp() {
-    // this.setState({ mouseIsPressed: false });
     setMouseIsPressed(false);
   }
 
