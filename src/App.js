@@ -4,13 +4,13 @@ import NavBar from "./NavBar";
 import Grid from "./Grid";
 import { useState } from "react";
 export default function App() {
-  // const [grid, setGrid] = useState([]);
+  const [grid, setGrid] = useState([[]]); // i would like to use this in the navbar and in the grid
 
   return (
     <>
-      <NavBar />
+      <NavBar setGrid={setGrid} grid={grid} />
       <Legend />
-      <Grid />
+      <Grid setGrid={setGrid} grid={grid} />
     </>
   );
 }

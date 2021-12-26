@@ -1,6 +1,6 @@
 import React from "react";
 import Node from "./Node";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 
 const START_NODE_ROW = 10;
@@ -8,26 +8,27 @@ const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
 
-export default function Grid(props) {
-  const [grid, setGrid] = useState(getInitialGrid());
+export default function Grid({ setGrid, grid }) {
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
+  useEffect(() => {
+    setGrid(getInitialGrid());
+  }, [setGrid]);
 
-  function handleMouseDown(row, col) {
+  const handleMouseDown = (row, col) => {
     const newGrid = getNewGridWithWallToggled(grid, row, col);
-
     setGrid(newGrid);
     setMouseIsPressed(true);
-  }
+  };
 
-  function handleMouseEnter(row, col) {
+  const handleMouseEnter = (row, col) => {
     if (!mouseIsPressed) return;
     const newGrid = getNewGridWithWallToggled(grid, row, col);
     setGrid(newGrid);
-  }
+  };
 
-  function handleMouseUp() {
+  const handleMouseUp = () => {
     setMouseIsPressed(false);
-  }
+  };
 
   // animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
   //   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
