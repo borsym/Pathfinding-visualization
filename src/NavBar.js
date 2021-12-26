@@ -1,6 +1,12 @@
 import Button from "./Button";
+import Dropdown from "./Dropdown";
 import "./style/index.css";
 export default function NavBar() {
+  const optionsAlgorithms = ["Options", "Visualize", "Clear", "Cica"];
+  const optionsMazes = ["Rekurziv", "Iterativ", "Valami"];
+  const optionsSpeed = ["Fast", "Normal", "Slow"];
+  const optionsType = ["Dirt", "Water", "Stone"];
+
   return (
     <nav className="flex justify-center items-center mx-auto bg-slate-800 p-4">
       <Button name="Valami" />
@@ -12,10 +18,10 @@ export default function NavBar() {
         isVisualize="true"
         // className=" bg-cyan-600 hover:bg-cyan-500 hover:text-blue-800"
       />
-      <Button name="Algorithms" />
-      <Button name="Maze" />
-      <Button name="Speed" />
-      <Button name="Type" />
+      <Dropdown name="Algorithms" options={optionsAlgorithms} />
+      <Dropdown name="Maze" options={optionsMazes} />
+      <Dropdown name="Speed" options={optionsSpeed} />
+      <Dropdown name="Type" options={optionsType} />
     </nav>
   );
 }
