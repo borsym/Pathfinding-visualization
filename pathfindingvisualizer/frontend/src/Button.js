@@ -6,7 +6,7 @@ export default function Button(props) {
 
   return (
     <button className={buttonDesing} onClick={props.function}>
-      {props.name}
+      {props.name} {props.algorithmName}
     </button>
   );
 }

@@ -32,7 +32,7 @@ export default function Dropdown(props) {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    href="/#"
+                    onClick={() => props.setAlgorithm(option)}
                     className={classNames(
                       active ? "text-blue-500 " : "text-white",
                       "block px-4 py-2 text-sm hover:text-emerald-500"

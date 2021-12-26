@@ -1,15 +1,19 @@
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import "./style/index.css";
+import "./index.css";
+import { useState } from "react";
+
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
+
 export default function NavBar({ setGrid, grid }) {
-  const optionsAlgorithms = ["Options", "Visualize", "Clear", "Cica"];
+  const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "A*"];
   const optionsMazes = ["Rekurziv", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Dirt", "Water", "Stone"];
+  const [algorithm, setAlgorithm] = useState("");
   // this works for now but it need to be refactored such as the grid getInitial Grid function, maybe this function need to be liftied up into the App.js
   const getInitialGrid = () => {
     const grid = [];
@@ -51,9 +55,14 @@ export default function NavBar({ setGrid, grid }) {
       <Button
         name="Visualize"
         isVisualize="true"
+        algorithmName={algorithm}
         // className=" bg-cyan-600 hover:bg-cyan-500 hover:text-blue-800"
       />
-      <Dropdown name="Algorithms" options={optionsAlgorithms} />
+      <Dropdown
+        name="Algorithms"
+        options={optionsAlgorithms}
+        setAlgorithm={setAlgorithm}
+      />
       <Dropdown name="Maze" options={optionsMazes} />
       <Dropdown name="Speed" options={optionsSpeed} />
       <Dropdown name="Type" options={optionsType} />
