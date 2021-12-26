@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import Node from "./Node";
+import { useState } from "react";
 // import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 
 const START_NODE_ROW = 10;
@@ -7,33 +8,28 @@ const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
 
-export default class Grid extends Component {
-  constructor() {
-    super();
-    this.state = {
-      grid: [],
-      mouseIsPressed: false,
-    };
+export default function Grid(props) {
+  const [grid, setGrid] = useState(getInitialGrid());
+  const [mouseIsPressed, setMouseIsPressed] = useState(false);
+
+  function handleMouseDown(row, col) {
+    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    // this.setState({ grid: newGrid, mouseIsPressed: true });
+    // set grid to newGrid and set mousispressed to true
+    setGrid(newGrid);
+    setMouseIsPressed(true);
   }
 
-  componentDidMount() {
-    const grid = getInitialGrid();
-    this.setState({ grid });
+  function handleMouseEnter(row, col) {
+    if (!mouseIsPressed) return;
+    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    // this.setState({ grid: newGrid });
+    setGrid(newGrid);
   }
 
-  handleMouseDown(row, col) {
-    const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-    this.setState({ grid: newGrid, mouseIsPressed: true });
-  }
-
-  handleMouseEnter(row, col) {
-    if (!this.state.mouseIsPressed) return;
-    const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-    this.setState({ grid: newGrid });
-  }
-
-  handleMouseUp() {
-    this.setState({ mouseIsPressed: false });
+  function handleMouseUp() {
+    // this.setState({ mouseIsPressed: false });
+    setMouseIsPressed(false);
   }
 
   // animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
@@ -71,44 +67,38 @@ export default class Grid extends Component {
   //   this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   // }
 
-  render() {
-    const { grid, mouseIsPressed } = this.state;
-
-    return (
-      <div className="flex justify-center">
-        {/* <button onClick={() => this.visualizeDijkstra()}>
+  return (
+    <div className="flex justify-center">
+      {/* <button onClick={() => this.visualizeDijkstra()}>
           Visualize Dijkstra's Algorithm
         </button> */}
-        <div className="mt-5">
-          {grid.map((row, rowIdx) => {
-            return (
-              <div key={rowIdx} className="space-y-0 bg-gray-400 leading-none">
-                {row.map((node, nodeIdx) => {
-                  const { row, col, isFinish, isStart, isWall } = node;
-                  return (
-                    <Node
-                      key={nodeIdx}
-                      col={col}
-                      row={row}
-                      isFinish={isFinish}
-                      isStart={isStart}
-                      isWall={isWall}
-                      mouseIsPressed={mouseIsPressed}
-                      onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-                      onMouseEnter={(row, col) =>
-                        this.handleMouseEnter(row, col)
-                      }
-                      onMouseUp={() => this.handleMouseUp()}
-                    />
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+      <div className="mt-5">
+        {grid.map((row, rowIdx) => {
+          return (
+            <div key={rowIdx} className="space-y-0 bg-gray-400 leading-none">
+              {row.map((node, nodeIdx) => {
+                const { row, col, isFinish, isStart, isWall } = node;
+                return (
+                  <Node
+                    key={nodeIdx}
+                    col={col}
+                    row={row}
+                    isFinish={isFinish}
+                    isStart={isStart}
+                    isWall={isWall}
+                    mouseIsPressed={mouseIsPressed}
+                    onMouseDown={(row, col) => handleMouseDown(row, col)}
+                    onMouseEnter={(row, col) => handleMouseEnter(row, col)}
+                    onMouseUp={() => handleMouseUp()}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 const getInitialGrid = () => {

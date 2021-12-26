@@ -3,5 +3,10 @@ export default function Button(props) {
     props.isVisualize === "true"
       ? `btn-navbar bg-cyan-600 hover:bg-cyan-500 hover:text-blue-800`
       : `btn-navbar`;
-  return <button className={buttonDesing}>{props.name}</button>;
+
+  return (
+    <button className={buttonDesing} onClick={props.function}>
+      {props.name}
+    </button>
+  );
 }
