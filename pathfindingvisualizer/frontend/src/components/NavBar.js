@@ -1,11 +1,12 @@
+import React from "react";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
+import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
-import { useState } from "react";
-import React from "react";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -18,6 +19,7 @@ export default function NavBar({ setGrid, grid }) {
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Dirt", "Water", "Stone"];
   const [algorithm, setAlgorithm] = useState("");
+
   // this works for now but it need to be refactored such as the grid getInitial Grid function, maybe this function need to be liftied up into the App.js
   const getInitialGrid = () => {
     const grid = [];
