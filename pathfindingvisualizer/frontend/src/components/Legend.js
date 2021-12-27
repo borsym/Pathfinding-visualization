@@ -1,3 +1,4 @@
+import React from "react";
 export default function Legend() {
   return (
     <div className="flex justify-center items-center mx-auto font-medium p-4">

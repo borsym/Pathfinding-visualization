@@ -1,7 +1,11 @@
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import "./index.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import "../index.css";
 import { useState } from "react";
+import React from "react";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -27,6 +31,19 @@ export default function NavBar({ setGrid, grid }) {
     setGrid(grid);
   };
 
+  const notify = () =>
+    !algorithm &&
+    toast.warn("You have to pick an algorithm!", {
+      position: "top-right",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+
   const createNode = (col, row) => {
     return {
       col,
@@ -40,14 +57,9 @@ export default function NavBar({ setGrid, grid }) {
     };
   };
 
-  // const clearBoard = (e) => {
-  //   e.preventDefault();
-  //   console.log("clearBoard");
-  //   console.log(grid);
-  // };
-
   return (
     <nav className="flex justify-center items-center mx-auto bg-slate-800 p-4">
+      <ToastContainer />
       <Button name="Valami" />
       <Button name="Valami" />
       <Button name="Clear Board" function={getInitialGrid} />
@@ -56,6 +68,7 @@ export default function NavBar({ setGrid, grid }) {
         name="Visualize"
         isVisualize="true"
         algorithmName={algorithm}
+        function={notify}
         // className=" bg-cyan-600 hover:bg-cyan-500 hover:text-blue-800"
       />
       <Dropdown
