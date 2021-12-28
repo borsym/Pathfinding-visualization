@@ -11,6 +11,6 @@
   }
 
   .node-style {
-    @apply inline-block w-6 h-6 outline md:outline-1 outline-black;
+    @apply inline-block w-6 h-6 outline md:outline-[0.05px] outline-blue-300;
   }
 }

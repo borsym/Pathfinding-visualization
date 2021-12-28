@@ -73,7 +73,7 @@ export default function Grid({ setGrid, grid }) {
       <div className="mt-5">
         {grid.map((row, rowIdx) => {
           return (
-            <div key={rowIdx} className="space-y-0 bg-gray-400 leading-none">
+            <div key={rowIdx} className="space-y-0 bg-white leading-none">
               {row.map((node, nodeIdx) => {
                 const { row, col, isFinish, isStart, isWall } = node;
                 return (
