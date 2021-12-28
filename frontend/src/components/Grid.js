@@ -30,23 +30,23 @@ export default function Grid({ setGrid, grid }) {
     setMouseIsPressed(false);
   };
 
-  // animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
-  //   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-  //     if (i === visitedNodesInOrder.length) {
-  //       setTimeout(() => {
-  //         this.animateShortestPath(nodesInShortestPathOrder);
-  //       }, 10 * i);
-  //       return;
-  //     }
-  //     setTimeout(() => {
-  //       const node = visitedNodesInOrder[i];
-  //       document.getElementById(`node-${node.row}-${node.col}`).className =
-  //         "node node-visited";
-  //     }, 10 * i);
-  //   }
-  // }
+  function animateAlorihm(visitedNodesInOrder, nodesInShortestPathOrder) {
+    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+      if (i === visitedNodesInOrder.length) {
+        setTimeout(() => {
+          this.animateShortestPath(nodesInShortestPathOrder);
+        }, 10 * i);
+        return;
+      }
+      setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-visited";
+      }, 10 * i);
+    }
+  }
 
-  // animateShortestPath(nodesInShortestPathOrder) {
+  // function animateShortestPath(nodesInShortestPathOrder) {
   //   for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
   //     setTimeout(() => {
   //       const node = nodesInShortestPathOrder[i];
@@ -56,14 +56,14 @@ export default function Grid({ setGrid, grid }) {
   //   }
   // }
 
-  // visualizeDijkstra() {
-  //   const { grid } = this.state;
-  //   const startNode = grid[START_NODE_ROW][START_NODE_COL];
-  //   const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-  //   const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-  //   const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-  //   this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
-  // }
+  function visualizeDijkstra() {
+    const { grid } = this.state;
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = [1];//dijkstra(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = [1];//getNodesInShortestPathOrder(finishNode);
+    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
 
   return (
     <div className="flex justify-center">
