@@ -17,7 +17,7 @@ export default function Node(props) {
     : isStart
     ? "node-start bg-green-500"
     : isWall
-    ? "node-wall bg-wall-blue animate-fillBox"
+    ? "node-wall bg-wall-blue animate-fillBoxWall"
     : "";
 
   return (

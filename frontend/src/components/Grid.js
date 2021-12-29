@@ -30,21 +30,39 @@ export default function Grid({ setGrid, grid }) {
     setMouseIsPressed(false);
   };
 
-  function animateAlorihm(visitedNodesInOrder, nodesInShortestPathOrder) {
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-      if (i === visitedNodesInOrder.length) {
-        setTimeout(() => {
-          this.animateShortestPath(nodesInShortestPathOrder);
-        }, 10 * i);
-        return;
-      }
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          "node node-visited";
-      }, 10 * i);
-    }
-  }
+  // function animateAlgorithm(
+  //   visitedNodesInOrder,
+  //   nodesInShortestPathOrder,
+  //   speed
+  // ) {
+  //   //   // ez már fix nem ide kell...
+  //   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+  //     if (i === visitedNodesInOrder.length) {
+  //       // eljutot a végére...
+  //       setTimeout(() => {
+  //         animateShortestPath(nodesInShortestPathOrder);
+  //       }, speed * i);
+  //       return;
+  //     }
+  //     setTimeout(() => {
+  //       const node = visitedNodesInOrder[i];
+  //       document.getElementById(`node-${node[0]}-${node[1]}`).className =
+  //         "node-style bg-visited-node-blue animate-fillBoxVisited";
+  //     }, speed * i);
+  //   }
+  // }
+
+  // function animateShortestPath(nodesInShortestPathOrder) {
+  //   for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+  //     setTimeout(() => {
+  //       const node = nodesInShortestPathOrder[i];
+  //       document.getElementById(`node-${node[0]}-${node[1]}`).className =
+  //         "node-style bg-yellow-100";
+  //     }, 50 * i);
+  //   }
+  // }
+
+  // ennek fixen itt kell lennie át kell rakni anavbarból TODO!!!! FIX
 
   // function animateShortestPath(nodesInShortestPathOrder) {
   //   for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
@@ -60,8 +78,8 @@ export default function Grid({ setGrid, grid }) {
     const { grid } = this.state;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = [1];//dijkstra(grid, startNode, finishNode);
-    const nodesInShortestPathOrder = [1];//getNodesInShortestPathOrder(finishNode);
+    const visitedNodesInOrder = [1]; //dijkstra(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = [1]; //getNodesInShortestPathOrder(finishNode);
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 

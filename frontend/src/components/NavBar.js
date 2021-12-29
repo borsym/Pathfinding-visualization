@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-
+import { animateAlgorithm } from "../functions/animate.js";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
 
@@ -21,23 +21,30 @@ export default function NavBar({ setGrid, grid }) {
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Dirt", "Water", "Stone"];
   const [algorithm, setAlgorithm] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [speed, setSpeed] = useState(10);
   // useEffect(() => {
   //   setAlgorithm("");
   // }, [setAlgorithm]);
-  // function animateAlorihm(visitedNodesInOrder, nodesInShortestPathOrder) {
-  //   // ez már fix nem ide kell...
+  // function animateAlgorithm(
+  //   visitedNodesInOrder,
+  //   nodesInShortestPathOrder,
+  //   speed
+  // ) {
+  //   //   // ez már fix nem ide kell...
   //   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
   //     if (i === visitedNodesInOrder.length) {
+  //       // eljutot a végére...
   //       setTimeout(() => {
-  //         this.animateShortestPath(nodesInShortestPathOrder);
-  //       }, 10 * i);
+  //         animateShortestPath(nodesInShortestPathOrder);
+  //       }, speed * i);
   //       return;
   //     }
   //     setTimeout(() => {
   //       const node = visitedNodesInOrder[i];
-  //       document.getElementById(`node-${node.row}-${node.col}`).className =
-  //         "node node-visited";
-  //     }, 10 * i);
+  //       document.getElementById(`node-${node[0]}-${node[1]}`).className =
+  //         "node-style bg-visited-node-blue animate-fillBoxVisited";
+  //     }, speed * i);
   //   }
   // }
 
@@ -45,8 +52,8 @@ export default function NavBar({ setGrid, grid }) {
   //   for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
   //     setTimeout(() => {
   //       const node = nodesInShortestPathOrder[i];
-  //       document.getElementById(`node-${node.row}-${node.col}`).className =
-  //         "node node-shortest-path";
+  //       document.getElementById(`node-${node[0]}-${node[1]}`).className =
+  //         "node-style bg-yellow-100";
   //     }, 50 * i);
   //   }
   // }
@@ -67,17 +74,11 @@ export default function NavBar({ setGrid, grid }) {
       axios
         .get(`http://localhost:8000/${algorithm}`)
         .then((res) => {
-          // parse the response
-
-          console.log(res.data.path);
-          //loop through the path and change the class of the nodes
-          for (let i = 0; i < res.data.path.length; i++) {
-            const node = res.data.path[i];
-
-            document.getElementById(`node-${node[0]}-${node[1]}`).className =
-              "node-style bg-red-200";
-          }
-          // és itt passzolom át a pathnek? vagy hogy fog menni a visualize-nál?
+          setIsDisabled(true);
+          animateAlgorithm(res.data.path, res.data.shortestPath, speed);
+          setTimeout(() => {
+            setIsDisabled(false);
+          }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
         })
         .catch((err) => {
           console.log(err);
@@ -86,17 +87,12 @@ export default function NavBar({ setGrid, grid }) {
     }
   };
 
-  //useEffect(handleVisualize, []);
-
   // this works for now but it need to be refactored such as the grid getInitial Grid function, maybe this function need to be liftied up into the App.js
   const getInitialGrid = () => {
-    const grid = [];
     for (let row = 0; row < 20; row++) {
-      const currentRow = [];
       for (let col = 0; col < 50; col++) {
-        currentRow.push(createNode(col, row));
+        document.getElementById(`node-${row}-${col}`).className = "node-style";
       }
-      grid.push(currentRow);
     }
     setGrid(grid);
   };
@@ -126,15 +122,21 @@ export default function NavBar({ setGrid, grid }) {
         isVisualize="true"
         algorithmName={algorithm}
         function={handleVisualize}
+        isDisabled={isDisabled}
         // className=" bg-cyan-600 hover:bg-cyan-500 hover:text-blue-800"
       />
       <Dropdown
         name="Algorithms"
         options={optionsAlgorithms}
-        setAlgorithm={setAlgorithm}
+        setVariable={setAlgorithm}
       />
       <Dropdown name="Maze" options={optionsMazes} />
-      <Dropdown name="Speed" options={optionsSpeed} />
+      <Dropdown
+        name="Speed"
+        options={optionsSpeed}
+        speed={speed}
+        setVariable={setSpeed}
+      />
       <Dropdown name="Type" options={optionsType} />
     </nav>
   );
