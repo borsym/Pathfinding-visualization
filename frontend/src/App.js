@@ -1,12 +1,12 @@
-import "./App.css";
 import Legend from "./components/Legend";
 import NavBar from "./components/NavBar";
 import Grid from "./components/Grid";
 import { useState, useEffect } from "react";
+import { GridProvider } from "./contexts/GridContext";
 import axios from "axios";
 
 export default function App() {
-  const [grid, setGrid] = useState([[]]); // i would like to use this in the navbar and in the grid
+  // i would like to use this in the navbar and in the grid
   //const [algorithm, setAlgorithm] = useState(""); // i really dont think this is the right place for this
 
   // useEffect(() => {
@@ -22,16 +22,13 @@ export default function App() {
   // }, [algorithm]);
 
   return (
-    <>
+    <GridProvider>
       <NavBar
-        setGrid={setGrid}
-        grid={grid}
-        // setAlgorithm={setAlgorithm}
-        // algorithm={algorithm}
+      // setAlgorithm={setAlgorithm}
+      // algorithm={algorithm}
       />
       <Legend />
-      <Grid setGrid={setGrid} grid={grid} />
-      {/* <h1>{msg}</h1> */}
-    </>
+      <Grid />
+    </GridProvider>
   );
 }

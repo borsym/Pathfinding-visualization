@@ -1,11 +1,10 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { animateAlgorithm } from "../functions/animate.js";
+// import { animateAlgorithm } from "../functions/animate.js";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-
+import { GridContext } from "../contexts/GridContext.js";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 
@@ -14,7 +13,7 @@ const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
 
-const NavBar = ({ setGrid, grid }) => {
+const NavBar = () => {
   // , setAlgorithm, algorithm
   const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "A*"];
   const optionsMazes = ["Rekurziv", "Iterativ", "Valami"];
@@ -23,40 +22,11 @@ const NavBar = ({ setGrid, grid }) => {
   const [algorithm, setAlgorithm] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);
+  const [grid, setGrid] = useContext(GridContext);
   // useEffect(() => {
   //   setAlgorithm("");
   // }, [setAlgorithm]);
-  // function animateAlgorithm(
-  //   visitedNodesInOrder,
-  //   nodesInShortestPathOrder,
-  //   speed
-  // ) {
-  //   //   // ez már fix nem ide kell...
-  //   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-  //     if (i === visitedNodesInOrder.length) {
-  //       // eljutot a végére...
-  //       setTimeout(() => {
-  //         animateShortestPath(nodesInShortestPathOrder);
-  //       }, speed * i);
-  //       return;
-  //     }
-  //     setTimeout(() => {
-  //       const node = visitedNodesInOrder[i];
-  //       document.getElementById(`node-${node[0]}-${node[1]}`).className =
-  //         "node-style bg-visited-node-blue animate-fillBoxVisited";
-  //     }, speed * i);
-  //   }
-  // }
-
-  // function animateShortestPath(nodesInShortestPathOrder) {
-  //   for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-  //     setTimeout(() => {
-  //       const node = nodesInShortestPathOrder[i];
-  //       document.getElementById(`node-${node[0]}-${node[1]}`).className =
-  //         "node-style bg-yellow-100";
-  //     }, 50 * i);
-  //   }
-  // }
+  
 
   const handleVisualize = () => {
     if (!algorithm) {
@@ -74,6 +44,7 @@ const NavBar = ({ setGrid, grid }) => {
       axios
         .get(`http://localhost:8000/${algorithm}`)
         .then((res) => {
+          console.log(res.data.path);
           setIsDisabled(true);
           animateAlgorithm(res.data.path, res.data.shortestPath, speed);
           setTimeout(() => {

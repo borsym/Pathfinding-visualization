@@ -1,4 +1,4 @@
-import { Fragment, React } from "react";
+import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import "../functions/Names.js";
