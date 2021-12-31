@@ -8,8 +8,23 @@ export const GridContext = createContext();
 
 export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
+
+  const dispatchGridEvent = (actionType, payload) => {
+    switch (actionType) {
+      case "CLEAR_BOARD":
+        setGrid(getInitialGrid()); // nope it doesn't affect the on every element only just the walls, i want this to be affected by the visited nodes too
+        return;
+      case "VISUALIZE_ALGORITHM":
+        animateAlgorithm(payload.path, payload.shortestPath, payload.speed);
+        return;
+      case "VISUALIZE_MAZE":
+        return;
+      default:
+        return;
+    }
+  };
   return (
-    <GridContext.Provider value={[grid, setGrid]}>
+    <GridContext.Provider value={[grid, setGrid, dispatchGridEvent]}>
       {props.children}
     </GridContext.Provider>
   );
@@ -39,3 +54,35 @@ const createNode = (col, row) => {
     previousNode: null,
   };
 };
+
+function animateAlgorithm(
+  visitedNodesInOrder,
+  nodesInShortestPathOrder,
+  speed
+) {
+  //   // ez már fix nem ide kell...
+  for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+    if (i === visitedNodesInOrder.length) {
+      // eljutot a végére...
+      setTimeout(() => {
+        animateShortestPath(nodesInShortestPathOrder);
+      }, speed * i);
+      return;
+    }
+    setTimeout(() => {
+      const node = visitedNodesInOrder[i];
+      document.getElementById(`node-${node[0]}-${node[1]}`).className =
+        "node-style bg-visited-node-blue animate-fillBoxVisited";
+    }, speed * i);
+  }
+}
+
+function animateShortestPath(nodesInShortestPathOrder) {
+  for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+    setTimeout(() => {
+      const node = nodesInShortestPathOrder[i];
+      document.getElementById(`node-${node[0]}-${node[1]}`).className =
+        "node-style bg-yellow-100";
+    }, 50 * i);
+  }
+}

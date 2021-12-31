@@ -22,11 +22,11 @@ const NavBar = () => {
   const [algorithm, setAlgorithm] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);
-  const [grid, setGrid] = useContext(GridContext);
-  // useEffect(() => {
-  //   setAlgorithm("");
-  // }, [setAlgorithm]);
-  
+  const [grid, setGrid, dispatchGridEvent] = useContext(GridContext);
+
+  const handleClearBoard = () => {
+    dispatchGridEvent("CLEAR_BOARD", {});
+  };
 
   const handleVisualize = () => {
     if (!algorithm) {
@@ -46,7 +46,11 @@ const NavBar = () => {
         .then((res) => {
           console.log(res.data.path);
           setIsDisabled(true);
-          animateAlgorithm(res.data.path, res.data.shortestPath, speed);
+          dispatchGridEvent("VISUALIZE_ALGORITHM", {
+            path: res.data.path,
+            shortestPath: res.data.shortestPath,
+            speed: speed,
+          });
           setTimeout(() => {
             setIsDisabled(false);
           }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
@@ -59,34 +63,13 @@ const NavBar = () => {
   };
 
   // this works for now but it need to be refactored such as the grid getInitial Grid function, maybe this function need to be liftied up into the App.js
-  const getInitialGrid = () => {
-    for (let row = 0; row < 20; row++) {
-      for (let col = 0; col < 50; col++) {
-        document.getElementById(`node-${row}-${col}`).className = "node-style";
-      }
-    }
-    setGrid(grid);
-  };
-
-  const createNode = (col, row) => {
-    return {
-      col,
-      row,
-      isStart: row === START_NODE_ROW && col === START_NODE_COL,
-      isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-      distance: Infinity,
-      isVisited: false,
-      isWall: false,
-      previousNode: null,
-    };
-  };
 
   return (
     <nav className="flex justify-center items-center mx-auto bg-slate-800 p-4">
       <ToastContainer />
       <Button name="Valami" />
       <Button name="Valami" />
-      <Button name="Clear Board" function={getInitialGrid} />
+      <Button name="Clear Board" function={handleClearBoard} />
       <Button name="Struktograms" />
       <Button
         name="Visualize"

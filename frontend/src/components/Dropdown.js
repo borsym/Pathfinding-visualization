@@ -11,12 +11,6 @@ const names = {
     50: "Normal",
     100: "Slow",
   },
-  Algorithms: {
-    BFS: "BFS",
-    DFS: "DFS",
-    Dijkstra: "Dijkstra",
-    Astar: "A*",
-  },
   Type: {
     10: "Dirt",
     20: "Water",
