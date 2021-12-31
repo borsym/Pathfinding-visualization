@@ -1,5 +1,5 @@
 import React from "react";
-export default function Legend() {
+const Legend = () => {
   return (
     <div className="flex justify-center items-center mx-auto font-medium p-4">
       <div className="ml-4 flex">
@@ -74,4 +74,6 @@ export default function Legend() {
       </div>
     </div>
   );
-}
+};
+
+export default Legend;

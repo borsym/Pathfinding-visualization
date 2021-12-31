@@ -1,7 +1,7 @@
 import React from "react";
 import "../Node.css";
 
-export default function Node(props) {
+const Node = (props) => {
   const {
     col,
     row,
@@ -29,4 +29,6 @@ export default function Node(props) {
       onMouseUp={() => onMouseUp()}
     ></div>
   );
-}
+};
+
+export default Node;

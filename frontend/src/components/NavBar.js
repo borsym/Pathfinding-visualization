@@ -14,7 +14,7 @@ const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
 
-export default function NavBar({ setGrid, grid }) {
+const NavBar = ({ setGrid, grid }) => {
   // , setAlgorithm, algorithm
   const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "A*"];
   const optionsMazes = ["Rekurziv", "Iterativ", "Valami"];
@@ -140,4 +140,6 @@ export default function NavBar({ setGrid, grid }) {
       <Dropdown name="Type" options={optionsType} />
     </nav>
   );
-}
+};
+
+export default NavBar;

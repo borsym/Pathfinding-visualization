@@ -1,5 +1,5 @@
 import React from "react";
-export default function Button(props) {
+const Button = (props) => {
   const buttonDesing =
     props.isVisualize === "true"
       ? props.isDisabled
@@ -16,4 +16,6 @@ export default function Button(props) {
       {props.name} {props.algorithmName}
     </button>
   );
-}
+};
+
+export default Button;

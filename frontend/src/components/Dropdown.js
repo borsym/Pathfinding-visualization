@@ -1,7 +1,6 @@
-import { Fragment } from "react";
+import { Fragment, React } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import React from "react";
 import "../functions/Names.js";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -29,7 +28,7 @@ function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
 
-export default function Dropdown(props) {
+const Dropdown = (props) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -83,4 +82,5 @@ export default function Dropdown(props) {
       </Transition>
     </Menu>
   );
-}
+};
+export default Dropdown;

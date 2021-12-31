@@ -8,7 +8,7 @@ const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
 
-export default function Grid({ setGrid, grid }) {
+const Grid = ({ setGrid, grid }) => {
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   useEffect(() => {
     setGrid(getInitialGrid());
@@ -115,7 +115,7 @@ export default function Grid({ setGrid, grid }) {
       </div>
     </div>
   );
-}
+};
 
 const getInitialGrid = () => {
   const grid = [];
@@ -152,3 +152,5 @@ const getNewGridWithWallToggled = (grid, row, col) => {
   newGrid[row][col] = newNode;
   return newGrid;
 };
+
+export default Grid;
