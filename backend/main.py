@@ -2,6 +2,14 @@ from typing import Optional
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+#[['0', '1'], ['0', '9'], ['0', '10'], ['0', '11'], ['1', '12'], ['2', '12'], ['2', '11'], ['3', '11'], ['3', '10'], ['4', '10'], ['4', 
+
+class Item(BaseModel):
+    cordinates : list
+    def print_cords(self):
+        for i in self.cordinates:
+            print(i)
 
 app = FastAPI()
 
@@ -30,4 +38,8 @@ async def get_bfs() -> dict:
         "shortestPath":[(10, 15) ,(10, 16) ,(10, 17) ,(10, 18) ,(10, 19) ,(10, 20) ,(10, 21), (10, 22), (10, 23), (10, 24), (10, 25), (10, 26), (10, 27), (10, 28), (10, 29), (10, 30), (10, 31), (10, 32), (10, 33) ,(10, 34),(10, 35)],
     }
 
+@app.post("/test")
+async def refresh_table(item: Item):
+    item.print_cords()
+    return item
 # uvicorn main:app --reload

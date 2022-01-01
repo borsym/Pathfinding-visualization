@@ -12,7 +12,7 @@ export const GridProvider = (props) => {
   const dispatchGridEvent = (actionType, payload) => {
     switch (actionType) {
       case "CLEAR_BOARD":
-        setGrid(getInitialGrid()); // nope it doesn't affect the on every element only just the walls, i want this to be affected by the visited nodes too
+        setGrid(cleareBoard()); // nope it doesn't affect the on every element only just the walls, i want this to be affected by the visited nodes too
         return;
       case "VISUALIZE_ALGORITHM":
         animateAlgorithm(payload.path, payload.shortestPath, payload.speed);
@@ -30,12 +30,22 @@ export const GridProvider = (props) => {
   );
 };
 
+const cleareBoard = () => {
+  // for (let row = 0; row < 20; row++) {
+  //   for (let col = 0; col < 50; col++) {
+  //     document.getElementById(`node-${row}-${col}`).className =
+  //       "node-style bg-purple-100";
+  //   }
+  // }
+};
+
 const getInitialGrid = () => {
   const grid = [];
   for (let row = 0; row < 20; row++) {
     const currentRow = [];
     for (let col = 0; col < 50; col++) {
-      currentRow.push(createNode(col, row));
+      const node = createNode(col, row);
+      currentRow.push(node);
     }
     grid.push(currentRow);
   }
@@ -82,7 +92,7 @@ function animateShortestPath(nodesInShortestPathOrder) {
     setTimeout(() => {
       const node = nodesInShortestPathOrder[i];
       document.getElementById(`node-${node[0]}-${node[1]}`).className =
-        "node-style bg-yellow-100";
+        "node-style bg-yellow-200";
     }, 50 * i);
   }
 }

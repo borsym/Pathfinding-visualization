@@ -6,14 +6,9 @@ import { GridProvider } from "./contexts/GridContext";
 import axios from "axios";
 
 export default function App() {
- 
-
   return (
     <GridProvider>
-      <NavBar
-      // setAlgorithm={setAlgorithm}
-      // algorithm={algorithm}
-      />
+      <NavBar />
       <Legend />
       <Grid />
     </GridProvider>
