@@ -51,7 +51,7 @@ const Grid = () => {
     }
     console.log(unique);
     axios
-      .post("http://localhost:8000/test", {
+      .post("http://localhost:8000/wallUpdate", {
         cordinates: unique,
       })
       .then(function (response) {
@@ -59,6 +59,9 @@ const Grid = () => {
       })
       .catch(function (error) {
         console.log(error);
+      })
+      .finally(function () {
+        setChanges([]);
       });
   };
 

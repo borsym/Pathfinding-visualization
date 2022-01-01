@@ -70,7 +70,6 @@ function animateAlgorithm(
   nodesInShortestPathOrder,
   speed
 ) {
-  //   // ez már fix nem ide kell...
   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
     if (i === visitedNodesInOrder.length) {
       // eljutot a végére...
