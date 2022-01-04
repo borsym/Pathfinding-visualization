@@ -7,10 +7,10 @@ from persistance.Table import Table
 from algorithms.bfs import BFS
 from persistance.Node import Node
 from persistance.Fields import Fields
-
-start = Node(10,15 , Fields.START)
-end = Node(10, 35, Fields.END)
-table = Table(20, 50, start, end)
+start_x, start_y, end_x, end_y, map_x, map_y = 10,15,10,35,20,50
+start = Node(start_x, start_y , Fields.START)
+end = Node(end_x, end_y, Fields.END)
+table = Table(map_x, map_y, start, end)
 
 
 class CordinatesItem(BaseModel):
@@ -21,7 +21,16 @@ class CordinatesItem(BaseModel):
 
     def get_list(self):
         return self.cordinates
-    
+
+class InitialState(BaseModel): # if the page refresh..
+    is_refreshed : bool
+
+    def refresh_board(self,is_refreshed):
+        if is_refreshed:
+            # table.print_grid()
+            # print("meghivott")
+            table.refresh_board()
+
 
 app = FastAPI()
 
@@ -38,15 +47,19 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": "Welcome to your todo list."}
+@app.post("/", tags=["root"])  # ezt valahogy meg kell oldani hogy hogy küldjem majd át a frontendnek...
+async def get_table(refreshed : InitialState):
+    print("ok")
+    refreshed.refresh_board(refreshed.is_refreshed)
+    #return {"grid": table.get_grid_for_ui() } #, "start": table.get_start(), "end": table.get_end()}
 
 
 @app.get("/BFS", tags=["BFS"])
-async def get_bfs() -> dict:
+def get_bfs() -> dict:
     bfs = BFS(table, (10, 15))
     order, shorthest_path = bfs.start_bfs()
+    # print(order)
+    # print(shorthest_path)
     return {
         "path":order,
         "shortestPath":shorthest_path
@@ -77,8 +90,8 @@ async def get_astar() -> dict:
 @app.post("/wallUpdate")
 async def refresh_table(item: CordinatesItem):
     list = item.get_list()
-    print(list)
-    print(len(list))
+    # print(list)
+    # print(len(list))
     cnt = 0
     for i in range(table.get_row_size() + 1):
         for j in range(table.get_column_size() + 1):
@@ -86,9 +99,9 @@ async def refresh_table(item: CordinatesItem):
                 cnt += 1
                 # print("bent")
                 field_type = Fields.EMPTY if table.get_node_field(i,j) == Fields.WALL else Fields.WALL
-                print('igen' if field_type == Fields.WALL else 'nem')
+                # print('igen' if field_type == Fields.WALL else 'nem')
                 table.change_node_field(i, j, field_type)
-    print(cnt)
+    # print(cnt)
     return item
 
 @app.post("/moveStart")

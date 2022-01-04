@@ -6,6 +6,8 @@ class Table:
     def __init__(self, size_x, size_y, start, end): # (0,0) (0,0) s,b
         self.start = start
         self.end = end
+        self.size_x = size_x
+        self.size_y = size_y
         self.__grid = self.__make_matrix(size_x, size_y)
         self.__put_start_end()
 
@@ -15,12 +17,14 @@ class Table:
         return matrix
 
     def __put_start_end(self):
-        print(self.start)
         self.__grid[self.start.x][self.start.y].set_field(Fields.START)
         self.__grid[self.end.x][self.end.y].set_field(Fields.END)
 
     def get_grid(self):
         return self.__grid
+
+    def get_grid_for_ui(self): # hmhm tuplet asszem nem fogad el json-t, kell ez egyáltalán? 
+        return [[ [row,cell,0] for cell in row] for row in self.__grid] #ez infnél biztos hogy nem jo!!! meg lehet fordítva row cell
 
     def get_row_size(self):
         return len(self.__grid) - 1
@@ -69,6 +73,12 @@ class Table:
         for i in path:
             self.__grid[i.x][i.y].set_field(Fields.PATH)
         self.print_grid()
+
+
+    def refresh_board(self):
+        self.__grid = self.__make_matrix(self.size_x, self.size_y)
+        self.__put_start_end()
+        # self.print_grid()
 
     def print_grid(self):
         print('\n'.join(['\t'.join([str(cell.weight) for cell in row]) for row in self.__grid]))

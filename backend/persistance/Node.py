@@ -32,3 +32,6 @@ class Node:
 
     def set_previous_node(self, node):
         self.previous_node = node
+
+    def get_field(self):
+        return self.field

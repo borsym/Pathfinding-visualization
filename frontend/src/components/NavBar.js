@@ -44,7 +44,7 @@ const NavBar = () => {
       axios
         .get(`http://localhost:8000/${algorithm}`)
         .then((res) => {
-          console.log(res.data.path);
+          //console.log(res.data.path);
           setIsDisabled(true);
           dispatchGridEvent("VISUALIZE_ALGORITHM", {
             path: res.data.path,

@@ -13,6 +13,21 @@ const Grid = () => {
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [changes, setChanges] = useState([]);
 
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      saveFormData();
+      return null;
+    };
+
+    function saveFormData() {
+      // set timeout
+      console.log("saved ");
+      axios.post("http://localhost:8000/", {
+        is_refreshed: true,
+      });
+    }
+  }, []);
+
   const handleMouseDown = (row, col) => {
     setChanges([...changes, { row, col }]);
     const newGrid = getNewGridWithWallToggled(grid, row, col);
@@ -55,7 +70,7 @@ const Grid = () => {
         cordinates: unique,
       })
       .then(function (response) {
-        console.log(response);
+        //console.log(response);
       })
       .catch(function (error) {
         console.log(error);
