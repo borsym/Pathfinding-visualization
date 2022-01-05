@@ -46,7 +46,10 @@ const Dropdown = (props) => {
         leaveFrom="transform opacity-100 scale-150"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-5 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items
+          class="cica"
+          className="origin-top-right absolute right-0 mt-5 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none"
+        >
           <div className="py-1">
             {props.options.map((option) => (
               <Menu.Item>

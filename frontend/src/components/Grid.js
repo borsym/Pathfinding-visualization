@@ -94,7 +94,7 @@ const Grid = () => {
       {/* <button onClick={() => this.visualizeDijkstra()}>
           Visualize Dijkstra's Algorithm
         </button> */}
-      <div className="mt-5">
+      <div className="mt-5" id="grid">
         {grid.map((row, rowIdx) => {
           return (
             <div key={rowIdx} className="space-y-0 bg-white leading-none">

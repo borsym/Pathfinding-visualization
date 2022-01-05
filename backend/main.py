@@ -26,9 +26,10 @@ class InitialState(BaseModel): # if the page refresh..
     is_refreshed : bool
 
     def refresh_board(self,is_refreshed):
+        print(is_refreshed)
         if is_refreshed:
             # table.print_grid()
-            # print("meghivott")
+            print("meghivott")
             table.refresh_board()
 
 

@@ -23,8 +23,8 @@ class Table:
     def get_grid(self):
         return self.__grid
 
-    def get_grid_for_ui(self): # hmhm tuplet asszem nem fogad el json-t, kell ez egyáltalán? 
-        return [[ [row,cell,0] for cell in row] for row in self.__grid] #ez infnél biztos hogy nem jo!!! meg lehet fordítva row cell
+    def get_grid_for_ui(self): 
+        return [[ [row,cell,0] for cell in row] for row in self.__grid] 
 
     def get_row_size(self):
         return len(self.__grid) - 1
