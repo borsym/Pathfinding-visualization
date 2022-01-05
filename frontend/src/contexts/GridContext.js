@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, createContext } from "react";
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -12,9 +13,10 @@ export const GridProvider = (props) => {
   const dispatchGridEvent = (actionType, payload) => {
     switch (actionType) {
       case "CLEAR_BOARD":
-        setGrid(cleareBoard()); // nope it doesn't affect the on every element only just the walls, i want this to be affected by the visited nodes too
+        cleareBoard(payload.conditions);
         return;
       case "VISUALIZE_ALGORITHM":
+        clearPreviousVisualization(payload.conditions);
         animateAlgorithm(payload.path, payload.shortestPath, payload.speed);
         return;
       case "VISUALIZE_MAZE":
@@ -30,13 +32,24 @@ export const GridProvider = (props) => {
   );
 };
 
-const cleareBoard = () => {
-  // for (let row = 0; row < 20; row++) {
-  //   for (let col = 0; col < 50; col++) {
-  //     document.getElementById(`node-${row}-${col}`).className =
-  //       "node-style bg-purple-100";
-  //   }
-  // }
+const cleareBoard = (conditions) => {
+  // clear the board
+  clearPreviousVisualization(conditions);
+  axios.post("http://localhost:8000/", {
+    // indicated the clear
+    is_refreshed: true,
+  });
+};
+
+const clearPreviousVisualization = (conditions) => {
+  for (let row = 0; row < 20; row++) {
+    for (let col = 0; col < 50; col++) {
+      const node = document.getElementById(`node-${row}-${col}`);
+      if (!conditions.some((e) => node.classList.value.includes(e))) {
+        node.className = "node-style";
+      }
+    }
+  }
 };
 
 const getInitialGrid = () => {

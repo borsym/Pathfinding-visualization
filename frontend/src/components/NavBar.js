@@ -25,7 +25,9 @@ const NavBar = () => {
   const [grid, setGrid, dispatchGridEvent] = useContext(GridContext);
 
   const handleClearBoard = () => {
-    dispatchGridEvent("CLEAR_BOARD", {});
+    dispatchGridEvent("CLEAR_BOARD", {
+      conditions: ["node-start", "node-finish"],
+    });
   };
 
   const handleVisualize = () => {
@@ -41,6 +43,9 @@ const NavBar = () => {
         theme: "dark",
       });
     } else {
+      // és itt törlöm az előzőt
+
+      // ugye
       axios
         .get(`http://localhost:8000/${algorithm}`)
         .then((res) => {
@@ -50,6 +55,7 @@ const NavBar = () => {
             path: res.data.path,
             shortestPath: res.data.shortestPath,
             speed: speed,
+            conditions: ["node-start", "node-finish", "node-wall"],
           });
           setTimeout(() => {
             setIsDisabled(false);
