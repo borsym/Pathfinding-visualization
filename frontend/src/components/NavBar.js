@@ -83,6 +83,7 @@ const NavBar = () => {
         algorithmName={algorithm}
         function={handleVisualize}
         isDisabled={isDisabled}
+        id="visualize"
         // className=" bg-cyan-600 hover:bg-cyan-500 hover:text-blue-800"
       />
       <Dropdown

@@ -12,6 +12,7 @@ const Button = (props) => {
       className={buttonDesing}
       onClick={props.function}
       disabled={props.isDisabled}
+      id={props.id}
     >
       {props.name} {props.algorithmName}
     </button>
