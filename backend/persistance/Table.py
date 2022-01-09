@@ -27,10 +27,10 @@ class Table:
         return [[ [row,cell,0] for cell in row] for row in self.__grid] 
 
     def get_row_size(self):
-        return len(self.__grid) - 1
+        return len(self.__grid)  # ez a columnal lehet fel van cserélves
 
     def get_column_size(self):
-        return len(self.__grid[0]) - 1
+        return len(self.__grid[0])  # FONTOS ITT LEHET VISSZA KELL IRNI A -1 et 
 
     def get_node_weight(self, x, y):
         return self.__grid[x][y].get_weight()

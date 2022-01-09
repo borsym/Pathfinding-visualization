@@ -32,19 +32,20 @@ describe("Visit frontend", () => {
   });
 
   it("Test the algorithms without any wall without Clear Board", () => {
-    const algorithms = ["BFS", "DFS"]; //, "DFS", "Dijkstra", "A*"];
+    const algorithms = ["BFS", "DFS", "Dijkstra"]; //, "DFS", "Dijkstra", "A*"];
     testAlgorithms(algorithms, 15, 35);
     cy.wait(1000);
   });
 
   it("Put walls into the grid and run the algorithms again", () => {
+    // its not 100% working sometimes skips the walls....
     for (let i = 8; i <= 15; i++) {
       cy.get(`#node-${i}-17`).trigger("mousedown");
     }
     cy.get(`#node-13-17`).trigger("mouseup", { which: 1 });
 
     // cy.request("http://localhost:3000/wallUpdate", "post");
-    const algorithms = ["BFS", "DFS"]; //, "DFS", "Dijkstra", "A*"];
+    const algorithms = ["BFS", "DFS", "Dijkstra"]; //, "DFS", "Dijkstra", "A*"];
     testAlgorithms(algorithms, 35, 35);
     cy.contains("Clear Board").click();
   });

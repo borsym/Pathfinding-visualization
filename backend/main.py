@@ -5,8 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from persistance.Table import Table
 from algorithms.bfs import BFS
+from algorithms.dijkstra import Dijkstra
 from persistance.Node import Node
 from persistance.Fields import Fields
+
 start_x, start_y, end_x, end_y, map_x, map_y = 10,15,10,35,20,50
 start = Node(start_x, start_y , Fields.START)
 end = Node(end_x, end_y, Fields.END)
@@ -69,9 +71,11 @@ def get_bfs() -> dict:
     }
 @app.get("/Dijkstra", tags=["function"])
 async def get_dijkstra() -> dict:
+    dijkstra = Dijkstra(table, Node(10, 15, Fields.START), Node(10,35, Fields.END))
+    order,shorthest_path = dijkstra.start_dijsktra()
     return {
-        # "path": table.dijkstra(start, goal).path,
-        # "shortestPath": table.dijkstra(start, goal).shortestPath,
+        "path": order,
+        "shortestPath": shorthest_path
     }
 
 @app.get("/DFS", tags=["DFS"])
