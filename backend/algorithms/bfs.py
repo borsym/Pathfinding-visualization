@@ -3,10 +3,7 @@ import sys
 sys.path.append("..")
 
 from persistance.Fields import Fields
-from persistance.Node import Node
-from persistance.Table import Table
 
-# GET COLUM SIZE ÁT LETT IRVA LEHET ITT IS HATÁSSAL VAN RÁ!!!
 
 class BFS:
     def __init__(self, grid, start):
@@ -18,19 +15,17 @@ class BFS:
 
         self.grid = grid
 
-        self.dircetion_row = [-1, 0, 1, 0]
-        self.direction_col = [0, 1, 0, -1]
         self.ptr = None
 
 
-    def isValid(self, row, col, size_x, size_y):
-        if row < 0 or col < 0 or row > size_x or col > size_y or self.grid.get_node_field(row, col) == Fields.WALL:
+    def isValid(self, rr, cc, size_x, size_y):
+        if not (0 <= rr < size_x and 0 <= cc < size_y) or self.grid.get_node_field(rr, cc) == Fields.WALL:
             return False
-        return False if (row, col) in self.__order_of_visited_nodes else True
+        return False if (rr, cc) in self.__order_of_visited_nodes else True
 
     def get_nodes_in_shortest_path_order(self):
         nodes_in_shortest_path_order = []
-        current_node = self.ptr  # ez a pointer nem ugyan az ami fentebb van beállítva
+        current_node = self.ptr
         while current_node is not None:
             nodes_in_shortest_path_order.insert(0, (current_node.get_x(), current_node.get_y()))
             current_node = current_node.previous_node
@@ -44,10 +39,10 @@ class BFS:
             y = arr[1]
             
             # Go to the adjacent cells
-            for i in range(4):
-                adjx = x + self.dircetion_row[i]
-                adjy = y + self.direction_col[i]
-                if self.isValid(adjx, adjy, self.grid.get_row_size() - 1, self.grid.get_column_size() - 1):
+            for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                adjx = x + dr
+                adjy = y + dc
+                if self.isValid(adjx, adjy, self.grid.get_row_size(), self.grid.get_column_size()):
                     self.grid.get_node(adjx,adjy).set_previous_node(self.grid.get_node(x,y))
                     tmp = (adjx, adjy)
                     self.__q.append(tmp)
@@ -67,8 +62,8 @@ class BFS:
 # # end = Node(9, 8, Fields.END)
 # # table = Table(10, 10, start, end)
 # # table.print_grid()
-# # # table.change_node_field(10, 16, Fields.WALL)
-# # # table.change_node_field(9, 16, Fields.WALL)
+# # # table.set_node_field(10, 16, Fields.WALL)
+# # # table.set_node_field(9, 16, Fields.WALL)
 # # print(table.get_row_size())
 # # print(table.get_column_size())
 # # print()

@@ -27,10 +27,10 @@ class Table:
         return [[ [row,cell,0] for cell in row] for row in self.__grid] 
 
     def get_row_size(self):
-        return len(self.__grid)  # ez a columnal lehet fel van cserélves
+        return len(self.__grid) 
 
     def get_column_size(self):
-        return len(self.__grid[0])  # FONTOS ITT LEHET VISSZA KELL IRNI A -1 et 
+        return len(self.__grid[0]) 
 
     def get_node_weight(self, x, y):
         return self.__grid[x][y].get_weight()
@@ -47,7 +47,7 @@ class Table:
     def get_node_field(self, x, y):
         return self.__grid[x][y].field
 
-    def change_node_field(self, x, y, field):
+    def set_node_field(self, x, y, field):
         self.__grid[x][y].set_field(field)
 
     def get_end(self):
@@ -55,12 +55,6 @@ class Table:
 
     def set_node_distance(self, x, y, val):
         self.__grid[x][y].set_distance(val)
-
-    def get_col_len(self):
-        return len(self.__grid[0]) - 1  # ez forditva volt
-
-    def get_row_len(self):
-        return len(self.__grid) - 1  # ezzel
 
     def get_all_nodes(self):
         nodes = []
@@ -78,7 +72,6 @@ class Table:
     def refresh_board(self):
         self.__grid = self.__make_matrix(self.size_x, self.size_y)
         self.__put_start_end()
-        # self.print_grid()
 
     def print_grid(self):
         print('\n'.join(['\t'.join([str(cell.weight) for cell in row]) for row in self.__grid]))

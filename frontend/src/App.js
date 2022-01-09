@@ -1,9 +1,8 @@
 import Legend from "./components/Legend";
 import NavBar from "./components/NavBar";
 import Grid from "./components/Grid";
-import { useState, useEffect } from "react";
+import React from "react";
 import { GridProvider } from "./contexts/GridContext";
-import axios from "axios";
 
 export default function App() {
   return (

@@ -3,10 +3,10 @@ import Node from "./Node";
 import { GridContext } from "../contexts/GridContext";
 import axios from "axios";
 
-const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
+// const START_NODE_ROW = 10;
+// const START_NODE_COL = 15;
+// const FINISH_NODE_ROW = 10;
+// const FINISH_NODE_COL = 35;
 
 const Grid = () => {
   const [grid, setGrid] = useContext(GridContext);
@@ -20,7 +20,6 @@ const Grid = () => {
     };
 
     function saveFormData() {
-      // set timeout
       console.log("saved ");
       axios.post("http://localhost:8000/", {
         is_refreshed: true,
@@ -69,9 +68,7 @@ const Grid = () => {
       .post("http://localhost:8000/wallUpdate", {
         cordinates: unique,
       })
-      .then(function (response) {
-        //console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       })
@@ -80,20 +77,17 @@ const Grid = () => {
       });
   };
 
-  function visualizeDijkstra() {
-    const { grid } = this.state;
-    const startNode = grid[START_NODE_ROW][START_NODE_COL];
-    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = [1]; //dijkstra(grid, startNode, finishNode);
-    const nodesInShortestPathOrder = [1]; //getNodesInShortestPathOrder(finishNode);
-    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
-  }
+  // function visualizeDijkstra() {
+  //   const { grid } = this.state;
+  //   const startNode = grid[START_NODE_ROW][START_NODE_COL];
+  //   const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+  //   const visitedNodesInOrder = [1]; //dijkstra(grid, startNode, finishNode);
+  //   const nodesInShortestPathOrder = [1]; //getNodesInShortestPathOrder(finishNode);
+  //   this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+  // }
 
   return (
     <div className="flex justify-center">
-      {/* <button onClick={() => this.visualizeDijkstra()}>
-          Visualize Dijkstra's Algorithm
-        </button> */}
       <div className="mt-5" id="grid">
         {grid.map((row, rowIdx) => {
           return (

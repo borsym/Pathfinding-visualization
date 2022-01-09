@@ -42,7 +42,6 @@ class Node:
         return self.y
 
     def set_distance(self, dist):
-        # print("elotte: ", self.distance)
         self.distance = dist
     
     def get_distance(self):

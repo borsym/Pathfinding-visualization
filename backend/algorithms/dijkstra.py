@@ -2,9 +2,10 @@ import heapq  # priory que
 import sys
 sys.path.append("..")
 from persistance.Fields import Fields
-from persistance.Node import Node
-from persistance.Table import Table
+
 # TODO FIXME: this is not working properly, when we are tracking back the shortesth path when there are weighted nodes
+# nagyon bugos....
+
 class Dijkstra:
     def __init__(self, grid, start, end):
         start.set_distance(0)
@@ -60,15 +61,10 @@ class Dijkstra:
 # start = Node(10,15 , Fields.START)
 # end = Node(10, 35, Fields.END)
 # table = Table(20, 50, start, end)
-# table.change_node_field(10, 34, Fields.GRASS)
 # start = Node(0, 0, Fields.START)
 # end = Node(0, 2, Fields.END)
 # table = Table(6, 6, start, end)
-# table.change_node_field(0,1, Fields.GRASS)
-# table.change_node_field(1,1, Fields.STONE)
-# table.change_node_field(2,1, Fields.STONE)
-# table.change_node_field(3,1, Fields.STONE)
-# table.change_node_field(4,1, Fields.STONE)
+
 
 
 # table.print_grid()

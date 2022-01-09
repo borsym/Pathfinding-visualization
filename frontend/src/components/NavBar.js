@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 // import { animateAlgorithm } from "../functions/animate.js";
@@ -8,10 +8,10 @@ import { GridContext } from "../contexts/GridContext.js";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 
-const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
+// const START_NODE_ROW = 10;
+// const START_NODE_COL = 15;
+// const FINISH_NODE_ROW = 10;
+// const FINISH_NODE_COL = 35;
 
 const NavBar = () => {
   // , setAlgorithm, algorithm
@@ -43,9 +43,6 @@ const NavBar = () => {
         theme: "dark",
       });
     } else {
-      // és itt törlöm az előzőt
-
-      // ugye
       axios
         .get(`http://localhost:8000/${algorithm}`)
         .then((res) => {
@@ -67,8 +64,6 @@ const NavBar = () => {
         });
     }
   };
-
-  // this works for now but it need to be refactored such as the grid getInitial Grid function, maybe this function need to be liftied up into the App.js
 
   return (
     <nav className="flex justify-center items-center mx-auto bg-slate-800 p-4">
