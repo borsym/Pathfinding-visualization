@@ -12,7 +12,7 @@ const names = {
     500: "Slow",
   },
   Type: {
-    10: "Dirt",
+    10: "Grass",
     20: "Water",
     30: "Stone",
   },
@@ -30,9 +30,9 @@ const Dropdown = (props) => {
           {props.name}
           {props.name === "Speed"
             ? `: ${names.Speed[props.speed]}`
-            : // : props.name === "Type"
-              // ? `: ${names.Type[props.type]}`
-              ""}
+            : props.name === "Type"
+            ? `: ${names.Type[props.type]}`
+            : ""}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
       </div>
@@ -56,7 +56,7 @@ const Dropdown = (props) => {
                 {({ active }) => (
                   <button
                     onClick={() => {
-                      if (props.name === "Speed") {
+                      if (props.name === "Speed" || props.name === "Type") {
                         props.setVariable(
                           getKeyByValue(names[props.name], option)
                         );

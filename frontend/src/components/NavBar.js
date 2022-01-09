@@ -18,11 +18,13 @@ const NavBar = () => {
   const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "A*"];
   const optionsMazes = ["Rekurziv", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
-  const optionsType = ["Dirt", "Water", "Stone"];
+  const optionsType = ["Grass", "Water", "Stone"];
   const [algorithm, setAlgorithm] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);
-  const [grid, setGrid, dispatchGridEvent] = useContext(GridContext);
+
+  const [grid, setGrid, type, setType, dispatchGridEvent] =
+    useContext(GridContext);
 
   const handleClearBoard = () => {
     dispatchGridEvent("CLEAR_BOARD", {
@@ -93,7 +95,12 @@ const NavBar = () => {
         speed={speed}
         setVariable={setSpeed}
       />
-      <Dropdown name="Type" options={optionsType} />
+      <Dropdown
+        name="Type"
+        options={optionsType}
+        type={type}
+        setVariable={setType}
+      />
     </nav>
   );
 };

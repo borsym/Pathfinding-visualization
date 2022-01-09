@@ -39,7 +39,7 @@ class BFS:
             y = arr[1]
             
             # Go to the adjacent cells
-            for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+            for dr, dc in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
                 adjx = x + dr
                 adjy = y + dc
                 if self.isValid(adjx, adjy, self.grid.get_row_size(), self.grid.get_column_size()):

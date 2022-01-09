@@ -9,7 +9,7 @@ import axios from "axios";
 // const FINISH_NODE_COL = 35;
 
 const Grid = () => {
-  const [grid, setGrid] = useContext(GridContext);
+  const [grid, setGrid, type, setType] = useContext(GridContext);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [changes, setChanges] = useState([]);
 
@@ -27,14 +27,22 @@ const Grid = () => {
     }
   }, []);
 
-  const handleMouseDown = (row, col) => {
+  const handleMouseDown = (e, row, col) => {
+    console.log(e);
+    if (e.ctrlKey === true) {
+      console.log(type);
+    } else {
+      console.log("sima");
+    }
+
     setChanges([...changes, { row, col }]);
     const newGrid = getNewGridWithWallToggled(grid, row, col);
     setGrid(newGrid);
     setMouseIsPressed(true);
   };
 
-  const handleMouseEnter = (row, col) => {
+  const handleMouseEnter = (e, row, col) => {
+    // itt lehet felesleges átpasszolni az eventet
     if (!mouseIsPressed) return;
 
     setChanges([...changes, { row, col }]);
@@ -103,8 +111,10 @@ const Grid = () => {
                     isStart={isStart}
                     isWall={isWall}
                     mouseIsPressed={mouseIsPressed}
-                    onMouseDown={(row, col) => handleMouseDown(row, col)}
-                    onMouseEnter={(row, col) => handleMouseEnter(row, col)}
+                    onMouseDown={(e, row, col) => handleMouseDown(e, row, col)}
+                    onMouseEnter={(e, row, col) =>
+                      handleMouseEnter(e, row, col)
+                    }
                     onMouseUp={() => handleMouseUp()}
                   />
                 );

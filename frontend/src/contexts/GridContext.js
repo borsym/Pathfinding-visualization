@@ -9,6 +9,7 @@ export const GridContext = createContext();
 
 export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
+  const [type, setType] = useState(10);
 
   const dispatchGridEvent = (actionType, payload) => {
     switch (actionType) {
@@ -26,7 +27,9 @@ export const GridProvider = (props) => {
     }
   };
   return (
-    <GridContext.Provider value={[grid, setGrid, dispatchGridEvent]}>
+    <GridContext.Provider
+      value={[grid, setGrid, type, setType, dispatchGridEvent]}
+    >
       {props.children}
     </GridContext.Provider>
   );

@@ -24,8 +24,8 @@ const Node = (props) => {
     <div
       id={`node-${row}-${col}`}
       className={`node ${extraClassName} node-style`}
-      onMouseDown={() => onMouseDown(row, col)}
-      onMouseEnter={() => onMouseEnter(row, col)}
+      onMouseDown={(e) => onMouseDown(e, row, col)}
+      onMouseEnter={(e) => onMouseEnter(e, row, col)}
       onMouseUp={() => onMouseUp()}
     ></div>
   );
