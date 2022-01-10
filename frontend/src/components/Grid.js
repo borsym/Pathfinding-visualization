@@ -30,9 +30,8 @@ const Grid = () => {
 
   const handleMouseDown = (e, row, col) => {
     console.log(e);
-    if (e.ctrlKey === true) {
+    if (e.ctrlKey === true && !isControl) {
       setIsControl(true);
-      console.log("valtozott");
     }
 
     setChanges([...changes, { row, col }]);
@@ -43,10 +42,9 @@ const Grid = () => {
 
   const handleMouseEnter = (e, row, col) => {
     // itt lehet felesleges átpasszolni az eventet
-    if (e.ctrlKey === true) {
+    if (e.ctrlKey === true && !isControl) {
       //itt is kell ez mivel akkor lerak egy falat ha ez nincs meg
       setIsControl(true);
-      console.log("valtozas2");
     }
     if (!mouseIsPressed) return;
 
@@ -56,12 +54,11 @@ const Grid = () => {
   };
 
   const handleMouseUp = (e) => {
-    setMouseIsPressed(false);
     // check if the paramter row and col is in the changes arrey
     //remove all duplicated elements from the changes array
     let unique = [];
     const counts = {};
-
+    console.log(changes);
     for (let i = 0; i < changes.length; i++) {
       if (counts[changes[i].row + "-" + changes[i].col]) {
         counts[changes[i].row + "-" + changes[i].col] = null;
@@ -91,6 +88,7 @@ const Grid = () => {
         console.log(isControl);
         setChanges([]);
         setIsControl(false);
+        setMouseIsPressed(false);
       });
   };
 
@@ -143,8 +141,7 @@ const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
   const newNode = {
     ...node,
   };
-  console.log("az uj grid készítésénél vagyok" + type);
-  isControl ? (newNode.type = type) : (newNode.isWall = !node.isWall);
+  isControl ? ( newNode.type === type ? newNode.type = 0 : newNode.type = type) : (newNode.isWall = !node.isWall);
   console.log(newNode);
   newGrid[row][col] = newNode;
   return newGrid;

@@ -103,8 +103,14 @@ async def refresh_table(item: CordinatesItem):
             if [i,j] in list: # type
                 field_type = Fields.EMPTY if table.get_node_field(i,j) == type else type
                 table.set_node_field(i, j, field_type)
-    
-    table.print_grid()
+    f = open("demofile2.txt", "w")
+    count = 0
+    for node in table.get_all_nodes():
+        if(node.x != count):
+            count += 1
+            f.write("\n")
+        f.write(str(node.weight) + " ")
+        
     return item
 
 

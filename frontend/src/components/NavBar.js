@@ -18,7 +18,7 @@ const NavBar = () => {
   const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "A*"];
   const optionsMazes = ["Rekurziv", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
-  const optionsType = ["Grass", "Water", "Stone"];
+  const optionsType = ["Empty", "Grass", "Water", "Stone"];
   const [algorithm, setAlgorithm] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);

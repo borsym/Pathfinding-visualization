@@ -5,7 +5,6 @@ class Fields(Enum):
     WALL = 99999 #float('inf')
     START = -1
     END = -1
-    PATH = 0
     GRASS = 10
     WATER = 20
     STONE = 30
