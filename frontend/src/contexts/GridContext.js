@@ -86,6 +86,7 @@ function animateAlgorithm(
   nodesInShortestPathOrder,
   speed
 ) {
+  let conditions = ["node-type"];
   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
     if (i === visitedNodesInOrder.length) {
       // eljutot a végére...
@@ -96,8 +97,26 @@ function animateAlgorithm(
     }
     setTimeout(() => {
       const node = visitedNodesInOrder[i];
-      document.getElementById(`node-${node[0]}-${node[1]}`).className =
-        "node-style bg-visited-node-blue animate-fillBoxVisited";
+      if (
+        !conditions.some((e) =>
+          document
+            .getElementById(`node-${node[0]}-${node[1]}`)
+            .classList.value.includes(e)
+        )
+      ) {
+        document.getElementById(`node-${node[0]}-${node[1]}`).className =
+          "node-style bg-visited-node-blue animate-fillBoxVisited";
+      } else {
+        // if the condition is true make the node background color overlapp with the bg-visited-node-blue
+        // const color = document
+        //   .getElementById(`node-${node[0]}-${node[1]}`)
+        //   .className.match(/[a-z]+-[0-9]+/g);
+        document.getElementById(`node-${node[0]}-${node[1]}`).className =
+          "node-style bg-visited-node-blue animate-fillBoxVisited";
+        // document.getElementById(
+        //   `node-${node[0]}-${node[1]}`
+        // ).className = `node-style bg-gradient-to-r from-visited-node-blue/90 to-${color}`;  // this is not cool, i have
+      }
     }, speed * i);
   }
 }

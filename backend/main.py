@@ -17,12 +17,17 @@ table = Table(map_x, map_y, start, end)
 
 class CordinatesItem(BaseModel):
     cordinates : list
+    type : int
+
     def print_cords(self):
         for i in self.cordinates:
             print(i)
 
     def get_list(self):
         return self.cordinates
+    
+    def get_type(self):
+        return self.type
 
 class InitialState(BaseModel):
     is_refreshed : bool
@@ -86,17 +91,22 @@ async def get_astar() -> dict:
         # "shortestPath": table.astar(start, goal).shortestPath,
     }
 
-@app.post("/wallUpdate")
+@app.post("/wallUpdate") # mostmár átküldöm a typeot is majd ugyhogy ez változik szám vagy szöveg
 async def refresh_table(item: CordinatesItem):
+    # a = "GRASS"
+    # table.set_node_field(0,0,Fields.get_field_by_name(a))
+    # print(table.get_node_field(0,0))
     list = item.get_list()
-    cnt = 0
+    type = Fields.get_field_by_name(item.get_type())
     for i in range(table.get_row_size() + 1):
         for j in range(table.get_column_size() + 1):
-            if [i,j] in list:
-                cnt += 1
-                field_type = Fields.EMPTY if table.get_node_field(i,j) == Fields.WALL else Fields.WALL
+            if [i,j] in list: # type
+                field_type = Fields.EMPTY if table.get_node_field(i,j) == type else type
                 table.set_node_field(i, j, field_type)
+    
+    table.print_grid()
     return item
+
 
 @app.post("/moveStart")
 async def refresh_table(item: CordinatesItem):

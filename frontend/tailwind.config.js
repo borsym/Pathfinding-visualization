@@ -13,7 +13,7 @@ module.exports = {
         "visited-node-blue": "#40cde3",
       },
       keyframes: {
-        fillBoxWall: {
+        fillBox: {
           "0%": { transform: "scale(0)" },
           "20%": { transform: "scale(0.2)" },
           "40%": { transform: "scale(0.4)" },
@@ -29,7 +29,7 @@ module.exports = {
         },
       },
       animation: {
-        fillBoxWall: "fillBoxWall 0.15s ease-in-out",
+        fillBox: "fillBox 0.15s ease-in-out",
         fillBoxVisited: "fillBoxVisited 0.3s ease-in-out",
       },
     },

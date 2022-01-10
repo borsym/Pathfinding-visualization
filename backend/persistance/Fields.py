@@ -6,9 +6,15 @@ class Fields(Enum):
     START = -1
     END = -1
     PATH = 0
-    GRASS = 3
-    WATER = 10
-    STONE = 80
+    GRASS = 10
+    WATER = 20
+    STONE = 30
+
+    def get_field_by_name(value):
+        for field in Fields:
+            if field.value == value:
+                return field
+        return None
 
 
 

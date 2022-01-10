@@ -54,7 +54,7 @@ const NavBar = () => {
             path: res.data.path,
             shortestPath: res.data.shortestPath,
             speed: speed,
-            conditions: ["node-start", "node-finish", "node-wall"],
+            conditions: ["node-start", "node-finish", "node-wall", "node-type"],
           });
           setTimeout(() => {
             setIsDisabled(false);

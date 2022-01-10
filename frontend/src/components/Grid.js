@@ -12,6 +12,7 @@ const Grid = () => {
   const [grid, setGrid, type, setType] = useContext(GridContext);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [changes, setChanges] = useState([]);
+  const [isControl, setIsControl] = useState(false);
 
   useEffect(() => {
     window.onbeforeunload = function () {
@@ -30,27 +31,31 @@ const Grid = () => {
   const handleMouseDown = (e, row, col) => {
     console.log(e);
     if (e.ctrlKey === true) {
-      console.log(type);
-    } else {
-      console.log("sima");
+      setIsControl(true);
+      console.log("valtozott");
     }
 
     setChanges([...changes, { row, col }]);
-    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    const newGrid = getNewGridWithWallToggled(grid, row, col, isControl, type);
     setGrid(newGrid);
     setMouseIsPressed(true);
   };
 
   const handleMouseEnter = (e, row, col) => {
     // itt lehet felesleges átpasszolni az eventet
+    if (e.ctrlKey === true) {
+      //itt is kell ez mivel akkor lerak egy falat ha ez nincs meg
+      setIsControl(true);
+      console.log("valtozas2");
+    }
     if (!mouseIsPressed) return;
 
     setChanges([...changes, { row, col }]);
-    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    const newGrid = getNewGridWithWallToggled(grid, row, col, isControl, type);
     setGrid(newGrid);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e) => {
     setMouseIsPressed(false);
     // check if the paramter row and col is in the changes arrey
     //remove all duplicated elements from the changes array
@@ -71,17 +76,21 @@ const Grid = () => {
         unique.push([parseInt(key.split("-")[0]), parseInt(key.split("-")[1])]);
       }
     }
-    console.log(unique);
+    // console.log(unique);
+
     axios
       .post("http://localhost:8000/wallUpdate", {
         cordinates: unique,
+        type: isControl ? type : 99999, // bad practie 999...
       })
       .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       })
       .finally(function () {
+        console.log(isControl);
         setChanges([]);
+        setIsControl(false);
       });
   };
 
@@ -101,7 +110,7 @@ const Grid = () => {
           return (
             <div key={rowIdx} className="space-y-0 bg-white leading-none">
               {row.map((node, nodeIdx) => {
-                const { row, col, isFinish, isStart, isWall } = node;
+                const { row, col, isFinish, isStart, isWall, type } = node;
                 return (
                   <Node
                     key={nodeIdx}
@@ -111,11 +120,12 @@ const Grid = () => {
                     isStart={isStart}
                     isWall={isWall}
                     mouseIsPressed={mouseIsPressed}
+                    type={type}
                     onMouseDown={(e, row, col) => handleMouseDown(e, row, col)}
                     onMouseEnter={(e, row, col) =>
                       handleMouseEnter(e, row, col)
                     }
-                    onMouseUp={() => handleMouseUp()}
+                    onMouseUp={(e) => handleMouseUp(e)}
                   />
                 );
               })}
@@ -127,13 +137,15 @@ const Grid = () => {
   );
 };
 
-const getNewGridWithWallToggled = (grid, row, col) => {
+const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
   const newGrid = grid.slice();
   const node = newGrid[row][col];
   const newNode = {
     ...node,
-    isWall: !node.isWall,
   };
+  console.log("az uj grid készítésénél vagyok" + type);
+  isControl ? (newNode.type = type) : (newNode.isWall = !node.isWall);
+  console.log(newNode);
   newGrid[row][col] = newNode;
   return newGrid;
 };
