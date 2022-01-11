@@ -14,12 +14,12 @@ import "../index.css";
 // const FINISH_NODE_COL = 35;
 
 const NavBar = () => {
-  // , setAlgorithm, algorithm
   const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "A*"];
-  const optionsMazes = ["Rekurziv", "Iterativ", "Valami"];
+  const optionsMazes = ["Recursive Division", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Empty", "Grass", "Water", "Stone"];
   const [algorithm, setAlgorithm] = useState("");
+  const [maze, setMaze] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);
 
@@ -28,6 +28,13 @@ const NavBar = () => {
 
   const handleClearBoard = () => {
     dispatchGridEvent("CLEAR_BOARD", {
+      conditions: ["node-start", "node-finish"],
+    });
+  };
+
+  const handleVisualizeMaze = (maze) => {
+    dispatchGridEvent("VISUALIZE_MAZE", {
+      maze: maze,
       conditions: ["node-start", "node-finish"],
     });
   };
@@ -57,6 +64,7 @@ const NavBar = () => {
             conditions: ["node-start", "node-finish", "node-wall", "node-type"],
           });
           setTimeout(() => {
+            // ezt mindenképpen meg kellene csinálni mindengyik elemre is
             setIsDisabled(false);
           }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
         })
@@ -81,14 +89,19 @@ const NavBar = () => {
         function={handleVisualize}
         isDisabled={isDisabled}
         id="visualize"
-        // className=" bg-cyan-600 hover:bg-cyan-500 hover:text-blue-800"
       />
       <Dropdown
         name="Algorithms"
         options={optionsAlgorithms}
         setVariable={setAlgorithm}
       />
-      <Dropdown name="Maze" options={optionsMazes} />
+      <Dropdown
+        name="Maze"
+        options={optionsMazes}
+        maze={maze}
+        setVariable={setMaze}
+        function={handleVisualizeMaze}
+      />
       <Dropdown
         name="Speed"
         options={optionsSpeed}

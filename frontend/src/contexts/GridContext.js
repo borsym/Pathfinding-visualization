@@ -11,16 +11,17 @@ export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
   const [type, setType] = useState(10);
 
-  const dispatchGridEvent = (actionType, payload) => {
+  const dispatchGridEvent = async (actionType, payload) => {
     switch (actionType) {
       case "CLEAR_BOARD":
         cleareBoard(payload.conditions);
         return;
       case "VISUALIZE_ALGORITHM":
-        clearPreviousVisualization(payload.conditions);
+        //await clearPreviousVisualization(payload.conditions);
         animateAlgorithm(payload.path, payload.shortestPath, payload.speed);
         return;
       case "VISUALIZE_MAZE":
+        anmiteMaze(payload.maze, payload.conditions);
         return;
       default:
         return;
@@ -35,10 +36,10 @@ export const GridProvider = (props) => {
   );
 };
 
-const cleareBoard = (conditions) => {
+const cleareBoard = async (conditions) => {
   // clear the board
   clearPreviousVisualization(conditions);
-  axios.post("http://localhost:8000/", {
+  await axios.post("http://localhost:8000/", {
     // indicated the clear
     is_refreshed: true,
   });
@@ -79,6 +80,24 @@ const createNode = (col, row) => {
     isWall: false,
     previousNode: null,
   };
+};
+
+const anmiteMaze = async (maze, conditions) => {
+  cleareBoard(conditions);
+  let order = [];
+  await axios.get(`http://localhost:8000/${maze}`).then((res) => {
+    order = res.data.order;
+  });
+  console.log(order);
+
+  for (let i = 0; i < order.length; i++) {
+    setTimeout(() => {
+      const node = order[i];
+      //console.log(node);
+      document.getElementById(`node-${node[0]}-${node[1]}`).className =
+        "node-style node-wall bg-wall-blue animate-fillBox";
+    }, 15 * i);
+  }
 };
 
 function animateAlgorithm(

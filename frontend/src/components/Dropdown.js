@@ -61,8 +61,11 @@ const Dropdown = (props) => {
                         props.setVariable(
                           getKeyByValue(names[props.name], option)
                         );
+                      } else if (props.name === "Maze") {
+                        // props.setVariable(option); // kell ez?
+                        props.function(option);
                       } else {
-                        props.setVariable(option);
+                        props.setVariable(option); // ez kell a visualizaciohoz
                       }
                     }}
                     className={classNames(

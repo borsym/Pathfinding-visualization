@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from persistance.Table import Table
 from algorithms.bfs import BFS
 from algorithms.dijkstra import Dijkstra
+from algorithms.recursive_division import RecursiveDivison
 from persistance.Node import Node
 from persistance.Fields import Fields
 
@@ -57,7 +58,7 @@ app.add_middleware(
 async def get_table(refreshed : InitialState):
     refreshed.refresh_board(refreshed.is_refreshed)
 
-
+#Maze solvers
 @app.get("/BFS", tags=["BFS"])
 def get_bfs() -> dict:
     bfs = BFS(table, (start_x, start_y))
@@ -91,6 +92,20 @@ async def get_astar() -> dict:
         # "shortestPath": table.astar(start, goal).shortestPath,
     }
 
+#Maze Generation
+@app.get("/Recursive Division", tags=["Recursive Division"]) # lehet szóköz az elérési útban?
+async def get_recursive_divison() -> dict:
+    recdiv = RecursiveDivison(table,0,0,table.get_column_size(), table.get_row_size())
+    order = recdiv.start_divide()
+    return {
+        "order": order # mazelesz ebből
+    }
+
+
+
+
+
+#Others
 @app.post("/wallUpdate") # mostmár átküldöm a typeot is majd ugyhogy ez változik szám vagy szöveg
 async def refresh_table(item: CordinatesItem):
     # a = "GRASS"
