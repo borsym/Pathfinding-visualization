@@ -93,7 +93,6 @@ const anmiteMaze = async (maze, conditions) => {
   for (let i = 0; i < order.length; i++) {
     setTimeout(() => {
       const node = order[i];
-      //console.log(node);
       document.getElementById(`node-${node[0]}-${node[1]}`).className =
         "node-style node-wall bg-wall-blue animate-fillBox";
     }, 15 * i);

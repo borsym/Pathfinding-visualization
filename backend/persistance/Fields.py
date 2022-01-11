@@ -3,7 +3,7 @@ from enum import Enum
 class Fields(Enum):
     EMPTY = 0
     WALL = 99999 #float('inf')
-    START = -1
+    START = -2
     END = -1
     GRASS = 10
     WATER = 20
