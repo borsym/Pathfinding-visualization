@@ -17,7 +17,7 @@ export const GridProvider = (props) => {
         cleareBoard(payload.conditions);
         return;
       case "VISUALIZE_ALGORITHM":
-        //await clearPreviousVisualization(payload.conditions);
+        clearPreviousVisualization(payload.conditions);
         animateAlgorithm(payload.path, payload.shortestPath, payload.speed);
         return;
       case "VISUALIZE_MAZE":
