@@ -7,25 +7,14 @@ from persistance.Node import Node
 from persistance.Table import Table
 
 class Astar:
-    def __init__(self, grid,start,end):
+    def __init__(self, grid,start,end, distance):
         self.grid = grid
         self.start = start
         self.end = end
         self.visited_nodes_oreder = queue()
         self.open_list = []
         self.closed_list = []
-
-    def euclidean_mine(self, new_node): # fastet than eucledis_from_net, manhattan
-        return ((new_node.get_x() - self.end.get_x()) ** 2) + ((new_node.get_y() - self.end.get_y()) ** 2) 
-
-    def euclidean(self, new_node):
-        return math.sqrt((abs(new_node.get_x() - self.end.get_x()) ** 2) + (abs(new_node.get_y() - self.end.get_y()) ** 2) )
-
-    def manhattan(self, new_node):
-        return abs(new_node.get_x() - self.end.get_x()) + abs(new_node.get_y() - self.end.get_y())
-    
-    def chebyshev(self, new_node):  # leglassabb
-        return max(abs(new_node.get_x() - self.end.get_x()), abs(new_node.get_y() - self.end.get_y()))
+        self.distance = distance
 
     def start_astar(self):
         # Initialize both open and closed list
@@ -80,7 +69,7 @@ class Astar:
                 new_node.set_previous_node(current_node)
 
                 new_node.g = current_node.g + 1 + new_node.get_weight()
-                new_node.h = self.euclidean_mine(new_node)
+                new_node.h = self.distance(self.end,new_node)
                 new_node.f = new_node.g + new_node.h
                 
                 is_valid = True

@@ -9,6 +9,7 @@ from algorithms.dfs import DFS
 from algorithms.astar import Astar
 from algorithms.dijkstra import Dijkstra
 from algorithms.recursive_division import RecursiveDivison
+from algorithms.distances import Distance 
 from persistance.Node import Node
 from persistance.Fields import Fields
 
@@ -16,6 +17,8 @@ start_x, start_y, end_x, end_y, map_x, map_y = 10,15,10,35,20,50
 start = Node(start_x, start_y , Fields.START)
 end = Node(end_x, end_y, Fields.END)
 table = Table(map_x, map_y, start, end)
+distance = Distance()
+
 
 
 class CordinatesItem(BaseModel):
@@ -40,8 +43,14 @@ class InitialState(BaseModel):
         if is_refreshed:
             table.refresh_board()
 
+class Distance(BaseModel):
+    distance : str
+
+    def get_distance_formule(self):
+        return self.distance
 
 app = FastAPI()
+app.distance_formule = "euclidean_mine"
 
 origins = [
     'http://localhost:3000',
@@ -89,7 +98,7 @@ async def get_dfs() -> dict:
 
 @app.get("/Astar", tags=["Astar"])
 async def get_astar() -> dict:
-    astar = Astar(table, Node(start_x, start_y, Fields.START), Node(end_x,end_y, Fields.END))
+    astar = Astar(table, Node(start_x, start_y, Fields.START), Node(end_x,end_y, Fields.END), distance.get_distance(app.distance_formule))
     order,shorthest_path = astar.start_astar()
     return {
         "path": order,
@@ -112,9 +121,6 @@ async def get_recursive_divison() -> dict:
 #Others
 @app.post("/wallUpdate") # mostmár átküldöm a typeot is majd ugyhogy ez változik szám vagy szöveg
 async def refresh_table(item: CordinatesItem):
-    # a = "GRASS"
-    # table.set_node_field(0,0,Fields.get_field_by_name(a))
-    # print(table.get_node_field(0,0))
     list = item.get_list()
     type = Fields.get_field_by_name(item.get_type())
     for i in range(table.get_row_size() + 1):
@@ -122,14 +128,19 @@ async def refresh_table(item: CordinatesItem):
             if [i,j] in list: # type
                 field_type = Fields.EMPTY if table.get_node_field(i,j) == type else type
                 table.set_node_field(i, j, field_type)
-    f = open("demofile2.txt", "w")
-    count = 0
-    for node in table.get_all_nodes():
-        if(node.x != count):
-            count += 1
-            f.write("\n")
-        f.write(str(node.weight) + " ")
+    # f = open("demofile2.txt", "w")
+    # count = 0
+    # for node in table.get_all_nodes():
+    #     if(node.x != count):
+    #         count += 1
+    #         f.write("\n")
+    #     f.write(str(node.weight) + " ")
         
+    return item
+
+@app.post("/changeDistance")
+async def set_distance_formule(item: Distance):
+    app.distance_formule = item.get_distance_formule()
     return item
 
 
