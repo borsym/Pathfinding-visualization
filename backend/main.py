@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from persistance.Table import Table
 from algorithms.bfs import BFS
 from algorithms.dfs import DFS
+from algorithms.astar import Astar
 from algorithms.dijkstra import Dijkstra
 from algorithms.recursive_division import RecursiveDivison
 from persistance.Node import Node
@@ -88,9 +89,11 @@ async def get_dfs() -> dict:
 
 @app.get("/Astar", tags=["Astar"])
 async def get_astar() -> dict:
+    astar = Astar(table, Node(start_x, start_y, Fields.START), Node(end_x,end_y, Fields.END))
+    order,shorthest_path = astar.start_astar()
     return {
-        # "path": table.astar(start, goal).path,
-        # "shortestPath": table.astar(start, goal).shortestPath,
+        "path": order,
+        "shortestPath": shorthest_path
     }
 
 #Maze Generation

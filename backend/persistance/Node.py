@@ -22,7 +22,7 @@ class Node:
         return hash(self.__key())
 
     def __eq__(self, other):
-        return (self.distance) == (other.get_distance())
+        return (self.weight) == (other.get_weight()) # ez át lett írva distancról
 
     def __lt__(self, other):
         return self.distance < other.distance # vagy <=?

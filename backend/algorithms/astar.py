@@ -1,95 +1,106 @@
 from collections import deque as queue
 import sys
 sys.path.append("..")
-
+import math
 from persistance.Fields import Fields
 from persistance.Node import Node
 from persistance.Table import Table
 
-def astar(maze, start, end):
-    """Returns a list of tuples as a path from the given start to the given end in the given maze"""
+class Astar:
+    def __init__(self, grid,start,end):
+        self.grid = grid
+        self.start = start
+        self.end = end
+        self.visited_nodes_oreder = queue()
+        self.open_list = []
+        self.closed_list = []
 
+    def euclidean_mine(self, new_node): # fastet than eucledis_from_net, manhattan
+        return ((new_node.get_x() - self.end.get_x()) ** 2) + ((new_node.get_y() - self.end.get_y()) ** 2) 
 
-    # Initialize both open and closed list
-    open_list = []
-    closed_list = []
+    def euclidean(self, new_node):
+        return math.sqrt((abs(new_node.get_x() - self.end.get_x()) ** 2) + (abs(new_node.get_y() - self.end.get_y()) ** 2) )
 
-    # Add the start node
-    open_list.append(start)
+    def manhattan(self, new_node):
+        return abs(new_node.get_x() - self.end.get_x()) + abs(new_node.get_y() - self.end.get_y())
+    
+    def chebyshev(self, new_node):  # leglassabb
+        return max(abs(new_node.get_x() - self.end.get_x()), abs(new_node.get_y() - self.end.get_y()))
 
-    # Loop until you find the end
-    while len(open_list) > 0:
+    def start_astar(self):
+        # Initialize both open and closed list
+        
+        
+        # Add the self.start node
+        self.open_list.append(self.start)
 
-        # Get the current node
-        current_node = open_list[0]
-        current_index = 0
-        for index, item in enumerate(open_list):
-            if item.f < current_node.f:
-                current_node = item
-                current_index = index
+        # Loop until you find the end
+        while len(self.open_list):
+            current_node = self.open_list[0]
+            current_index = 0
+            for index, item in enumerate(self.open_list):
+                if item.f < current_node.f:
+                    current_node = item
+                    current_index = index
 
-        # Pop current off open list, add to closed list
-        open_list.pop(current_index)
-        closed_list.append(current_node)
+            # Pop current off open list, add to closed list
+            self.visited_nodes_oreder.append((current_node.get_x(), current_node.get_y()))
+            self.open_list.pop(current_index)
+            self.closed_list.append(current_node)
 
-        # Found the goal
-        if current_node == end:
-            path = []
-            current = current_node
-            while current is not None:
-                path.append((current.get_x(), current.get_y()))
-                current = current.parent
-            return path[::-1] # Return reversed path
+            # Found the goal
+            if current_node == self.end:
+                path = []
+                current = current_node
+                while current is not None:
+                    path.append((current.get_x(), current.get_y()))
+                    current = current.previous_node
+                return list(self.visited_nodes_oreder), path[::-1] # Return reversed path
 
-        # Generate children
-        children = []
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0)]: # Adjacent squares
+        
+            for dr,dy in [(0, -1), (0, 1), (-1, 0), (1, 0)]: # Adjacent squares
 
-            # Get node position
-            node_position = (current_node.get_x() + new_position[0], current_node.get_y() + new_position[1])
+                # Get node position
+                currx, curry = (current_node.get_x() + dr, current_node.get_y() + dy)
 
-            # Make sure within range, itt a len nem lesz jó sztm
-            if node_position.current_node.get_x() > (len(maze) - 1) or current_node.get_x() < 0 or current_node.get_y() > (len(maze[len(maze)-1]) -1) or current_node.get_y() < 0:
-                continue
-
-            # Make sure walkable terrain
-            # if maze[node_position.get_x()][node_position.get_y()] != 0:  # ez is szar
-            #     continue
-
-            # Create new node
-            new_node = Node(parent=current_node, x=node_position.get_x(), y=node_position.get_y())
-
-            # Append
-            children.append(new_node)
-
-        # Loop through children
-        for child in children:
-
-            # Child is on the closed list
-            for closed_child in closed_list:
-                if child == closed_child:
+                # Make sure within range
+                if not (0 <= currx < self.grid.get_row_size() and 0 <= curry < self.grid.get_column_size()) or self.grid.get_node_field(currx, curry) == Fields.WALL:
                     continue
 
-            # Create the f, g, and h values
-            child.g = current_node.g + 1
-            child.h = ((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2)
-            child.f = child.g + child.h
-
-            # Child is already in the open list
-            for open_node in open_list:
-                if child == open_node and child.g > open_node.g:
+                # Create new node
+                new_node = self.grid.get_node(currx, curry)
+                in_closed_list = False
+                for node in self.closed_list:
+                    if node.get_x() == new_node.get_x() and node.get_y() == new_node.get_y():
+                        in_closed_list = True
+                        break
+                if in_closed_list:
                     continue
 
-            # Add the child to the open list
-            open_list.append(child)
+                new_node.set_previous_node(current_node)
+
+                new_node.g = current_node.g + 1 + new_node.get_weight()
+                new_node.h = self.euclidean_mine(new_node)
+                new_node.f = new_node.g + new_node.h
+                
+                is_valid = True
+                for node in self.open_list:
+                    if node.get_x() == new_node.get_x() and node.get_y() == new_node.get_y():
+                        is_valid = False
+                        break
+                    
+                if is_valid:
+                    self.open_list.append(new_node)
+              
 
 
 
-start = Node(1,0 , Fields.START)
-end = Node(9, 13, Fields.END)
-table = Table(10, 15, start, end)
-table.print_grid()
+# self.start = Node(10,15 , Fields.self.START)
+# end = Node(10, 35, Fields.END)
+# table = Table(20, 50, self.start, end)
+# table.print_grid()
 
 
-path = astar(table, start, end)
-print(path)
+# visited, path = astar(table, self.start, end)
+# print(visited)
+# print(path)

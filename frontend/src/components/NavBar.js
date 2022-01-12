@@ -14,7 +14,7 @@ import "../index.css";
 // const FINISH_NODE_COL = 35;
 
 const NavBar = () => {
-  const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "A*"];
+  const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "Astar"];
   const optionsMazes = ["Recursive Division", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Empty", "Grass", "Water", "Stone"];

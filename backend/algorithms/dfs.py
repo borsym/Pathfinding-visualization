@@ -20,7 +20,7 @@ class DFS:
         nodes_in_shortest_path_order = []
         current_node = self.ptr
         while current_node is not None:
-            print(current_node.get_x(), current_node.get_y())
+            # print(current_node.get_x(), current_node.get_y())
             nodes_in_shortest_path_order.insert(0, (current_node.get_x(), current_node.get_y()))
             current_node = current_node.previous_node
         return nodes_in_shortest_path_order

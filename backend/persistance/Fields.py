@@ -3,8 +3,8 @@ from enum import Enum
 class Fields(Enum):
     EMPTY = 0
     WALL = 99999 #float('inf')
-    START = -2
-    END = -1
+    START = -1  # ez probléma lehet
+    END = -2    # ezzel együtt
     GRASS = 10
     WATER = 20
     STONE = 30
