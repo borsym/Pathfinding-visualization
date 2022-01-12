@@ -59,19 +59,22 @@ const Dropdown = (props) => {
                 {({ active }) => (
                   <button
                     onClick={() => {
-                      if (props.name === "Speed" || props.name === "Type") {
-                        props.setVariable(
-                          getKeyByValue(names[props.name], option)
-                        );
-                      } else if (
-                        props.name === "Maze" ||
-                        props.name === "Distance Formula"
-                      ) {
-                        props.function(option);
-                        props.name === "Distance Formula" &&
+                      switch (props.name) {
+                        case "Speed":
+                        case "Type":
+                          props.setVariable(
+                            getKeyByValue(names[props.name], option)
+                          );
+                          break;
+                        case "Distance Formula":
+                        case "Maze":
+                          props.function(option);
+                          props.name === "Distance Formula" &&
+                            props.setVariable(option);
+                          break;
+                        default:
                           props.setVariable(option);
-                      } else {
-                        props.setVariable(option); // ez kell a visualizaciohoz
+                          break;
                       }
                     }}
                     className={classNames(
