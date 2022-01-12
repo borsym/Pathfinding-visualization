@@ -40,10 +40,15 @@ const NavBar = () => {
   };
 
   const handleVisualizeMaze = (maze) => {
+    setIsDisabled(true);
     dispatchGridEvent("VISUALIZE_MAZE", {
       maze: maze,
       conditions: ["node-start", "node-finish"],
     });
+    setTimeout(() => {
+      // ezt mindenképpen meg kellene csinálni mindengyik elemre is
+      setIsDisabled(false);
+    }, ((0 + 10 * 15) * 93) / 2); // a probléma az hogy nem férek hozzá az order.lenght-hez ezért nem tudom a képlettel kiszámítani, erre kell egy ötlet.. statekkel vagy átrendezni a függvényhívásokat
   };
 
   const handleDistanceFormula = (distanceFormula) => {
@@ -89,7 +94,10 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="flex justify-center items-center mx-auto bg-slate-800 p-4">
+    <nav
+      className="flex justify-center items-center mx-auto bg-slate-800 p-4"
+      style={isDisabled ? { pointerEvents: "none" } : {}}
+    >
       <ToastContainer />
       <Button name="Valami" />
       <Dropdown
