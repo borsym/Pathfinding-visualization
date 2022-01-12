@@ -17,7 +17,7 @@ const NavBar = () => {
   const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "Astar"];
   const optionsMazes = ["Recursive Division", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
-  const optionsType = ["Empty", "Grass", "Water", "Stone"];
+  const optionsType = ["Empty [0]", "Grass [10]", "Water [20]", "Stone [30]"];
   const optionDistance = [
     "Euclidean",
     "Manhattan",
@@ -97,6 +97,7 @@ const NavBar = () => {
         options={optionDistance}
         setVariable={setDistanceFormula}
         function={handleDistanceFormula}
+        distanceFormula={distanceFormula}
       />
       <Button name="Clear Board" function={handleClearBoard} />
       <Button name="Struktograms" />

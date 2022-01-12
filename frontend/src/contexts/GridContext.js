@@ -88,7 +88,7 @@ const anmiteMaze = async (maze, conditions) => {
   await axios.get(`http://localhost:8000/${maze}`).then((res) => {
     order = res.data.order;
   });
-  console.log(order);
+  // console.log(order);
 
   for (let i = 0; i < order.length; i++) {
     setTimeout(() => {

@@ -12,10 +12,10 @@ const names = {
     500: "Slow",
   },
   Type: {
-    0: "Empty",
-    10: "Grass",
-    20: "Water",
-    30: "Stone",
+    0: "Empty [0]",
+    10: "Grass [10]",
+    20: "Water [20]",
+    30: "Stone [30]",
   },
 };
 
@@ -33,6 +33,8 @@ const Dropdown = (props) => {
             ? `: ${names.Speed[props.speed]}`
             : props.name === "Type"
             ? `: ${names.Type[props.type]}`
+            : props.name === "Distance Formula"
+            ? `: ${props.distanceFormula}`
             : ""}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
@@ -65,8 +67,9 @@ const Dropdown = (props) => {
                         props.name === "Maze" ||
                         props.name === "Distance Formula"
                       ) {
-                        // props.setVariable(option); // kell ez?
                         props.function(option);
+                        props.name === "Distance Formula" &&
+                          props.setVariable(option);
                       } else {
                         props.setVariable(option); // ez kell a visualizaciohoz
                       }
