@@ -46,11 +46,11 @@ class InitialState(BaseModel):
 class Distance(BaseModel):
     distance : str
 
-    def get_distance_formule(self):
+    def get_distance_formula(self):
         return self.distance
 
 app = FastAPI()
-app.distance_formule = "euclidean_mine"
+app.distance_formula = "euclidean_mine"
 
 origins = [
     'http://localhost:3000',
@@ -98,7 +98,7 @@ async def get_dfs() -> dict:
 
 @app.get("/Astar", tags=["Astar"])
 async def get_astar() -> dict:
-    astar = Astar(table, Node(start_x, start_y, Fields.START), Node(end_x,end_y, Fields.END), distance.get_distance(app.distance_formule))
+    astar = Astar(table, Node(start_x, start_y, Fields.START), Node(end_x,end_y, Fields.END), distance.get_distance(app.distance_formula))
     order,shorthest_path = astar.start_astar()
     return {
         "path": order,
@@ -139,8 +139,8 @@ async def refresh_table(item: CordinatesItem):
     return item
 
 @app.post("/changeDistance")
-async def set_distance_formule(item: Distance):
-    app.distance_formule = item.get_distance_formule()
+async def set_distance_formula(item: Distance):
+    app.distance_formula = item.get_distance_formula()
     return item
 
 

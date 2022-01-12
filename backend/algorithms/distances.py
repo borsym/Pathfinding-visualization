@@ -3,14 +3,14 @@ class Distance:
     def __init__(self):
         pass
     # choose the distance function you want to use by the name
-    def get_distance(self, name="euclidean_mine"):
-        if name == 'euclidean':
+    def get_distance(self, name="Euclidean-mine"):
+        if name == 'Euclidean':
             return self.euclidean
-        elif name == 'manhattan':
+        elif name == 'Manhattan':
             return self.manhattan
-        elif name == 'chebyshev':
+        elif name == 'Chebyshev':
             return self.chebyshev
-        elif name == 'euclidean_mine':
+        elif name == 'Euclidean-mine':
             return self.euclidean_mine
 
     def euclidean_mine(self, end, new_node): # fastet than eucledis_from_net, manhattan

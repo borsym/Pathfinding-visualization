@@ -18,10 +18,17 @@ const NavBar = () => {
   const optionsMazes = ["Recursive Division", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Empty", "Grass", "Water", "Stone"];
+  const optionDistance = [
+    "Euclidean",
+    "Manhattan",
+    "Chebyshev",
+    "Euclidean-mine",
+  ];
   const [algorithm, setAlgorithm] = useState("");
   const [maze, setMaze] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);
+  const [distanceFormula, setDistanceFormula] = useState("Euclidean");
 
   const [grid, setGrid, type, setType, dispatchGridEvent] =
     useContext(GridContext);
@@ -36,6 +43,12 @@ const NavBar = () => {
     dispatchGridEvent("VISUALIZE_MAZE", {
       maze: maze,
       conditions: ["node-start", "node-finish"],
+    });
+  };
+
+  const handleDistanceFormula = (distanceFormula) => {
+    axios.post("http://localhost:8000/changeDistance", {
+      distance: distanceFormula,
     });
   };
 
@@ -79,7 +92,12 @@ const NavBar = () => {
     <nav className="flex justify-center items-center mx-auto bg-slate-800 p-4">
       <ToastContainer />
       <Button name="Valami" />
-      <Button name="Valami" />
+      <Dropdown
+        name="Distance Formula"
+        options={optionDistance}
+        setVariable={setDistanceFormula}
+        function={handleDistanceFormula}
+      />
       <Button name="Clear Board" function={handleClearBoard} />
       <Button name="Struktograms" />
       <Button
@@ -94,7 +112,10 @@ const NavBar = () => {
         name="Algorithms"
         options={optionsAlgorithms}
         setVariable={setAlgorithm}
-      />
+      >
+        {/* <Dropdown name="" options={optionDistance} className="p-9 m-9" /> */}
+        {/* <ThirdLevelDropdown name="Distance" options={optionDistance} /> */}
+      </Dropdown>
       <Dropdown
         name="Maze"
         options={optionsMazes}
