@@ -142,7 +142,7 @@ const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
     ...node,
   };
   isControl ? ( newNode.type === type ? newNode.type = 0 : newNode.type = type) : (newNode.isWall = !node.isWall);
-  console.log(newNode);
+  // console.log(newNode);
   newGrid[row][col] = newNode;
   return newGrid;
 };
