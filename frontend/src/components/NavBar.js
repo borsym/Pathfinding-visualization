@@ -4,10 +4,11 @@ import axios from "axios";
 // import { animateAlgorithm } from "../functions/animate.js";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
+import ModalStuktos from "./ModalStuktos";
+
 import { GridContext } from "../contexts/GridContext.js";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
-import Modal from "./Modal";
 
 // const START_NODE_ROW = 10;
 // const START_NODE_COL = 15;
@@ -100,7 +101,7 @@ const NavBar = () => {
       style={isDisabled ? { pointerEvents: "none" } : {}}
     >
       <ToastContainer />
-      <Modal showModal={showModal} setShowModal={setShowModal} />
+      <ModalStuktos showModal={showModal} setShowModal={setShowModal} />
       <Button name="Valami" />
       <Dropdown
         name="Distance Formula"
@@ -110,7 +111,12 @@ const NavBar = () => {
         distanceFormula={distanceFormula}
       />
       <Button name="Clear Board" function={handleClearBoard} />
-      <Button name="Struktograms" function={() => setShowModal(true)} />
+      <Button
+        name="Struktograms"
+        function={() => {
+          setShowModal(true);
+        }}
+      />
       <Button
         name="Visualize"
         isVisualize="true"

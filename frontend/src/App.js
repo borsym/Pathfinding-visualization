@@ -3,18 +3,20 @@ import NavBar from "./components/NavBar";
 import Grid from "./components/Grid";
 import React, { useState, useEffect } from "react";
 import { GridProvider } from "./contexts/GridContext";
-import Popup from "./components/Modal";
+import ModalTutorial from "./components/ModalTutorial";
 
 export default function App() {
-  const [timedPopup, setTimedPopup] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     setTimeout(() => {
-      setTimedPopup(true);
-    }, 1000);
+      setShowModal(true);
+    }, 500);
   }, []);
+
   return (
     <GridProvider>
-      {/* <Popup trigger={timedPopup} setTrigger={setTimedPopup} /> */}
+      {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */}
       <NavBar />
       <Legend />
       <Grid />
