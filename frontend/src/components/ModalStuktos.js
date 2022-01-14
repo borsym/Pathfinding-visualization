@@ -27,7 +27,7 @@ const ModalStuktos = (props) => {
           }}
           className="cursor-pointer absolute top-5 right-5 w-8 h-8 p-0 z-10"
         />
-
+        
         {props.children}
       </div>
     </div>

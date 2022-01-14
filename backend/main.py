@@ -50,7 +50,7 @@ class Distance(BaseModel):
         return self.distance
 
 app = FastAPI()
-app.distance_formula = "euclidean_mine"
+app.distance_formula = "Euclidean-mine"
 
 origins = [
     'http://localhost:3000',

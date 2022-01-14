@@ -33,4 +33,12 @@
   .text-tutorial {
     @apply text-lg mb-0.5;
   }
+
+  .bord {
+    @apply flex flex-col w-full max-w-[96px] max-h-3 bg-slate-400 p-3;
+  }
+
+  .card {
+    @apply p-2 max-w-[90px] max-h-1 bg-white cursor-pointer text-xs;
+  }
 }

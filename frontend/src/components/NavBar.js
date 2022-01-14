@@ -5,6 +5,7 @@ import axios from "axios";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
 import ModalStuktos from "./ModalStuktos";
+import Board from "./Board";
 
 import { GridContext } from "../contexts/GridContext.js";
 import "react-toastify/dist/ReactToastify.css";
@@ -101,7 +102,10 @@ const NavBar = () => {
       style={isDisabled ? { pointerEvents: "none" } : {}}
     >
       <ToastContainer />
-      <ModalStuktos showModal={showModal} setShowModal={setShowModal} />
+      <ModalStuktos
+        showModal={showModal}
+        setShowModal={setShowModal}
+      ></ModalStuktos>
       <Button name="Valami" />
       <Dropdown
         name="Distance Formula"
