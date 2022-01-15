@@ -1,5 +1,5 @@
 import React from "react";
-import Droppable from "./Droppable";
+import Droppable from "./DroppableContainer";
 const MultipleDroppables = () => {
   const droppables = ["1", "2", "3", "4"];
 
