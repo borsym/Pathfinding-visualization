@@ -11,6 +11,7 @@ module.exports = {
       colors: {
         "wall-blue": "#0C3547",
         "visited-node-blue": "#40cde3",
+        "answer-background-grey": "#f0f0f0"
       },
       keyframes: {
         fillBox: {
