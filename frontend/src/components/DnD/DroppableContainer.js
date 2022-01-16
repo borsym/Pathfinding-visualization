@@ -16,8 +16,8 @@ const DroppableContainer = (props) => {
       ref={setNodeRef}
       className="min-w-[150px] min-h-[40px] p-1 mt-1 mb-1 border-2 inline-block rounded-md border-inherit bg-slate-600"
     >
-      {console.log(isOver)}
-      {console.log("child", props.children)}
+      {/* {console.log(isOver)}
+      {console.log("child", props.children)} */}
       {/* {console.log(isOverContainer)} */}
       {props.children ? (
         props.children

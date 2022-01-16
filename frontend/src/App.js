@@ -17,7 +17,7 @@ export default function App() {
   }, []);
 
   return (
-    <Dnd>
+    <Dnd taskId="dnd-1">
       Ez egy teszt mi itt a valasz: <Blank solution={["ketto"]} /> ha behuztad
       akkor huzd mar be ide is pls <Blank solution={["asd", "cica"]} /> nagyon
       ugyes vagy
