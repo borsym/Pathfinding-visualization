@@ -16,6 +16,7 @@ import { SortableItem } from "./SortableItem";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
 import Blank from "./Blank";
+import { values } from "lodash";
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
@@ -79,7 +80,7 @@ const Dnd = (props) => {
           <div>
             {childrenWithBlanks.map((child, index) => {
               const { solutions, id } = child;
-              console.log("itemek", items); // bennük van ha változás van
+              // console.log("itemek", items); // bennük van ha változás van
               if (solutions) {
                 // console.log("items  :", items);
                 // console.log("ez az id:", id);
@@ -134,11 +135,24 @@ const Dnd = (props) => {
 
         {/* Drag Overlay ez kell majd ahhoz hogyha mozagtom lássam */}
         <div className="mt-2 ml-5">
-          <Button name="Submit" />
+          <Button name="Submit" function={handleButtonClick} />
         </div>
       </DndContext>
     </div>
   );
+  function handleButtonClick() {
+    console.log("submit");
+    let isCorrect = true;
+    Object.entries(items).map(([key, value]) => {
+      console.log("key:", key);
+      console.log("value:", value);
+      if (key !== WORD_BANK) {
+        isCorrect &= value.items.some((item) => value.solutions.includes(item));
+      }
+    });
+    console.log("ez az is correct:", isCorrect);
+    isCorrect ? alert("Jó") : alert("Rossz");
+  }
 
   function handleDragOver(e) {
     const { active, over } = e;
@@ -171,9 +185,10 @@ const Dnd = (props) => {
     // console.log("asd", activeContainer);
     const overId = over?.id;
     const overContainer = findContainer(overId);
-
-    if (items[overContainer].length === 1) {
-      items[overContainer].items = [];
+    let prev = null;
+    if (items[overContainer].items.length === 1) {
+      prev = items[overContainer].items.shift();
+      wordbank.push(prev);
     }
 
     items[overContainer].items.push(active.id);

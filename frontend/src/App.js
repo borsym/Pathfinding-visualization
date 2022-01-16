@@ -18,9 +18,9 @@ export default function App() {
 
   return (
     <Dnd taskId="dnd-1">
-      Ez egy teszt mi itt a valasz: <Blank solution={["ketto"]} /> ha behuztad
-      akkor huzd mar be ide is pls <Blank solution={["asd", "cica"]} /> nagyon
-      ugyes vagy
+      Ez egy teszt mi itt a valasz: <Blank solution={["negyzetes"]} /> ha
+      behuztad akkor huzd mar be ide is pls{" "}
+      <Blank solution={["sulyozott", "cica"]} /> nagyon ugyes vagy
     </Dnd>
     // <GridProvider>
     //   {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */}
