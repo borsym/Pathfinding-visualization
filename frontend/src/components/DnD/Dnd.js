@@ -16,7 +16,6 @@ import { SortableItem } from "./SortableItem";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
 import Blank from "./Blank";
-import { values } from "lodash";
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
@@ -58,9 +57,9 @@ const Dnd = (props) => {
 
     return acc;
   }, {});
-  blanks[WORD_BANK] = { wordbank };
+  blanks[WORD_BANK] = { items: wordbank };
   const [items, setItems] = useState(blanks);
-  console.log(items);
+  // console.log(items);
   // console.log("solutions", solutions);
   // console.log("blanks: ", blanks);
   // console.log("childwb: ", childrenWithBlanks);
@@ -70,7 +69,7 @@ const Dnd = (props) => {
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
+        // onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancle}
         // collisionDetection={closestCorners}
@@ -111,14 +110,6 @@ const Dnd = (props) => {
               } else {
                 return child;
               }
-              // console.log(child.props.map((item) => console.log(item)));
-              // console.log(index);
-              // console.log("child", child);
-              // const solution = child.props;
-              // console.log("lista? ", Array.isArray(solution));
-              // if (child.type === Blank) {
-              //   console.log("igen ez blank");
-              // }
             })}
           </div>
         </div>
@@ -154,18 +145,6 @@ const Dnd = (props) => {
     isCorrect ? alert("Jó") : alert("Rossz");
   }
 
-  function handleDragOver(e) {
-    const { active, over } = e;
-    if (over && active.id !== over.id) {
-      setWordbank((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
-  }
-
   function handleDragStart(e) {
     setActiveId(e.active.id);
   }
@@ -176,31 +155,79 @@ const Dnd = (props) => {
       return id;
     }
     // ha szöveg fölé húzom?
+
     return Object.keys(items).find((key) => items[key].items.includes(id));
   }
   function handleDragEnd({ active, over }) {
-    console.log(active);
-    console.log(over);
-    // const activeContainer = findContainer(active.id);
+    const activeContainer = findContainer(active.id); // ahonnan kiveszed
+    if (!activeContainer) {
+      setActiveId(null);
+      return;
+    }
+
     // console.log("asd", activeContainer);
     const overId = over?.id;
     const overContainer = findContainer(overId);
-    let prev = null;
-    if (items[overContainer].items.length === 1) {
-      prev = items[overContainer].items.shift();
-      wordbank.push(prev);
-    }
+    console.log(items);
+    console.log(wordbank);
+    if (activeContainer && overContainer) {
+      const activeIndex = items[activeContainer].items.indexOf(active.id);
+      const overIndex = items[overContainer].items.indexOf(overId);
+      if (activeContainer !== overContainer) {
+        // vagyis más kontérbe helyezünk át
+        setItems((prevItems) => {
+          console.log(prevItems);
+          let activeItems = [...items[activeContainer].items];
+          let overItems = [...items[overContainer].items];
+          // activeContainer gets what was in overContainer and vice versa
+          // first check if overContainer is word bank or a blank
+          // if it's a blank (NOT the word bank), swap contents with activeContainer
+          // if it IS word bank, just move activeContainer contents to word bank
+          if (overContainer === WORD_BANK) {
+            activeItems = [];
+            overItems.push(active.id); // az adott szöveg...
+            console.log("== word", overItems);
+          } else {
+            activeItems.splice(activeIndex, 1); // kiveszem az adott elemet belőle...
+            // if there's already something in the blank, push its contents to activeItems
+            if (overItems.length) {
+              activeItems.push(...overItems);
+            }
+            overItems = [active.id];
+            console.log("else", overItems);
+          }
 
-    items[overContainer].items.push(active.id);
-    setItems(items); // belerakja itt
-    var index = wordbank.indexOf(active.id);
-    if (index > -1) {
-      wordbank.splice(index, 1);
+          const updatedItems = {
+            ...prevItems,
+            [activeContainer]: {
+              ...prevItems[activeContainer],
+              items: activeItems,
+            },
+            [overContainer]: {
+              ...prevItems[overContainer],
+              items: overItems,
+            },
+          };
+          console.log("update", updatedItems);
+          setWordbank(updatedItems[WORD_BANK].items);
+          return updatedItems;
+        });
+      } else if (activeIndex !== overIndex) {
+        setItems((prevItems) => ({
+          ...prevItems,
+          [overContainer]: {
+            ...prevItems[overContainer],
+            items: arrayMove(
+              items[overContainer].items,
+              activeIndex,
+              overIndex
+            ),
+          },
+        }));
+      }
     }
-    setWordbank(wordbank);
-    setActiveId(null); // ez kiszedi a kijelölt mezőből
+    setActiveId(null);
   }
-
   function handleDragCancle(e) {
     setActiveId(null);
   }
