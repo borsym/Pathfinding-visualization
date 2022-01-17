@@ -1,17 +1,16 @@
 import React from "react";
 import Blank from "./DnD/Blank";
 import Dnd from "./DnD/Dnd";
-const DndQuestion = () => {
+import DataDnd from "../Data/DataDnd";
+const questions = DataDnd;
+const DndQuestion = ({ idx, algorithm }) => {
+  // get the text from the questions array by the idx and algorithm, is it good practice?
+  const currentData = questions[idx][0][algorithm];
+
   return (
     <>
-      {" "}
-      <Dnd
-        taskId="dnd-1"
-        words={["logaritmikus", "negyzetes", "sulyozott", "nem sulyozott"]}
-      >
-        Ez egy teszt mi itt a valasz: <Blank solution={["negyzetes"]} /> ha
-        behuztad akkor huzd mar be ide is pls{" "}
-        <Blank solution={["sulyozott", "cica"]} /> nagyon ugyes vagy
+      <Dnd taskId={currentData.taskId} words={currentData.words}>
+        {currentData.text}
       </Dnd>
     </>
   );

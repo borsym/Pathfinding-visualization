@@ -18,7 +18,7 @@ import "../index.css";
 // const FINISH_NODE_COL = 35;
 
 const NavBar = () => {
-  const optionsAlgorithms = ["BFS", "DFS", "Dijkstra", "Astar"];
+  const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
   const optionsMazes = ["Recursive Division", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Empty [0]", "Grass [10]", "Water [20]", "Stone [30]"];
@@ -60,19 +60,22 @@ const NavBar = () => {
       distance: distanceFormula,
     });
   };
+  const warningMessage = () => {
+    toast.warn("You have to pick an algorithm!", {
+      position: "top-right",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   const handleVisualize = () => {
     if (!algorithm) {
-      toast.warn("You have to pick an algorithm!", {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      warningMessage();
     } else {
       axios
         .get(`http://localhost:8000/${algorithm}`)
@@ -104,7 +107,10 @@ const NavBar = () => {
     >
       <ToastContainer />
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
-        <DndQuestion />
+        <DndQuestion
+          idx={optionsAlgorithms.indexOf(algorithm)}
+          algorithm={algorithm}
+        />
       </ModalStuktos>
       <Button name="Valami" />
       <Dropdown
@@ -118,7 +124,8 @@ const NavBar = () => {
       <Button
         name="Struktograms"
         function={() => {
-          setShowModal(true);
+          // eslint-disable-next-line no-lone-blocks
+          !algorithm ? warningMessage() : setShowModal(true);
         }}
       />
       <Button

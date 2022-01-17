@@ -13,18 +13,6 @@ const Node = (props) => {
     onMouseUp,
     type, // mivel ez egy szám ennek függvényébe majd ki kell kalkulnánom milyen szín fog oda kerülni gondolom én
   } = props;
-  // const getColorByType = () => { végtelen loopot okoztam xdddd
-  //   switch (type) {
-  //     case 10:
-  //       return "green-100";
-  //     case 20:
-  //       return "red-100";
-  //     case 30:
-  //       return "purple-100";
-  //     default:
-  //       return "";
-  //   }
-  //};
   const extraClassName = isFinish
     ? "node-finish bg-red-500"
     : isStart
