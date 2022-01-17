@@ -3,7 +3,6 @@ import React, { useState } from "react";
 // import Draggable from "./Draggable";
 // import MultipleDroppables from "./MultipleDroppables";
 import {
-  closestCorners,
   DndContext,
   DragOverlay,
   PointerSensor,
@@ -15,23 +14,17 @@ import { Item } from "./Item";
 import { SortableItem } from "./SortableItem";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
-import Blank from "./Blank";
+
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
   const [activeId, setActiveId] = useState(null);
-  const [wordbank, setWordbank] = useState([
-    "logaritmikus",
-    "negyzetes",
-    "sulyozott",
-    "nem sulyozott",
-  ]);
+  const [wordbank, setWordbank] = useState(props.words);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const childrenWithBlanks = React.Children.toArray(props.children).map(
     (child, index) => {
       // lekérünk minden szöveget ami a dnd körbevesz
-      // console.log(child, index);
       if (child.props?.solution) {
         // ha van solution adattagja
         const { solution } = child.props;
@@ -59,10 +52,6 @@ const Dnd = (props) => {
   }, {});
   blanks[WORD_BANK] = { items: wordbank };
   const [items, setItems] = useState(blanks);
-  // console.log(items);
-  // console.log("solutions", solutions);
-  // console.log("blanks: ", blanks);
-  // console.log("childwb: ", childrenWithBlanks);
 
   return (
     <div className="bg-red-100 mx-auto">
@@ -79,22 +68,19 @@ const Dnd = (props) => {
           <div>
             {childrenWithBlanks.map((child, index) => {
               const { solutions, id } = child;
-              // console.log("itemek", items); // bennük van ha változás van
               if (solutions) {
-                // console.log("items  :", items);
-                // console.log("ez az id:", id);
-                // console.log("egyutt:", items[id]);
-                const { items: blankItems } = items[id];
+                const { items: blankItems, isCorrect: isBlankCorrect } =
+                  items[id];
 
-                // console.log("blankek:", blankItems);
-                // console.log("item", items);
-                // console.log("blanki,:", blankItems);
                 return (
                   <>
                     {" "}
-                    <DroppableContainer id={id} key={id}>
+                    <DroppableContainer
+                      id={id}
+                      key={id}
+                      isCorrect={isBlankCorrect}
+                    >
                       {blankItems.map((value) => {
-                        // console.log("iteral:", value);
                         return (
                           <SortableItem
                             key={`sortable-item--${value}`}
@@ -113,7 +99,10 @@ const Dnd = (props) => {
             })}
           </div>
         </div>
-        <div className="w-48 border-2 border-black border-solid">
+        <div
+          className="w-48 border-2 border-black border-solid"
+          taskId={props.taskId}
+        >
           <SortableContext items={wordbank} strategy={() => {}}>
             {wordbank.map((id) => (
               <SortableItem key={id} id={id} />
@@ -132,17 +121,22 @@ const Dnd = (props) => {
     </div>
   );
   function handleButtonClick() {
-    console.log("submit");
-    let isCorrect = true;
-    Object.entries(items).map(([key, value]) => {
-      console.log("key:", key);
-      console.log("value:", value);
+    const checkedBlanks = Object.entries(items).reduce((acc, [key, value]) => {
       if (key !== WORD_BANK) {
-        isCorrect &= value.items.some((item) => value.solutions.includes(item));
+        const isBlankCorrect = value.items.some((item) =>
+          value.solutions.includes(item)
+        );
+
+        acc[key] = {
+          ...value,
+          isCorrect: isBlankCorrect,
+        };
+      } else {
+        acc[key] = { ...value, isCorrect: null };
       }
-    });
-    console.log("ez az is correct:", isCorrect);
-    isCorrect ? alert("Jó") : alert("Rossz");
+      return acc;
+    }, {});
+    setItems(checkedBlanks);
   }
 
   function handleDragStart(e) {
@@ -165,18 +159,14 @@ const Dnd = (props) => {
       return;
     }
 
-    // console.log("asd", activeContainer);
     const overId = over?.id;
     const overContainer = findContainer(overId);
-    console.log(items);
-    console.log(wordbank);
     if (activeContainer && overContainer) {
       const activeIndex = items[activeContainer].items.indexOf(active.id);
       const overIndex = items[overContainer].items.indexOf(overId);
       if (activeContainer !== overContainer) {
         // vagyis más kontérbe helyezünk át
         setItems((prevItems) => {
-          console.log(prevItems);
           let activeItems = [...items[activeContainer].items];
           let overItems = [...items[overContainer].items];
           // activeContainer gets what was in overContainer and vice versa
@@ -186,7 +176,6 @@ const Dnd = (props) => {
           if (overContainer === WORD_BANK) {
             activeItems = [];
             overItems.push(active.id); // az adott szöveg...
-            console.log("== word", overItems);
           } else {
             activeItems.splice(activeIndex, 1); // kiveszem az adott elemet belőle...
             // if there's already something in the blank, push its contents to activeItems
@@ -194,21 +183,21 @@ const Dnd = (props) => {
               activeItems.push(...overItems);
             }
             overItems = [active.id];
-            console.log("else", overItems);
           }
 
           const updatedItems = {
             ...prevItems,
             [activeContainer]: {
               ...prevItems[activeContainer],
+              isCorrect: null,
               items: activeItems,
             },
             [overContainer]: {
               ...prevItems[overContainer],
+              isCorrect: null,
               items: overItems,
             },
           };
-          console.log("update", updatedItems);
           setWordbank(updatedItems[WORD_BANK].items);
           return updatedItems;
         });
@@ -217,6 +206,7 @@ const Dnd = (props) => {
           ...prevItems,
           [overContainer]: {
             ...prevItems[overContainer],
+            isCorrect: null,
             items: arrayMove(
               items[overContainer].items,
               activeIndex,

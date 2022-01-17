@@ -17,11 +17,18 @@ export default function App() {
   }, []);
 
   return (
-    <Dnd taskId="dnd-1">
-      Ez egy teszt mi itt a valasz: <Blank solution={["negyzetes"]} /> ha
-      behuztad akkor huzd mar be ide is pls{" "}
-      <Blank solution={["sulyozott", "cica"]} /> nagyon ugyes vagy
-    </Dnd>
+    <>
+      {" "}
+      <Dnd
+        taskId="dnd-1"
+        words={["logaritmikus", "negyzetes", "sulyozott", "nem sulyozott"]}
+      >
+        Ez egy teszt mi itt a valasz: <Blank solution={["negyzetes"]} /> ha
+        behuztad akkor huzd mar be ide is pls{" "}
+        <Blank solution={["sulyozott", "cica"]} /> nagyon ugyes vagy
+      </Dnd>
+    </>
+
     // <GridProvider>
     //   {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */}
     //   <NavBar />
