@@ -7,8 +7,10 @@ const Question = () => {
   const currentQuestion = quizeState.questions[quizeState.currentQuestionIndex];
   return (
     <div>
-      <div className="question">{currentQuestion.question}</div>
-      <div className="answers">
+      <div className="flex justify-center font-semibold text-2xl">
+        {currentQuestion.question}
+      </div>
+      <div className="grid grid-flow-row auto-rows-max bg-red-100">
         {quizeState.answers.map((answer, index) => (
           <Answer
             answerText={answer}
