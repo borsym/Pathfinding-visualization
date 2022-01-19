@@ -1,8 +1,14 @@
 import React from "react";
-import Blank from "./DnD/Blank";
-import Dnd from "./DnD/Dnd";
-import DataDnd from "../Data/DataDnd";
-const questions = DataDnd;
+import Blank from "../DnD/Blank";
+import Dnd from "../DnD/Dnd";
+import DataDnd from "../../Data/DataDnd";
+const questions = DataDnd;  // ezt a backendből kell megkapni
+
+/*
+megkapom az algoritmus nevét
+kérés packendneg get/questionDnd/{algorithm}
+megkapom az adatokat és az alapján fogok tovább iterálni
+*/
 const DndQuestion = ({ idx, algorithm }) => {
   // get the text from the questions array by the idx and algorithm, is it good practice?
   const currentData = questions[idx][0][algorithm];

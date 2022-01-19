@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Button from "./Button";
-import Card from "./Card";
+import Button from "../Button";
+import Card from "../Card";
 import { AiOutlineClose } from "react-icons/ai";
-import DataStuktos from "../Data/DataStuktos.js";
+import DataStuktos from "../../Data/DataStuktos.js";
 
 const cardsidx = [0, 1, 2, 3, 4];
 const ModalStuktos = (props) => {

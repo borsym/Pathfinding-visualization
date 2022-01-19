@@ -14,7 +14,7 @@ import { Item } from "./Item";
 import { SortableItem } from "./SortableItem";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
-
+import StukiPng from "../../images/stuki.png";
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
@@ -50,77 +50,12 @@ const Dnd = (props) => {
 
     return acc;
   }, {});
+
   blanks[WORD_BANK] = { items: wordbank };
   const [items, setItems] = useState(blanks);
 
-  return (
-    <div className="bg-red-100 mx-auto">
-      <DndContext
-        sensors={sensors}
-        onDragStart={handleDragStart}
-        // onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-        onDragCancel={handleDragCancle}
-        // collisionDetection={closestCorners}
-      >
-        <div className="flex-col items-start ">
-          {/* itt lesz a szöveg ahova majd be kell huzni a válaszokat*/}
-          <div>
-            {childrenWithBlanks.map((child, index) => {
-              const { solutions, id } = child;
-              if (solutions) {
-                const { items: blankItems, isCorrect: isBlankCorrect } =
-                  items[id];
-
-                return (
-                  <>
-                    {" "}
-                    <DroppableContainer
-                      id={id}
-                      key={id}
-                      isCorrect={isBlankCorrect}
-                    >
-                      {blankItems.map((value) => {
-                        return (
-                          <SortableItem
-                            key={`sortable-item--${value}`}
-                            id={value}
-                            taskId={props.taskId}
-                            // isCorrect={isBlankCorrect}
-                          />
-                        );
-                      })}
-                    </DroppableContainer>
-                  </>
-                );
-              } else {
-                return child;
-              }
-            })}
-          </div>
-        </div>
-        <div
-          className="w-48 border-2 border-black border-solid"
-          taskId={props.taskId}
-        >
-          <SortableContext items={wordbank} strategy={() => {}}>
-            {wordbank.map((id) => (
-              <SortableItem key={id} id={id} />
-            ))}
-          </SortableContext>
-          <DragOverlay>
-            {activeId ? <Item label={activeId} /> : null}
-          </DragOverlay>
-        </div>
-
-        {/* Drag Overlay ez kell majd ahhoz hogyha mozagtom lássam */}
-        <div className="mt-2 ml-5">
-          <Button name="Submit" function={handleButtonClick} />
-        </div>
-      </DndContext>
-    </div>
-  );
   function handleButtonClick() {
+    // backendbe kell validálni, oda kérés, szerver összesít pontokat, magát a kérdést is a backend küldi
     const checkedBlanks = Object.entries(items).reduce((acc, [key, value]) => {
       if (key !== WORD_BANK) {
         const isBlankCorrect = value.items.some((item) =>
@@ -139,11 +74,11 @@ const Dnd = (props) => {
     setItems(checkedBlanks);
   }
 
-  function handleDragStart(e) {
+  const handleDragStart = (e) => {
     setActiveId(e.active.id);
-  }
+  };
   // find the blank/droppableContainer that an item is in
-  function findContainer(id) {
+  const findContainer = (id) => {
     if (id in items) {
       // ha  benne van a listában akkor tudjuk hogy dropable
       return id;
@@ -151,8 +86,9 @@ const Dnd = (props) => {
     // ha szöveg fölé húzom?
 
     return Object.keys(items).find((key) => items[key].items.includes(id));
-  }
-  function handleDragEnd({ active, over }) {
+  };
+
+  const handleDragEnd = ({ active, over }) => {
     const activeContainer = findContainer(active.id); // ahonnan kiveszed
     if (!activeContainer) {
       setActiveId(null);
@@ -217,10 +153,93 @@ const Dnd = (props) => {
       }
     }
     setActiveId(null);
-  }
-  function handleDragCancle(e) {
+  };
+  const handleDragCancle = () => {
     setActiveId(null);
-  }
+  };
+  return (
+    <div className="bg-red-100 mx-auto">
+      <DndContext
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        // onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancle}
+        // collisionDetection={closestCorners}
+      >
+        <div className="flex-col items-start ">
+          {/* itt lesz a szöveg ahova majd be kell huzni a válaszokat*/}
+          <div>
+            {childrenWithBlanks.map((child, index) => {
+              const { solutions, id } = child;
+              if (solutions) {
+                const { items: blankItems, isCorrect: isBlankCorrect } =
+                  items[id];
+
+                return (
+                  <>
+                    {" "}
+                    <DroppableContainer
+                      id={id}
+                      key={id}
+                      isCorrect={isBlankCorrect}
+                    >
+                      {blankItems.map((value) => {
+                        return (
+                          <SortableItem
+                            key={`sortable-item--${value}`}
+                            id={value}
+                            taskId={props.taskId}
+                            // isCorrect={isBlankCorrect}
+                          />
+                        );
+                      })}
+                    </DroppableContainer>
+                  </>
+                );
+              } else {
+                return child;
+              }
+            })}
+          </div>
+        </div>
+        <div
+          className="w-48 border-2 border-black border-solid"
+          taskId={props.taskId}
+        >
+          <SortableContext items={wordbank} strategy={() => {}}>
+            {wordbank.map((id) => (
+              <SortableItem key={id} id={id} />
+            ))}
+          </SortableContext>
+          <DragOverlay>
+            {activeId ? <Item label={activeId} /> : null}
+          </DragOverlay>
+        </div>
+
+        {/* Drag Overlay ez kell majd ahhoz hogyha mozagtom lássam */}
+        {/*
+          amint rákattint erre a gombra történjen meg egy lekérés a szervertől
+          elküldöm a kérdés id-jat a hozzá tartozó válaszokkal és a szerver
+          válaszol hogy mi volt jó és mi nem?
+        */}
+        <div className="mt-2 ml-5">
+          <button
+            className="ml-4 px-6 py-3 leading-none font-semibold rounded-lg bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:bg-gray-900"
+            onClick={handleButtonClick}
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
+          >
+            Cancel
+          </button>
+        </div>
+      </DndContext>
+    </div>
+  );
 };
 
 export default Dnd;

@@ -30,9 +30,8 @@ const ModalTutorial = (props) => {
         <p className="cursor-pointer absolute top-5 left-5 w-8 h-8 p-0 z-10">
           {counter + 1}/{cardsidx.length}
         </p>
-        {cardsidx.map(
-          (idx) => counter === idx && <Card cardIdx={idx} data={DataTutorial} />
-        )}
+
+        <Card cardIdx={counter} data={DataTutorial} />
 
         <button
           onClick={() => handleButtonClick(-1)}

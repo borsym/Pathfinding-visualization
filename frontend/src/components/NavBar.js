@@ -4,13 +4,13 @@ import axios from "axios";
 // import { animateAlgorithm } from "../functions/animate.js";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import ModalStuktos from "./ModalStuktos";
-import DndQuestion from "./DndQuestion";
-import Board from "./Board";
-
+import ModalStuktos from "./QuestionsSegment/ModalStuktos";
+import DndQuestion from "./QuestionsSegment/DndQuestion";
+import Quize from "./Quize/Quize";
 import { GridContext } from "../contexts/GridContext.js";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
+import { QuizeProvider } from "../contexts/QuizeContext";
 
 // const START_NODE_ROW = 10;
 // const START_NODE_COL = 15;
@@ -106,11 +106,16 @@ const NavBar = () => {
       style={isDisabled ? { pointerEvents: "none" } : {}}
     >
       <ToastContainer />
+      pontints
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
-        <DndQuestion
+        {/* <DndQuestion
           idx={optionsAlgorithms.indexOf(algorithm)}
           algorithm={algorithm}
-        />
+        /> */}
+        {/* <Dropdownquesions /> */}
+        <QuizeProvider>
+          <Quize />
+        </QuizeProvider>
       </ModalStuktos>
       <Button name="Valami" />
       <Dropdown
@@ -122,7 +127,7 @@ const NavBar = () => {
       />
       <Button name="Clear Board" function={handleClearBoard} />
       <Button
-        name="Struktograms"
+        name="Questions"
         function={() => {
           // eslint-disable-next-line no-lone-blocks
           !algorithm ? warningMessage() : setShowModal(true);
