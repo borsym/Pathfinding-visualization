@@ -106,7 +106,6 @@ const NavBar = () => {
       style={isDisabled ? { pointerEvents: "none" } : {}}
     >
       <ToastContainer />
-      pontints
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
         {/* <DndQuestion
           idx={optionsAlgorithms.indexOf(algorithm)}
