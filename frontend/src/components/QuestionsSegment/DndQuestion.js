@@ -2,7 +2,7 @@ import React from "react";
 import Blank from "../DnD/Blank";
 import Dnd from "../DnD/Dnd";
 import DataDnd from "../../Data/DataDnd";
-const questions = DataDnd;  // ezt a backendből kell megkapni
+const questions = DataDnd; // ezt a backendből kell megkapni
 
 /*
 megkapom az algoritmus nevét

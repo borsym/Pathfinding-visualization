@@ -11,7 +11,7 @@ import { GridContext } from "../contexts/GridContext.js";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import { QuizeProvider } from "../contexts/QuizeContext";
-
+import { QuestionContext } from "../contexts/QuestionsContext";
 // const START_NODE_ROW = 10;
 // const START_NODE_COL = 15;
 // const FINISH_NODE_ROW = 10;
@@ -36,6 +36,7 @@ const NavBar = () => {
   const [showModal, setShowModal] = useState(false);
   const [grid, setGrid, type, setType, dispatchGridEvent] =
     useContext(GridContext);
+  const [questionState, dispatchQuestion] = useContext(QuestionContext);
 
   const handleClearBoard = () => {
     dispatchGridEvent("CLEAR_BOARD", {
@@ -60,6 +61,7 @@ const NavBar = () => {
       distance: distanceFormula,
     });
   };
+
   const warningMessage = () => {
     toast.warn("You have to pick an algorithm!", {
       position: "top-right",
@@ -100,21 +102,46 @@ const NavBar = () => {
     }
   };
 
+  const handleQuestions = () => {
+    setShowModal(true);
+    dispatchQuestion({ type: "GET_QUESTIONS", payload: algorithm });
+  };
+
   return (
     <nav
       className="flex justify-center items-center mx-auto bg-slate-800 p-4"
       style={isDisabled ? { pointerEvents: "none" } : {}}
     >
       <ToastContainer />
+
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
+        {/* {currentIdx != question[dnd].length} */}
         {/* <DndQuestion
           idx={optionsAlgorithms.indexOf(algorithm)}
           algorithm={algorithm}
         /> */}
+        {/* {currentIdx != question[dnd].length + question[dropdown].length} */}
         {/* <Dropdownquesions /> */}
         <QuizeProvider>
           <Quize />
         </QuizeProvider>
+        <button
+          onClick={() => {
+            dispatchQuestion({
+              type: "SEND_ANSWERS",
+              // payload: [{ 'id1', "ketto" }],
+            });
+          }}
+        >
+          Submit
+        </button>
+        <button
+          onClick={() => {
+            dispatchQuestion({ type: "NEXT_QUESTION" });
+          }}
+        >
+          Next
+        </button>
       </ModalStuktos>
       <Button name="Valami" />
       <Dropdown
@@ -128,8 +155,7 @@ const NavBar = () => {
       <Button
         name="Questions"
         function={() => {
-          // eslint-disable-next-line no-lone-blocks
-          !algorithm ? warningMessage() : setShowModal(true);
+          !algorithm ? warningMessage() : handleQuestions();
         }}
       />
       <Button

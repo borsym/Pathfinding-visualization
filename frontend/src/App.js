@@ -4,7 +4,7 @@ import Grid from "./components/Grid";
 import React, { useState, useEffect } from "react";
 import { GridProvider } from "./contexts/GridContext";
 import ModalTutorial from "./components/ModalTutorial";
-
+import { QuestionProvider } from "./contexts/QuestionsContext";
 export default function App() {
   const [showModal, setShowModal] = useState(false);
 
@@ -17,7 +17,9 @@ export default function App() {
   return (
     <GridProvider>
       {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */}
-      <NavBar />
+      <QuestionProvider>
+        <NavBar />
+      </QuestionProvider>
       <Legend />
       <Grid />
     </GridProvider>

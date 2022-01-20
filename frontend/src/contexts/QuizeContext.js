@@ -1,6 +1,9 @@
 import { createContext, useReducer } from "react";
 import { shuffleAnswers } from "../components/Quize/Shuffle";
 import questions from "../Data/DataQuestions";
+
+
+
 const initialState = {
   questions,
   currentQuestionIndex: 0,
@@ -11,7 +14,6 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  console.log("reducer", state, action);
   switch (action.type) {
     case "SELECT_ANSWER":
       const correctAnswerCount =

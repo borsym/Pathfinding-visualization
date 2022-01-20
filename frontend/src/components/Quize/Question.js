@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { QuizeContext } from "../../contexts/QuizeContext";
 import Answer from "./Answer";
-
+// ezt inkább backendbe kéne leküldeni
 const Question = () => {
   const [quizeState, dispatch] = useContext(QuizeContext);
   const currentQuestion = quizeState.questions[quizeState.currentQuestionIndex];

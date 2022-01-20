@@ -1,0 +1,194 @@
+questions : [
+    Astar: {
+        dnd: {
+            {
+                id: 1,
+                words: [
+                "logaritmikus",
+                "negyzetes",
+                "sulyozott",
+                "nem sulyozott",
+                "Astar",
+                ],
+                text: [
+                "Ez egy teszt mi itt a valasz: ",
+                <Blank solution={["negyzetes"]} />,
+                "ha behuztad akkor huzd mar be ide is pls ",
+                <Blank solution={["sulyozott", "logaritmikus"]} />,
+                "nagyon ugyes vagyok",
+                ],
+            },
+            {
+                id: 2,
+                words: [
+                "logaritmikus",
+                "negyzetes",
+                "sulyozott",
+                "nem sulyozott",
+                "Astar",
+                ],
+                text: [
+                "Ez egy teszt mi itt a valasz: ",
+                <Blank solution={["negyzetes"]} />,
+                "ha behuztad akkor huzd mar be ide is pls ",
+                <Blank solution={["sulyozott", "logaritmikus"]} />,
+                "nagyon ugyes vagyok",
+                ],
+            },
+        }
+        quize : {
+            {
+                id:3,
+                question: "What does CSS stand for?",
+                answers: [
+                "Computer Style Sheets",
+                "Creative Style Sheets",
+                "Colorful Style Sheets",
+                "Cascading Style Sheets"
+                ],
+             },
+             {
+                id:4,
+                question: "What does CSS stand for?",
+                answers: [
+                "Computer Style Sheets",
+                "Creative Style Sheets",
+                "Colorful Style Sheets",
+                "Cascading Style Sheets"
+                ],
+             }
+        }
+
+        dropdown: {
+            {
+                id:5
+                img : img
+                answers: ["egy", "ketto", "harom",negy],
+            },
+            {
+                id:6
+                img: img
+                answers: ["egy", "ketto", "harom","negy"],
+            },
+            {
+                id:7
+                img: img
+                answers: ["egy", "ketto", "harom". negy],
+            },
+            
+        }
+    }
+    Dijkstra :{
+        dnd: {
+            {
+                id: 1,
+                words: [
+                "logaritmikus",
+                "negyzetes",
+                "sulyozott",
+                "nem sulyozott",
+                "Astar",
+                ],
+                text: [
+                "Ez egy teszt mi itt a valasz: ",
+                <Blank solution={["negyzetes"]} />,
+                "ha behuztad akkor huzd mar be ide is pls ",
+                <Blank solution={["sulyozott", "logaritmikus"]} />,
+                "nagyon ugyes vagyok",
+                ],
+            },
+            {
+                id: 2,
+                words: [
+                "logaritmikus",
+                "negyzetes",
+                "sulyozott",
+                "nem sulyozott",
+                "Astar",
+                ],
+                text: [
+                "Ez egy teszt mi itt a valasz: ",
+                <Blank solution={["negyzetes"]} />,
+                "ha behuztad akkor huzd mar be ide is pls ",
+                <Blank solution={["sulyozott", "logaritmikus"]} />,
+                "nagyon ugyes vagyok",
+                ],
+            },
+        }
+        quize : {
+            {
+                id:3,
+                question: "What does CSS stand for?",
+                answers: [
+                "Computer Style Sheets",
+                "Creative Style Sheets",
+                "Colorful Style Sheets",
+                "Cascading Style Sheets"
+                ],
+             },
+             {
+                id:4,
+                question: "What does CSS stand for?",
+                answers: [
+                "Computer Style Sheets",
+                "Creative Style Sheets",
+                "Colorful Style Sheets",
+                "Cascading Style Sheets"
+                ],
+             }
+        }
+
+        dropdown: {
+            {
+                id:5
+                img : img
+                answers: ["egy", "ketto", "harom",negy],
+            },
+            {
+                id:6
+                img: img
+                answers: ["egy", "ketto", "harom","negy"],
+            },
+            {
+                id:7
+                img: img
+                answers: ["egy", "ketto", "harom". negy],
+            },
+            
+        }
+    }
+]
+
+answers = {
+    Astar: {
+        dnd {
+            id: 1,
+            na ezt hogy kéne?
+        },
+        quize: {
+            {
+                id: 3
+                answer: "negy"
+            },
+            {
+                id: 4
+                answer: "negy"
+            },
+            ...stb
+        }
+        dropdown: {
+            {
+                id: 5
+                answer: "egy"
+            },
+            {
+                id: 6
+                answer: "egy"
+            },
+            {
+                id: 7
+                answer: "egy"
+            },
+        }
+    }
+}

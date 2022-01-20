@@ -9,7 +9,6 @@ const Answer = (props) => {
     props.currentAnswer !== props.correctAnswer;
   const correctAnswerClass = isCorrectAnswer ? "bg-green-500" : "";
   const wrongAnswerClass = isWrongAnswer ? "bg-red-500" : "";
-  console.log(props.currentAnswer);
   const disabledClass = props.currentAnswer ? "pointer-events-none" : "";
   return (
     <div
