@@ -7,7 +7,7 @@ import ModalTutorial from "./components/ModalTutorial";
 import { QuestionProvider } from "./contexts/QuestionsContext";
 export default function App() {
   const [showModal, setShowModal] = useState(false);
-
+  const [algorithm, setAlgorithm] = useState("");
   useEffect(() => {
     setTimeout(() => {
       setShowModal(true);
@@ -18,9 +18,9 @@ export default function App() {
     <GridProvider>
       {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */}
       <QuestionProvider>
-        <NavBar />
+        <NavBar algorithm={algorithm} setAlgorithm={setAlgorithm} />
       </QuestionProvider>
-      <Legend />
+      <Legend algorithm={algorithm} />
       <Grid />
     </GridProvider>
   );
