@@ -23,6 +23,14 @@ class Table:
     def get_grid(self):
         return self.__grid
 
+    def change_start(self,x,y):
+        self.start = Node(x,y,Fields.START)
+        self.__grid[x][y].set_field(Fields.START)
+
+    def change_end(self,x,y):
+        self.end = Node(x,y,Fields.END)
+        self.__grid[x][y].set_field(Fields.END)
+
     def get_grid_for_ui(self): 
         return [[ [row,cell,0] for cell in row] for row in self.__grid] 
 
@@ -69,9 +77,12 @@ class Table:
         self.print_grid()
 
 
-    def refresh_board(self):
+    def refresh_board(self, start_x, start_y, end_x, end_y):
         self.__grid = self.__make_matrix(self.size_x, self.size_y)
-        self.__put_start_end()
+        self.__grid[start_x][start_y].set_field(Fields.START)
+        self.start = Node(start_x, start_y, Fields.START)
+        self.__grid[end_x][end_y].set_field(Fields.END)
+        self.end = Node(end_x, end_y, Fields.END)
 
     def print_grid(self):
         print('\n'.join(['\t'.join([str(cell.weight) for cell in row]) for row in self.__grid]))

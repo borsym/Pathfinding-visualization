@@ -1,3 +1,4 @@
+from http.client import OK
 from typing import Optional
 
 from fastapi import FastAPI
@@ -35,13 +36,33 @@ class CordinatesItem(BaseModel):
     def get_type(self):
         return self.type
 
+class CordinatesStartMove(BaseModel):
+    start : list
+    end: list
+    type : int
+
+    def print_cords(self):
+        for i in self.start:
+            print(i)
+        for i in self.end:
+            print(i)
+
+    def get_start(self):
+        return self.start
+    
+    def get_end(self):
+        return self.end
+    
+    def get_type(self):
+        return self.type
+
 class InitialState(BaseModel):
     is_refreshed : bool
-
-    def refresh_board(self,is_refreshed):
+    
+    def refresh_board(self,is_refreshed, start_x, start_y, end_x, end_y):
         print(is_refreshed)
         if is_refreshed:
-            table.refresh_board()
+            table.refresh_board(start_x, start_y, end_x, end_y)
 
 class Distance(BaseModel):
     distance : str
@@ -67,12 +88,16 @@ app.add_middleware(
 
 @app.post("/", tags=["root"])
 async def get_table(refreshed : InitialState):
-    refreshed.refresh_board(refreshed.is_refreshed)
+    refreshed.refresh_board(refreshed.is_refreshed, start_x,start_y,end_x,end_y)
+
+@app.post("/clearForMaze", tags=["clearforMaze"])  # itt át kell adnom a start.x,y end.x.y és ugy már jónak kell lennie de akkor új initialState kell
+async def clear_for_maze(refreshed : InitialState):
+    refreshed.refresh_board(refreshed.is_refreshed, table.start.get_x(),table.start.get_y(), table.end.get_x(), table.end.get_y())
 
 #Maze solvers
 @app.get("/BFS", tags=["BFS"])
 def get_bfs() -> dict:
-    bfs = BFS(table, (start_x, start_y))
+    bfs = BFS(table, (table.get_start().get_x(), table.get_start().get_y()))
     order, shorthest_path = bfs.start_bfs()
     return {
         "path":order,
@@ -80,7 +105,7 @@ def get_bfs() -> dict:
     }
 @app.get("/Dijkstra", tags=["function"])
 async def get_dijkstra() -> dict:
-    dijkstra = Dijkstra(table, Node(start_x, start_y, Fields.START), Node(end_x,end_y, Fields.END))
+    dijkstra = Dijkstra(table,table.get_start(),table.get_end())
     order,shorthest_path = dijkstra.start_dijsktra()
     return {
         "path": order,
@@ -89,7 +114,7 @@ async def get_dijkstra() -> dict:
 
 @app.get("/DFS", tags=["DFS"])
 async def get_dfs() -> dict:
-    dfs = DFS(table, Node(start_x, start_y, Fields.START))
+    dfs = DFS(table, table.get_start())
     order,shorthest_path = dfs.start_dfs()
     return {
         "path": order,
@@ -98,7 +123,8 @@ async def get_dfs() -> dict:
 
 @app.get("/Astar", tags=["Astar"])
 async def get_astar() -> dict:
-    astar = Astar(table, Node(start_x, start_y, Fields.START), Node(end_x,end_y, Fields.END), distance.get_distance(app.distance_formula))
+    astar = Astar(table, table.get_start(), table.get_end(), distance.get_distance(app.distance_formula))
+    # print(table.get_start().get_x(), table.get_start().get_y())
     order,shorthest_path = astar.start_astar()
     return {
         "path": order,
@@ -108,7 +134,7 @@ async def get_astar() -> dict:
 #Maze Generation
 @app.get("/Recursive Division", tags=["Recursive Division"]) # lehet szóköz az elérési útban?
 async def get_recursive_divison() -> dict:
-    recdiv = RecursiveDivison(table,0,0,table.get_column_size(), table.get_row_size())
+    recdiv = RecursiveDivison(table,0,0,table.get_column_size(), table.get_row_size() ,table.get_start(), table.get_end())
     order = recdiv.start_divide()
     return {
         "order": order # mazelesz ebből
@@ -116,7 +142,30 @@ async def get_recursive_divison() -> dict:
 
 
 
+#Questions:
+def get_question(algorithm): # tmp
+    return {
 
+    }
+
+@app.get("/questions/{algorithm}")
+async def get_questions(algorithm : str) -> dict: # request from backend?
+    print(algorithm)
+    questions = get_question(algorithm)
+    return {
+        "questions": questions
+    }
+
+# @app.post("sendAnswers/${state.algorithm}/${state.questionType}/${state.id}")
+# async def send_answers(state : VALAMI):
+#     # updateCheckAnswers() #?
+#     return 200
+
+@app.get("/checkedAnswers")
+async def get_checked_answers() -> dict:
+    return {
+        "checkedAnswers": [] # id-1: true, id-2: false, id-3: true 
+    }
 
 #Others
 @app.post("/wallUpdate") # mostmár átküldöm a typeot is majd ugyhogy ez változik szám vagy szöveg
@@ -145,8 +194,25 @@ async def set_distance_formula(item: Distance):
 
 
 @app.post("/moveStart")
-async def refresh_table(item: CordinatesItem):
+async def refresh_table(item: CordinatesStartMove):
+    
     item.print_cords()
+    end = item.get_end()
+    start = item.get_start()
+    field_type = Fields.START if item.get_type() == -1 else Fields.END
+    print(field_type)
+    print(end)
+    print(start)
+    for i in range(table.get_row_size() + 1):
+        for j in range(table.get_column_size() + 1):
+            # print([i,j], end)
+            if [i,j] == end: 
+                table.set_node_field(i, j, field_type)
+                table.change_start(i,j) if field_type == Fields.START else table.change_end(i,j)
+            if [i,j] == start:
+                table.set_node_field(i, j, field_type)
+   
+        
     return item
 
 @app.post("/moveEnd")
@@ -154,9 +220,6 @@ async def refresh_table(item: CordinatesItem):
     item.print_cords()
     return item
 
-@app.post("/placeType")
-async def refresh_table(item: CordinatesItem):
-    return item
 
 
 # uvicorn main:app --reload

@@ -17,7 +17,7 @@ import { QuestionContext } from "../contexts/QuestionsContext";
 // const FINISH_NODE_ROW = 10;
 // const FINISH_NODE_COL = 35;
 
-const NavBar = () => {
+const NavBar = ({ algorithm, setAlgorithm }) => {
   const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
   const optionsMazes = ["Recursive Division", "Iterativ", "Valami"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
@@ -28,7 +28,7 @@ const NavBar = () => {
     "Chebyshev",
     "Euclidean-mine",
   ];
-  const [algorithm, setAlgorithm] = useState("");
+
   const [maze, setMaze] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);
@@ -102,7 +102,7 @@ const NavBar = () => {
     }
   };
 
-  const handleQuestions = () => {
+  const handleGetQuestions = () => {
     setShowModal(true);
     dispatchQuestion({ type: "GET_QUESTIONS", payload: algorithm });
   };
@@ -115,33 +115,43 @@ const NavBar = () => {
       <ToastContainer />
 
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
-        {/* {currentIdx != question[dnd].length} */}
-        {/* <DndQuestion
+        <DndQuestion
           idx={optionsAlgorithms.indexOf(algorithm)}
           algorithm={algorithm}
-        /> */}
-        {/* {currentIdx != question[dnd].length + question[dropdown].length} */}
-        {/* <Dropdownquesions /> */}
-        <QuizeProvider>
-          <Quize />
-        </QuizeProvider>
-        <button
-          onClick={() => {
-            dispatchQuestion({
-              type: "SEND_ANSWERS",
-              // payload: [{ 'id1', "ketto" }],
-            });
-          }}
-        >
-          Submit
-        </button>
-        <button
-          onClick={() => {
-            dispatchQuestion({ type: "NEXT_QUESTION" });
-          }}
-        >
-          Next
-        </button>
+
+        />
+        {/* <Quize /> */}
+        {/* {questionState.questtioType === "dnd" ? (
+         
+        ) : questionState.questtioType === "dropdown" ? (
+          <Dropdown /> // itt akkor megy a submit ha van kattinás gombra
+        ) : (
+          <Quize /> // itt egyből megy a submit ha rákattolt az adott kérdésre
+        )} */}
+        {/* 
+        {questionState.questionType === "Quize" ? null : ( */}
+        {!questionState.isSubmitted ? (
+          <button
+            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
+            onClick={() => {
+              dispatchQuestion({
+                type: "SEND_ANSWERS",
+                payload: ["answers..."], // vagy megváltoztatom a választ a stateban, questionState.answers = [] és ezt küldöm majd tovább, és akkor az adott komponensen belül mehet a dolog
+              });
+            }}
+          >
+            Submit
+          </button>
+        ) : (
+          <button
+            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
+            onClick={() => {
+              dispatchQuestion({ type: "NEXT_QUESTION" });
+            }}
+          >
+            Next
+          </button>
+        )}
       </ModalStuktos>
       <Button name="Valami" />
       <Dropdown
@@ -155,7 +165,7 @@ const NavBar = () => {
       <Button
         name="Questions"
         function={() => {
-          !algorithm ? warningMessage() : handleQuestions();
+          !algorithm ? warningMessage() : handleGetQuestions(algorithm);
         }}
       />
       <Button

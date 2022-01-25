@@ -2,8 +2,6 @@ import { createContext, useReducer } from "react";
 import { shuffleAnswers } from "../components/Quize/Shuffle";
 import questions from "../Data/DataQuestions";
 
-
-
 const initialState = {
   questions,
   currentQuestionIndex: 0,

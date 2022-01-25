@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 // import Droppable from "./Droppable";
 // import Draggable from "./Draggable";
-// import MultipleDroppables from "./MultipleDroppables";
 import {
   DndContext,
   DragOverlay,
@@ -15,9 +14,11 @@ import { SortableItem } from "./SortableItem";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
 import StukiPng from "../../images/stuki.png";
+import { QuestionContext } from "../../contexts/QuestionsContext";
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
+  const [questionState, dispatchQuestion] = useContext(QuestionContext); // belerakom a questionState.answers = [] be a válaszokat gondolom amiket kiválaszott és úgy ellenőrzöm
   const [activeId, setActiveId] = useState(null);
   const [wordbank, setWordbank] = useState(props.words);
 
@@ -28,7 +29,7 @@ const Dnd = (props) => {
       if (child.props?.solution) {
         // ha van solution adattagja
         const { solution } = child.props;
-        const solutions = Array.isArray(solution) ? solution : [solution]; // ja több jó megoldás is van
+        const solutions = Array.isArray(solution) ? solution : [solution];
         return {
           id: `blank-${index}`,
           solutions,
@@ -53,6 +54,16 @@ const Dnd = (props) => {
 
   blanks[WORD_BANK] = { items: wordbank };
   const [items, setItems] = useState(blanks);
+
+  function gatherAnswers() {
+    let answers = [];
+    for (const [key, value] of Object.entries(items)) {
+      if (key !== "WORD_BANK") {
+        answers.push(key + ":" + value.items);
+      }
+    }
+    return answers;
+  }
 
   function handleButtonClick() {
     // backendbe kell validálni, oda kérés, szerver összesít pontokat, magát a kérdést is a backend küldi
@@ -185,6 +196,11 @@ const Dnd = (props) => {
                       isCorrect={isBlankCorrect}
                     >
                       {blankItems.map((value) => {
+                        console.log("id", id, "value", value);
+                        // {
+                        //   questionState.answers.push(id + ":" + value);
+                        // }
+                        // console.log("a", questionState.answers);
                         return (
                           <SortableItem
                             key={`sortable-item--${value}`}
@@ -216,27 +232,34 @@ const Dnd = (props) => {
             {activeId ? <Item label={activeId} /> : null}
           </DragOverlay>
         </div>
-
         {/* Drag Overlay ez kell majd ahhoz hogyha mozagtom lássam */}
         {/*
           amint rákattint erre a gombra történjen meg egy lekérés a szervertől
           elküldöm a kérdés id-jat a hozzá tartozó válaszokkal és a szerver
           válaszol hogy mi volt jó és mi nem?
         */}
-        <div className="mt-2 ml-5">
+        {!questionState.isSubmitted ? (
           <button
-            className="ml-4 px-6 py-3 leading-none font-semibold rounded-lg bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:bg-gray-900"
-            onClick={handleButtonClick}
+            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
+            onClick={() => {
+              dispatchQuestion({
+                type: "SEND_ANSWERS",
+                payload: gatherAnswers(), // vagy megváltoztatom a választ a stateban, questionState.answers = [] és ezt küldöm majd tovább, és akkor az adott komponensen belül mehet a dolog
+              });
+            }}
           >
             Submit
           </button>
+        ) : (
           <button
-            type="button"
-            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
+            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
+            onClick={() => {
+              dispatchQuestion({ type: "NEXT_QUESTION" });
+            }}
           >
-            Cancel
+            Next
           </button>
-        </div>
+        )}
       </DndContext>
     </div>
   );

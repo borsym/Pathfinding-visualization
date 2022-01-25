@@ -13,6 +13,8 @@ const Grid = () => {
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [changes, setChanges] = useState([]);
   const [isControl, setIsControl] = useState(false);
+  const [isMoveStartEnd, setIsMoveStartEnd] = useState(false);
+  const [StartOrEnd, setStartOrEnd] = useState("");
 
   useEffect(() => {
     window.onbeforeunload = function () {
@@ -29,33 +31,94 @@ const Grid = () => {
   }, []);
 
   const handleMouseDown = (e, row, col) => {
-    // console.log(e);
-    if (e.ctrlKey === true && !isControl) {
-      setIsControl(true);
-    }
+    if (
+      e.target.className.includes("node-start") ||
+      e.target.className.includes("node-finish")
+    ) {
+      setChanges([...changes, { row, col }]);
+      setStartOrEnd(
+        e.target.className.includes("node-start") ? "start" : "end"
+      );
+      const newGrid = e.target.className.includes("node-start")
+        ? getNewGridMovedStart(grid, row, col, false)
+        : getNewGridMovedEnd(grid, row, col, false);
+      setGrid(newGrid);
+      setMouseIsPressed(true);
+      setIsMoveStartEnd(true);
+    } else {
+      if (e.ctrlKey === true && !isControl) {
+        setIsControl(true);
+      }
 
-    setChanges([...changes, { row, col }]);
-    const newGrid = getNewGridWithWallToggled(grid, row, col, isControl, type);
-    setGrid(newGrid);
-    setMouseIsPressed(true);
+      setChanges([...changes, { row, col }]);
+      const newGrid = getNewGridWithWallToggled(
+        grid,
+        row,
+        col,
+        isControl,
+        type
+      );
+      setGrid(newGrid);
+      setMouseIsPressed(true);
+    }
   };
 
   const handleMouseEnter = (e, row, col) => {
-    // itt lehet felesleges átpasszolni az eventet
     if (!mouseIsPressed) return;
 
-    if (e.ctrlKey === true && !isControl) {
-      //itt is kell ez mivel akkor lerak egy falat ha ez nincs meg
-      setIsControl(true);
+    if (isMoveStartEnd) {
+      const newGrid =
+        StartOrEnd === "start"
+          ? getNewGridMovedStart(grid, row, col, true)
+          : getNewGridMovedEnd(grid, row, col, true);
+      setGrid(newGrid);
+    } else {
+      if (e.ctrlKey === true && !isControl) {
+        //itt is kell ez mivel akkor lerak egy falat ha ez nincs meg
+        setIsControl(true);
+      }
+      setChanges([...changes, { row, col }]);
+      const newGrid = getNewGridWithWallToggled(
+        grid,
+        row,
+        col,
+        isControl,
+        type
+      );
+      setGrid(newGrid);
     }
-    setChanges([...changes, { row, col }]);
-    const newGrid = getNewGridWithWallToggled(grid, row, col, isControl, type);
-    setGrid(newGrid);
   };
 
   const handleMouseUp = (e) => {
     // check if the paramter row and col is in the changes arrey
     //remove all duplicated elements from the changes array
+    if (isMoveStartEnd) {
+      axios
+        .post("http://localhost:8000/moveStart", {
+          start: [parseInt(changes[0].row), parseInt(changes[0].col)],
+          end: [
+            StartOrEnd === "start"
+              ? parseInt(getStartPosition(grid).row)
+              : parseInt(getEndPosition(grid).row),
+            StartOrEnd === "start"
+              ? parseInt(getStartPosition(grid).col)
+              : parseInt(getEndPosition(grid).col),
+          ],
+          type: StartOrEnd === "start" ? -1 : -2,
+        })
+        .then(function (response) {})
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          console.log(isControl);
+          setChanges([]);
+          setIsControl(false);
+          setMouseIsPressed(false);
+          setIsMoveStartEnd(false);
+          setStartOrEnd("");
+        });
+    }
     setMouseIsPressed(false);
     let unique = [];
     const counts = {};
@@ -90,17 +153,9 @@ const Grid = () => {
         setChanges([]);
         setIsControl(false);
         setMouseIsPressed(false);
+        setIsMoveStartEnd(false);
       });
   };
-
-  // function visualizeDijkstra() {
-  //   const { grid } = this.state;
-  //   const startNode = grid[START_NODE_ROW][START_NODE_COL];
-  //   const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-  //   const visitedNodesInOrder = [1]; //dijkstra(grid, startNode, finishNode);
-  //   const nodesInShortestPathOrder = [1]; //getNodesInShortestPathOrder(finishNode);
-  //   this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
-  // }
 
   return (
     <div className="flex justify-center">
@@ -148,6 +203,64 @@ const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
       : (newNode.type = type)
     : (newNode.isWall = !node.isWall);
   // console.log(newNode);
+  newGrid[row][col] = newNode;
+  return newGrid;
+};
+
+const getStartPosition = (grid) => {
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      if (grid[row][col].isStart) {
+        return { row, col };
+      }
+    }
+  }
+  return { row: -1, col: -1 };
+};
+
+const getEndPosition = (grid) => {
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      if (grid[row][col].isFinish) {
+        return { row, col };
+      }
+    }
+  }
+  return { row: -1, col: -1 };
+};
+// ezt a kettot mergelni kéne
+const getNewGridMovedStart = (grid, row, col, current) => {
+  const newGrid = grid.slice();
+  for (let i = 0; i < newGrid.length && current; i++) {
+    for (let j = 0; j < newGrid[i].length; j++) {
+      if (newGrid[i][j].isStart) {
+        newGrid[i][j].isStart = false;
+      }
+    }
+  }
+  const node = newGrid[row][col];
+  const newNode = {
+    ...node,
+    isStart: current,
+  };
+  newGrid[row][col] = newNode;
+  return newGrid;
+};
+
+const getNewGridMovedEnd = (grid, row, col, current) => {
+  const newGrid = grid.slice();
+  for (let i = 0; i < newGrid.length && current; i++) {
+    for (let j = 0; j < newGrid[i].length; j++) {
+      if (newGrid[i][j].isFinish) {
+        newGrid[i][j].isFinish = false;
+      }
+    }
+  }
+  const node = newGrid[row][col];
+  const newNode = {
+    ...node,
+    isFinish: current,
+  };
   newGrid[row][col] = newNode;
   return newGrid;
 };

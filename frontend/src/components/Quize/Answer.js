@@ -12,14 +12,14 @@ const Answer = (props) => {
   const disabledClass = props.currentAnswer ? "pointer-events-none" : "";
   return (
     <div
-      className={`p-3 bg-white flex justify-start  cursor-pointer   ${disabledClass}`}
+      className={`p-3 bg-white flex justify-start  cursor-pointer ${disabledClass} `}
       onClick={() => props.onSelectAnswer(props.answerText)}
     >
       <div className="p-2 border-2 bg-blue-500 border-transparent">
         {letterMapping[props.index]}
       </div>
       <div
-        className={`border-2 w-full flex justify-center font-semibold  ${correctAnswerClass} ${wrongAnswerClass}`}
+        className={`border-2 w-full flex justify-center font-semibold ${correctAnswerClass} ${wrongAnswerClass} `}
       >
         {props.answerText}
       </div>

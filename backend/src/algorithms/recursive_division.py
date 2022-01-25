@@ -10,11 +10,13 @@ from persistance.Node import Node
 
 class RecursiveDivison:
 
-    def __init__(self, grid, x, y, width, height):
+    def __init__(self, grid, x, y, width, height,start,end):
         self.S, self.E = 1, 2
         self.HORIZONTAL, self.VERTICAL = 1, 2
         self.grid, self.x, self.y, self.width, self.height = grid, x, y, width, height
         self.order = queue()
+        self.start = start
+        self.end = end
 
     def start_divide(self):
         self.divide(self.grid, self.x, self.y, self.width, self.height, self.choose_orientation(self.width, self.height))
@@ -53,7 +55,7 @@ class RecursiveDivison:
 
         for _ in range(length):
             if wx != px or wy != py:
-                if not (wy == 10 and wx == 15 or wy == 10 and wx == 35):  # refactor
+                if not (wy == self.start.get_x() and wx == self.start.get_y() or wy == self.end.get_x() and wx == self.end.get_y()):  # refactor
                     grid.set_node_field(wy,wx,Fields.WALL)
                     self.order.append((wy, wx))  # ez lehet fordíva
             wx += dx

@@ -1,193 +1,139 @@
 questions : [
     Astar: {
-        dnd: {
+        dnd: { // talán?
             {
-                id: 1,
-                words: [
-                "logaritmikus",
-                "negyzetes",
-                "sulyozott",
-                "nem sulyozott",
-                "Astar",
-                ],
-                text: [
-                "Ez egy teszt mi itt a valasz: ",
-                <Blank solution={["negyzetes"]} />,
-                "ha behuztad akkor huzd mar be ide is pls ",
-                <Blank solution={["sulyozott", "logaritmikus"]} />,
-                "nagyon ugyes vagyok",
-                ],
+                id-1 : {
+                    answers: [
+                    "logaritmikus",
+                    "negyzetes",
+                    "sulyozott",
+                    "nem sulyozott",
+                    "Astar",
+                    ],
+                    question: [
+                    "Ez egy teszt mi itt a valasz: ",
+                    <Blank id={blank-1} />,
+                    "ha behuztad akkor huzd mar be ide is pls ",
+                    <Blank id={blank-2} />,
+                    "nagyon ugyes vagyok",
+                    ],
+              }
             },
             {
-                id: 2,
-                words: [
-                "logaritmikus",
-                "negyzetes",
-                "sulyozott",
-                "nem sulyozott",
-                "Astar",
-                ],
-                text: [
-                "Ez egy teszt mi itt a valasz: ",
-                <Blank solution={["negyzetes"]} />,
-                "ha behuztad akkor huzd mar be ide is pls ",
-                <Blank solution={["sulyozott", "logaritmikus"]} />,
-                "nagyon ugyes vagyok",
-                ],
+                id-2 : {
+                    answers: [
+                    "logaritmikus",
+                    "negyzetes",
+                    "sulyozott",
+                    "nem sulyozott",
+                    "Astar",
+                    ],
+                    question: [
+                    "Ez egy teszt mi itt a valasz: ",
+                    <Blank id={blank-1} />,
+                    "ha behuztad akkor huzd mar be ide is pls ",
+                    <Blank id={blank-2} />,
+                    "nagyon ugyes vagyok",
+                    ],
+              }
             },
         }
-        quize : {
+        quize : { // ez jónak tűnik
             {
-                id:3,
-                question: "What does CSS stand for?",
-                answers: [
-                "Computer Style Sheets",
-                "Creative Style Sheets",
-                "Colorful Style Sheets",
-                "Cascading Style Sheets"
-                ],
+                id-1 : {
+                    question: "What does CSS stand for?",
+                    answers: [
+                    "Computer Style Sheets",
+                    "Creative Style Sheets",
+                    "Colorful Style Sheets",
+                    "Cascading Style Sheets"
+                    ],
+                }
              },
              {
-                id:4,
-                question: "What does CSS stand for?",
-                answers: [
-                "Computer Style Sheets",
-                "Creative Style Sheets",
-                "Colorful Style Sheets",
-                "Cascading Style Sheets"
-                ],
+                id-2 : {
+                    question: "What does CSS stand for?",
+                    answers: [
+                    "Computer Style Sheets",
+                    "Creative Style Sheets",
+                    "Colorful Style Sheets",
+                    "Cascading Style Sheets"
+                    ],
              }
+            },
         }
 
-        dropdown: {
+        dropdown: { // talan igy
             {
-                id:5
-                img : img
-                answers: ["egy", "ketto", "harom",negy],
+                id-1: {
+                    img : img
+                    answers-1: ["egy", "ketto", "harom",negy],
+                    answers-2: ["egy", "ketto", "harom",negy],
+                    answers-3: ["egy", "ketto", "harom",negy],
+                    answers-4: ["egy", "ketto", "harom",negy],
+                }
             },
             {
-                id:6
-                img: img
-                answers: ["egy", "ketto", "harom","negy"],
+                id-2: {
+                    img : img
+                    answers-1: ["egy", "ketto", "harom",negy],
+                    answers-2: ["egy", "ketto", "harom",negy],
+                    answers-3: ["egy", "ketto", "harom",negy],
+                    answers-4: ["egy", "ketto", "harom",negy],
+                }
             },
             {
-                id:7
-                img: img
-                answers: ["egy", "ketto", "harom". negy],
+                id-3: {
+                    img : img
+                    answers-1: ["egy", "ketto", "harom",negy],
+                    answers-2: ["egy", "ketto", "harom",negy],
+                    answers-3: ["egy", "ketto", "harom",negy],
+                    answers-4: ["egy", "ketto", "harom",negy],
+                }
             },
             
         }
     }
-    Dijkstra :{
-        dnd: {
-            {
-                id: 1,
-                words: [
-                "logaritmikus",
-                "negyzetes",
-                "sulyozott",
-                "nem sulyozott",
-                "Astar",
-                ],
-                text: [
-                "Ez egy teszt mi itt a valasz: ",
-                <Blank solution={["negyzetes"]} />,
-                "ha behuztad akkor huzd mar be ide is pls ",
-                <Blank solution={["sulyozott", "logaritmikus"]} />,
-                "nagyon ugyes vagyok",
-                ],
-            },
-            {
-                id: 2,
-                words: [
-                "logaritmikus",
-                "negyzetes",
-                "sulyozott",
-                "nem sulyozott",
-                "Astar",
-                ],
-                text: [
-                "Ez egy teszt mi itt a valasz: ",
-                <Blank solution={["negyzetes"]} />,
-                "ha behuztad akkor huzd mar be ide is pls ",
-                <Blank solution={["sulyozott", "logaritmikus"]} />,
-                "nagyon ugyes vagyok",
-                ],
-            },
-        }
-        quize : {
-            {
-                id:3,
-                question: "What does CSS stand for?",
-                answers: [
-                "Computer Style Sheets",
-                "Creative Style Sheets",
-                "Colorful Style Sheets",
-                "Cascading Style Sheets"
-                ],
-             },
-             {
-                id:4,
-                question: "What does CSS stand for?",
-                answers: [
-                "Computer Style Sheets",
-                "Creative Style Sheets",
-                "Colorful Style Sheets",
-                "Cascading Style Sheets"
-                ],
-             }
-        }
-
-        dropdown: {
-            {
-                id:5
-                img : img
-                answers: ["egy", "ketto", "harom",negy],
-            },
-            {
-                id:6
-                img: img
-                answers: ["egy", "ketto", "harom","negy"],
-            },
-            {
-                id:7
-                img: img
-                answers: ["egy", "ketto", "harom". negy],
-            },
-            
-        }
-    }
+   
 ]
 
 answers = {
     Astar: {
         dnd {
-            id: 1,
-            na ezt hogy kéne?
+            id-1 : {
+                blank-1 : "ketto"
+                blank-2 : "harom"
+            },
+            id-2 : {
+                blank-1 : "ketto"
+                blank-2 : "harom"
+            },
         },
         quize: {
-            {
-                id: 3
+            id-1 : {
+               
                 answer: "negy"
             },
-            {
-                id: 4
+            id-2 :{
                 answer: "negy"
             },
-            ...stb
         }
         dropdown: {
-            {
-                id: 5
-                answer: "egy"
+            id-1: {
+               
+                answer-1: "egy"
+                answer-2: "ketto"
+                answer-3: "harom"
             },
-            {
-                id: 6
-                answer: "egy"
+            id-2 :{
+                answer-1: "egy"
+                answer-2: "ketto"
+                answer-3: "harom"
             },
-            {
-                id: 7
-                answer: "egy"
+            id-3:{
+                answer-1: "egy"
+                answer-2: "ketto"
+                answer-3: "harom"
             },
         }
     }
