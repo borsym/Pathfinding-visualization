@@ -38,7 +38,7 @@ export const GridProvider = (props) => {
 
 const cleareBoard = async (conditions) => {
   // clear the board
-  clearPreviousVisualization(conditions);
+  //clearPreviousVisualization(conditions);
   await axios.post("http://localhost:8000/clearForMaze", {
     // indicated the clear
     is_refreshed: true,

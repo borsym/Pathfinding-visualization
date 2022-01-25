@@ -31,15 +31,12 @@ const Grid = () => {
   }, []);
 
   const handleMouseDown = (e, row, col) => {
-    if (
-      e.target.className.includes("node-start") ||
-      e.target.className.includes("node-finish")
-    ) {
+    console.log(e.target.id);
+    if (e.target.id.includes("start") || e.target.id.includes("end")) {
+      console.log("bent vagoyk");
       setChanges([...changes, { row, col }]);
-      setStartOrEnd(
-        e.target.className.includes("node-start") ? "start" : "end"
-      );
-      const newGrid = e.target.className.includes("node-start")
+      setStartOrEnd(e.target.id.includes("start") ? "start" : "end");
+      const newGrid = e.target.id.includes("start")
         ? getNewGridMovedStart(grid, row, col, false)
         : getNewGridMovedEnd(grid, row, col, false);
       setGrid(newGrid);
