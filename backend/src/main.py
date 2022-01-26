@@ -103,6 +103,7 @@ def get_bfs() -> dict:
         "path":order,
         "shortestPath":shorthest_path
     }
+
 @app.get("/Dijkstra", tags=["function"])
 async def get_dijkstra() -> dict:
     dijkstra = Dijkstra(table,table.get_start(),table.get_end())
@@ -168,7 +169,7 @@ async def get_checked_answers() -> dict:
     }
 
 #Others
-@app.post("/wallUpdate") # mostmár átküldöm a typeot is majd ugyhogy ez változik szám vagy szöveg
+@app.post("/wallUpdate")
 async def refresh_table(item: CordinatesItem):
     list = item.get_list()
     type = Fields.get_field_by_name(item.get_type())
@@ -177,13 +178,6 @@ async def refresh_table(item: CordinatesItem):
             if [i,j] in list: # type
                 field_type = Fields.EMPTY if table.get_node_field(i,j) == type else type
                 table.set_node_field(i, j, field_type)
-    # f = open("demofile2.txt", "w")
-    # count = 0
-    # for node in table.get_all_nodes():
-    #     if(node.x != count):
-    #         count += 1
-    #         f.write("\n")
-    #     f.write(str(node.weight) + " ")
         
     return item
 
@@ -193,32 +187,22 @@ async def set_distance_formula(item: Distance):
     return item
 
 
-@app.post("/moveStart")
+@app.post("/moveStartEnd")
 async def refresh_table(item: CordinatesStartMove):
-    
     item.print_cords()
     end = item.get_end()
     start = item.get_start()
     field_type = Fields.START if item.get_type() == -1 else Fields.END
-    print(field_type)
-    print(end)
-    print(start)
     for i in range(table.get_row_size() + 1):
         for j in range(table.get_column_size() + 1):
-            # print([i,j], end)
             if [i,j] == end: 
                 table.set_node_field(i, j, field_type)
                 table.change_start(i,j) if field_type == Fields.START else table.change_end(i,j)
             if [i,j] == start:
                 table.set_node_field(i, j, field_type)
    
-        
     return item
 
-@app.post("/moveEnd")
-async def refresh_table(item: CordinatesItem):
-    item.print_cords()
-    return item
 
 
 
