@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
-  { Astar: "A* Search is weighted and guarantees the shortest path!" },
+  {
+    Astar: "A* Search is weighted and guarantees the shortest path!",
+  },
   {
     Dijkstra:
       "Dijkstra's Algorithm is weighted and guarantees the shortest path!",

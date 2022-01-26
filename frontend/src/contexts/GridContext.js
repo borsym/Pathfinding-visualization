@@ -10,7 +10,7 @@ export const GridContext = createContext();
 export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
   const [type, setType] = useState(10);
-
+  // communication between components
   const dispatchGridEvent = async (actionType, payload) => {
     switch (actionType) {
       case "CLEAR_BOARD":
@@ -38,7 +38,7 @@ export const GridProvider = (props) => {
 
 const cleareBoard = async (conditions) => {
   // clear the board
-  //clearPreviousVisualization(conditions);
+  clearPreviousVisualization(conditions);
   await axios.post("http://localhost:8000/clearForMaze", {
     // indicated the clear
     is_refreshed: true,
@@ -75,10 +75,7 @@ const createNode = (col, row) => {
     row,
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-    distance: Infinity,
-    isVisited: false,
     isWall: false,
-    previousNode: null,
   };
 };
 
@@ -88,7 +85,7 @@ const anmiteMaze = async (maze, conditions) => {
   await axios.get(`http://localhost:8000/${maze}`).then((res) => {
     order = res.data.order;
   });
-  console.log(order);
+
   for (let i = 0; i < order.length; i++) {
     setTimeout(() => {
       const node = order[i];
@@ -106,7 +103,7 @@ function animateAlgorithm(
   let conditions = ["node-type"];
   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
     if (i === visitedNodesInOrder.length) {
-      // eljutot a végére...
+      // if the visited nodes are all finished then the animation is the shortest path
       setTimeout(() => {
         animateShortestPath(nodesInShortestPathOrder);
       }, speed * i);
@@ -123,16 +120,6 @@ function animateAlgorithm(
       ) {
         document.getElementById(`node-${node[0]}-${node[1]}`).className =
           "node-style bg-visited-node-blue animate-fillBoxVisited";
-      } else {
-        // if the condition is true make the node background color overlapp with the bg-visited-node-blue
-        // const color = document
-        //   .getElementById(`node-${node[0]}-${node[1]}`)
-        //   .className.match(/[a-z]+-[0-9]+/g);
-        document.getElementById(`node-${node[0]}-${node[1]}`).className =
-          "node-style bg-visited-node-blue animate-fillBoxVisited";
-        // document.getElementById(
-        //   `node-${node[0]}-${node[1]}`
-        // ).className = `node-style bg-gradient-to-r from-visited-node-blue/90 to-${color}`;  // this is not cool, i have
       }
     }, speed * i);
   }

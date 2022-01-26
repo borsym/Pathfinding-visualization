@@ -1,6 +1,7 @@
 import React from "react";
 import PickAlgoGif from "../images/algorithms.gif";
 import WallWeight from "../images/wallWeight.gif";
+
 const Card = (props) => {
   return (
     <div>

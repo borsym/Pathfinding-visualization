@@ -78,7 +78,7 @@ const Legend = ({ algorithm }) => {
       </div>
       <div className="flex justify-center items-center mx-auto font-medium text-lg">
         {algorithm
-          ? descriptionAlgorithm.map((item) => {
+          ? descriptionAlgorithm.map((item) => {  // get the current algorithm and give a short description about it
               if (item[algorithm]) {
                 return item[algorithm];
               }

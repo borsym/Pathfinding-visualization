@@ -1,4 +1,5 @@
 import React from "react";
+
 const Button = (props) => {
   const buttonDesing =
     props.isVisualize === "true"

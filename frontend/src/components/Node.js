@@ -11,11 +11,11 @@ const Node = (props) => {
     onMouseDown,
     onMouseEnter,
     onMouseUp,
-    type, // mivel ez egy szám ennek függvényébe majd ki kell kalkulnánom milyen szín fog oda kerülni gondolom én
+    type, 
   } = props;
   const extraClassName = isWall
     ? "node-wall bg-wall-blue animate-fillBox"
-    : type === "10" || type === 10 // sometimes the frontend get 10 as a string sometimes as a number but with 20 and 30 only str
+    : type === "10" || type === 10 
     ? "node-type bg-green-900 animate-fillBox"
     : type === "20"
     ? "node-type bg-blue-900 animate-fillBox"

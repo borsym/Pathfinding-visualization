@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-// import "../functions/Names.js";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 const names = {
   Speed: {
     10: "Fast",
@@ -19,7 +19,7 @@ const names = {
   },
 };
 
-function getKeyByValue(object, value) {
+const getKeyByValue = (object, value) =>{
   return Object.keys(object).find((key) => object[key] === value);
 }
 

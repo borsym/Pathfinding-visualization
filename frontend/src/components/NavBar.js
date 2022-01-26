@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-// import { animateAlgorithm } from "../functions/animate.js";
+
 import Button from "./Button";
 import Dropdown from "./Dropdown";
 import ModalStuktos from "./QuestionsSegment/ModalStuktos";
@@ -12,10 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import { QuizeProvider } from "../contexts/QuizeContext";
 import { QuestionContext } from "../contexts/QuestionsContext";
-// const START_NODE_ROW = 10;
-// const START_NODE_COL = 15;
-// const FINISH_NODE_ROW = 10;
-// const FINISH_NODE_COL = 35;
 
 const NavBar = ({ algorithm, setAlgorithm }) => {
   const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
@@ -82,7 +78,6 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
       axios
         .get(`http://localhost:8000/${algorithm}`)
         .then((res) => {
-          //console.log(res.data.path);
           setIsDisabled(true);
           dispatchGridEvent("VISUALIZE_ALGORITHM", {
             path: res.data.path,
@@ -118,7 +113,6 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
         <DndQuestion
           idx={optionsAlgorithms.indexOf(algorithm)}
           algorithm={algorithm}
-
         />
         {/* <Quize /> */}
         {/* {questionState.questtioType === "dnd" ? (
@@ -180,10 +174,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
         name="Algorithms"
         options={optionsAlgorithms}
         setVariable={setAlgorithm}
-      >
-        {/* <Dropdown name="" options={optionDistance} className="p-9 m-9" /> */}
-        {/* <ThirdLevelDropdown name="Distance" options={optionDistance} /> */}
-      </Dropdown>
+      ></Dropdown>
       <Dropdown
         name="Maze"
         options={optionsMazes}

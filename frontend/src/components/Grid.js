@@ -3,27 +3,22 @@ import Node from "./Node";
 import { GridContext } from "../contexts/GridContext";
 import axios from "axios";
 
-// const START_NODE_ROW = 10;
-// const START_NODE_COL = 15;
-// const FINISH_NODE_ROW = 10;
-// const FINISH_NODE_COL = 35;
-
 const Grid = () => {
   const [grid, setGrid, type, setType] = useContext(GridContext);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
-  const [changes, setChanges] = useState([]);
-  const [isControl, setIsControl] = useState(false);
-  const [isMoveStartEnd, setIsMoveStartEnd] = useState(false);
-  const [StartOrEnd, setStartOrEnd] = useState("");
+  const [changes, setChanges] = useState([]); // sends to the server the changes
+  const [isControl, setIsControl] = useState(false); // if the CTRL is pressed
+  const [isMoveStartEnd, setIsMoveStartEnd] = useState(false); // if the start or end is moved
+  const [StartOrEnd, setStartOrEnd] = useState(""); // start or end is moved
 
   useEffect(() => {
+    // refresh the page and put everything back to initial state
     window.onbeforeunload = function () {
       saveFormData();
       return null;
     };
 
     function saveFormData() {
-      console.log("saved ");
       axios.post("http://localhost:8000/", {
         is_refreshed: true,
       });
@@ -31,6 +26,7 @@ const Grid = () => {
   }, []);
 
   const handleMouseDown = (e, row, col) => {
+    // bit bugy
     console.log(e.target.id);
     if (e.target.id.includes("start") || e.target.id.includes("end")) {
       console.log("bent vagoyk");
@@ -91,7 +87,7 @@ const Grid = () => {
     //remove all duplicated elements from the changes array
     if (isMoveStartEnd) {
       axios
-        .post("http://localhost:8000/moveStart", {
+        .post("http://localhost:8000/moveStartEnd", {
           start: [parseInt(changes[0].row), parseInt(changes[0].col)],
           end: [
             StartOrEnd === "start"
@@ -127,14 +123,12 @@ const Grid = () => {
         counts[changes[i].row + "-" + changes[i].col] = 1;
       }
     }
-    //setChanges([]);
-    // get the not null elements from the counts dictioanry
+
     for (let key in counts) {
       if (counts[key]) {
         unique.push([parseInt(key.split("-")[0]), parseInt(key.split("-")[1])]);
       }
     }
-    // console.log(unique);
 
     axios
       .post("http://localhost:8000/wallUpdate", {
@@ -199,7 +193,7 @@ const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
       ? (newNode.type = 0)
       : (newNode.type = type)
     : (newNode.isWall = !node.isWall);
-  // console.log(newNode);
+
   newGrid[row][col] = newNode;
   return newGrid;
 };
