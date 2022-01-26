@@ -16,7 +16,7 @@ const initialState = {
 
 const handleGetQuestions = async (algorithm) => {
   const questions = await axios
-    .get(`http://localhost:8000/questions/${algorithm}`)
+    .get(`http://localhost:8000/api/questions/${algorithm}`)
     .then((res) => {
       console.log("adatok:");
       console.log(res.data);
@@ -31,12 +31,12 @@ const handleGetQuestions = async (algorithm) => {
 const handleSendAnswers = async (state, answers) => {
   const results = await axios
     .post(
-      `http://localhost:8000/sendAnswers/${state.algorithm}/${state.questionType}/${state.id}`,
+      `http://localhost:8000/sendAnswers/api/${state.algorithm}/${state.questionType}/${state.id}`,
       {
         answers: answers,
       }
     )
-    .then(`http://localhost:8000/checkedAnswers`)
+    .then(`http://localhost:8000/api/checkedAnswers`)
     .then((res) => {
       // a visszaküldött formátum legyen {id-{n} : true/false}, ...
       return res.data;
@@ -48,7 +48,7 @@ const handleSendAnswers = async (state, answers) => {
 const handleSelectAnswer = (state, payload) => {
   const correctAnswer = axios
     .get(
-      `http://localhost:8000/${state.algorithm}/${state.questionType}/${state.id}`
+      `http://localhost:8000/api/${state.algorithm}/${state.questionType}/${state.id}`
     ) // ilyet lehet?
     .then((res) => {
       return res.data;

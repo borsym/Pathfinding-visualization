@@ -90,12 +90,12 @@ app.add_middleware(
 async def get_table(refreshed : InitialState):
     refreshed.refresh_board(refreshed.is_refreshed, start_x,start_y,end_x,end_y)
 
-@app.post("/clearForMaze", tags=["clearforMaze"])  # itt át kell adnom a start.x,y end.x.y és ugy már jónak kell lennie de akkor új initialState kell
+@app.post("/api/clearForMaze", tags=["clearforMaze"])  # itt át kell adnom a start.x,y end.x.y és ugy már jónak kell lennie de akkor új initialState kell
 async def clear_for_maze(refreshed : InitialState):
     refreshed.refresh_board(refreshed.is_refreshed, table.start.get_x(),table.start.get_y(), table.end.get_x(), table.end.get_y())
 
 #Maze solvers
-@app.get("/BFS", tags=["BFS"])
+@app.get("/api/BFS", tags=["BFS"])
 def get_bfs() -> dict:
     bfs = BFS(table, (table.get_start().get_x(), table.get_start().get_y()))
     order, shorthest_path = bfs.start_bfs()
@@ -104,7 +104,7 @@ def get_bfs() -> dict:
         "shortestPath":shorthest_path
     }
 
-@app.get("/Dijkstra", tags=["function"])
+@app.get("/api/Dijkstra", tags=["function"])
 async def get_dijkstra() -> dict:
     dijkstra = Dijkstra(table,table.get_start(),table.get_end())
     order,shorthest_path = dijkstra.start_dijsktra()
@@ -113,7 +113,7 @@ async def get_dijkstra() -> dict:
         "shortestPath": shorthest_path
     }
 
-@app.get("/DFS", tags=["DFS"])
+@app.get("/api/DFS", tags=["DFS"])
 async def get_dfs() -> dict:
     dfs = DFS(table, table.get_start())
     order,shorthest_path = dfs.start_dfs()
@@ -122,7 +122,7 @@ async def get_dfs() -> dict:
         "shortestPath": shorthest_path
     }
 
-@app.get("/Astar", tags=["Astar"])
+@app.get("/api/Astar", tags=["Astar"])
 async def get_astar() -> dict:
     astar = Astar(table, table.get_start(), table.get_end(), distance.get_distance(app.distance_formula))
     # print(table.get_start().get_x(), table.get_start().get_y())
@@ -133,7 +133,7 @@ async def get_astar() -> dict:
     }
 
 #Maze Generation
-@app.get("/Recursive Division", tags=["Recursive Division"]) # lehet szóköz az elérési útban?
+@app.get("/api/Recursive Division", tags=["Recursive Division"]) # lehet szóköz az elérési útban?
 async def get_recursive_divison() -> dict:
     recdiv = RecursiveDivison(table,0,0,table.get_column_size(), table.get_row_size() ,table.get_start(), table.get_end())
     order = recdiv.start_divide()
@@ -149,7 +149,7 @@ def get_question(algorithm): # tmp
 
     }
 
-@app.get("/questions/{algorithm}")
+@app.get("/api/questions/{algorithm}")
 async def get_questions(algorithm : str) -> dict: # request from backend?
     print(algorithm)
     questions = get_question(algorithm)
@@ -157,19 +157,19 @@ async def get_questions(algorithm : str) -> dict: # request from backend?
         "questions": questions
     }
 
-# @app.post("sendAnswers/${state.algorithm}/${state.questionType}/${state.id}")
+# @app.post("sendAnswers/api/${state.algorithm}/api/${state.questionType}/api/${state.id}")
 # async def send_answers(state : VALAMI):
 #     # updateCheckAnswers() #?
 #     return 200
 
-@app.get("/checkedAnswers")
+@app.get("/api/checkedAnswers")
 async def get_checked_answers() -> dict:
     return {
         "checkedAnswers": [] # id-1: true, id-2: false, id-3: true 
     }
 
 #Others
-@app.post("/wallUpdate")
+@app.post("/api/wallUpdate")
 async def refresh_table(item: CordinatesItem):
     list = item.get_list()
     type = Fields.get_field_by_name(item.get_type())
@@ -181,13 +181,13 @@ async def refresh_table(item: CordinatesItem):
         
     return item
 
-@app.post("/changeDistance")
+@app.post("/api/changeDistance")
 async def set_distance_formula(item: Distance):
     app.distance_formula = item.get_distance_formula()
     return item
 
 
-@app.post("/moveStartEnd")
+@app.post("/api/moveStartEnd")
 async def refresh_table(item: CordinatesStartMove):
     item.print_cords()
     end = item.get_end()

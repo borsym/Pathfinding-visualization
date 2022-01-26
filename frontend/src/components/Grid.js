@@ -87,7 +87,7 @@ const Grid = () => {
     //remove all duplicated elements from the changes array
     if (isMoveStartEnd) {
       axios
-        .post("http://localhost:8000/moveStartEnd", {
+        .post("http://localhost:8000/api/moveStartEnd", {
           start: [parseInt(changes[0].row), parseInt(changes[0].col)],
           end: [
             StartOrEnd === "start"
@@ -131,7 +131,7 @@ const Grid = () => {
     }
 
     axios
-      .post("http://localhost:8000/wallUpdate", {
+      .post("http://localhost:8000/api/wallUpdate", {
         cordinates: unique,
         type: isControl ? type : 99999, // bad practie 999...
       })

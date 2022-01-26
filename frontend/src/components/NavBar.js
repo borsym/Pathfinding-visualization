@@ -53,7 +53,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
   };
 
   const handleDistanceFormula = (distanceFormula) => {
-    axios.post("http://localhost:8000/changeDistance", {
+    axios.post("http://localhost:8000/api/changeDistance", {
       distance: distanceFormula,
     });
   };
@@ -76,7 +76,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
       warningMessage();
     } else {
       axios
-        .get(`http://localhost:8000/${algorithm}`)
+        .get(`http://localhost:8000/api/${algorithm}`)
         .then((res) => {
           setIsDisabled(true);
           dispatchGridEvent("VISUALIZE_ALGORITHM", {

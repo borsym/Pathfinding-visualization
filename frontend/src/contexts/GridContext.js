@@ -39,7 +39,7 @@ export const GridProvider = (props) => {
 const cleareBoard = async (conditions) => {
   // clear the board
   clearPreviousVisualization(conditions);
-  await axios.post("http://localhost:8000/clearForMaze", {
+  await axios.post("http://localhost:8000/api/clearForMaze", {
     // indicated the clear
     is_refreshed: true,
   });
@@ -82,7 +82,7 @@ const createNode = (col, row) => {
 const anmiteMaze = async (maze, conditions) => {
   cleareBoard(conditions);
   let order = [];
-  await axios.get(`http://localhost:8000/${maze}`).then((res) => {
+  await axios.get(`http://localhost:8000/api/${maze}`).then((res) => {
     order = res.data.order;
   });
 
