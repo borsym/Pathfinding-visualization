@@ -1,7 +1,7 @@
 from http.client import OK
 from typing import Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from persistance.Table import Table
@@ -13,6 +13,16 @@ from algorithms.recursive_division import RecursiveDivison
 from algorithms.distances import Distance 
 from persistance.Node import Node
 from persistance.Fields import Fields
+from model import Questions, Solutions
+from database import (
+    fetch_one_question,
+    fetch_all_questions,
+    create_question,
+    # update_question,
+    fetch_one_solution,
+    fetch_all_solutions,
+    create_solution,
+)
 
 start_x, start_y, end_x, end_y, map_x, map_y = 10,15,10,35,20,50
 start = Node(start_x, start_y , Fields.START)
@@ -69,6 +79,8 @@ class Distance(BaseModel):
 
     def get_distance_formula(self):
         return self.distance
+
+
 
 app = FastAPI()
 app.distance_formula = "Euclidean-mine"
@@ -142,20 +154,56 @@ async def get_recursive_divison() -> dict:
     }
 
 
+#Solutions
+@app.get("/api/solutions/{algorithm}")
+async def get_solution(algorithm : str) -> dict: # request from backend?
+    response = await fetch_one_solution(algorithm)
+    if response:
+        return response
+    return HTTPException(404, "Not found")
+
+
+@app.get("/api/solutions")
+async def get_solution() -> dict: # request from backend?
+    response = await fetch_all_solutions()
+    if response:
+        return response
+    return HTTPException(404, "Not found")
+
+
+@app.post("/api/createsolution/", response_model=Solutions)
+async def post_solution(question: Solutions):
+    response = await create_solution(question.dict())
+    if response:
+        return response
+    raise HTTPException(400, "Something went wrong")
 
 #Questions:
-def get_question(algorithm): # tmp
-    return {
-
-    }
-
 @app.get("/api/questions/{algorithm}")
 async def get_questions(algorithm : str) -> dict: # request from backend?
-    print(algorithm)
-    questions = get_question(algorithm)
-    return {
-        "questions": questions
-    }
+    response = await fetch_one_question(algorithm)
+    if response:
+        return response
+    
+    return HTTPException(404, "Not found")
+
+
+@app.get("/api/questions")
+async def get_questions() -> dict: # request from backend?
+    response = await fetch_all_questions()
+    if response:
+        return response
+    return HTTPException(404, "Not found")
+
+@app.post("/api/createquestion/", response_model=Questions)
+async def post_question(question: Questions):
+    print("itt vagyok")
+    response = await create_question(question.dict())
+    if response:
+        print("itt vagyok2")
+        return response
+    print("itt vagyok3")
+    raise HTTPException(400, "Something went wrong")
 
 # @app.post("sendAnswers/api/${state.algorithm}/api/${state.questionType}/api/${state.id}")
 # async def send_answers(state : VALAMI):
@@ -207,3 +255,5 @@ async def refresh_table(item: CordinatesStartMove):
 
 
 # uvicorn main:app --reload
+#https://developer.redis.com/develop/python/fastapi/
+# el kell indítani a dockert is mongodbvel

@@ -8,7 +8,7 @@ import { QuestionProvider } from "./contexts/QuestionsContext";
 export default function App() {
   const [showModal, setShowModal] = useState(false);
   const [algorithm, setAlgorithm] = useState("");
-  // Modal tutorial 
+  // Modal tutorial
   useEffect(() => {
     setTimeout(() => {
       setShowModal(true);
@@ -19,12 +19,13 @@ export default function App() {
     // Grid provider for shareing the grid between every component
     <GridProvider>
       {/* modal tutorial */}
-      {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */} 
+      <ModalTutorial showModal={showModal} setShowModal={setShowModal} />
       {/* sharing the questions between different components in the question segment */}
       <QuestionProvider>
         <NavBar algorithm={algorithm} setAlgorithm={setAlgorithm} />
       </QuestionProvider>
-      <Legend algorithm={algorithm} />  {/* legend showing a little description to the algorithm */}
+      <Legend algorithm={algorithm} />{" "}
+      {/* legend showing a little description to the algorithm */}
       <Grid />
     </GridProvider>
   );

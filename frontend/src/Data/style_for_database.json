@@ -1,7 +1,6 @@
 questions : [
     Astar: {
-        dnd: { // talán?
-            {
+        dnd: {
                 id-1 : {
                     answers: [
                     "logaritmikus",
@@ -12,13 +11,13 @@ questions : [
                     ],
                     question: [
                     "Ez egy teszt mi itt a valasz: ",
-                    <Blank id={blank-1} />,
+                    "<Blank id={blank-1} />",
                     "ha behuztad akkor huzd mar be ide is pls ",
-                    <Blank id={blank-2} />,
+                    "<Blank id={blank-2} />",
                     "nagyon ugyes vagyok",
                     ],
-              }
-            },
+              },
+            
             {
                 id-2 : {
                     answers: [
@@ -30,9 +29,9 @@ questions : [
                     ],
                     question: [
                     "Ez egy teszt mi itt a valasz: ",
-                    <Blank id={blank-1} />,
+                    "<Blank id={blank-1} />",
                     "ha behuztad akkor huzd mar be ide is pls ",
-                    <Blank id={blank-2} />,
+                   " <Blank id={blank-2} />",
                     "nagyon ugyes vagyok",
                     ],
               }
@@ -66,29 +65,29 @@ questions : [
         dropdown: { // talan igy
             {
                 id-1: {
-                    img : img
-                    answers-1: ["egy", "ketto", "harom",negy],
-                    answers-2: ["egy", "ketto", "harom",negy],
-                    answers-3: ["egy", "ketto", "harom",negy],
-                    answers-4: ["egy", "ketto", "harom",negy],
+                    img : "img"
+                    answers-1: ["egy", "ketto", "harom","negy"],
+                    answers-2: ["egy", "ketto", "harom","negy"],
+                    answers-3: ["egy", "ketto", "harom","negy"],
+                    answers-4: ["egy", "ketto", "harom","negy"],
                 }
             },
             {
                 id-2: {
                     img : img
-                    answers-1: ["egy", "ketto", "harom",negy],
-                    answers-2: ["egy", "ketto", "harom",negy],
-                    answers-3: ["egy", "ketto", "harom",negy],
-                    answers-4: ["egy", "ketto", "harom",negy],
+                    answers-1: ["egy", "ketto", "harom","negy"],
+                    answers-2: ["egy", "ketto", "harom","negy"],
+                    answers-3: ["egy", "ketto", "harom","negy"],
+                    answers-4: ["egy", "ketto", "harom","negy"],
                 }
             },
             {
                 id-3: {
                     img : img
-                    answers-1: ["egy", "ketto", "harom",negy],
-                    answers-2: ["egy", "ketto", "harom",negy],
-                    answers-3: ["egy", "ketto", "harom",negy],
-                    answers-4: ["egy", "ketto", "harom",negy],
+                    answers-1: ["egy", "ketto", "harom","negy"],
+                    answers-2: ["egy", "ketto", "harom","negy"],
+                    answers-3: ["egy", "ketto", "harom","negy"],
+                    answers-4: ["egy", "ketto", "harom","negy"],
                 }
             },
             
@@ -120,7 +119,6 @@ answers = {
         }
         dropdown: {
             id-1: {
-               
                 answer-1: "egy"
                 answer-2: "ketto"
                 answer-3: "harom"
