@@ -8,6 +8,7 @@ import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import DndQuestion from "./QuestionsSegment/DndQuestion";
 import Quize from "./Quize/Quize";
 import { GridContext } from "../contexts/GridContext.js";
+import DropdownQuestion from "./DropDownQuestions/DropdownQuestion";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import { QuizeProvider } from "../contexts/QuizeContext";
@@ -171,13 +172,10 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           idx={optionsAlgorithms.indexOf(algorithm)}
           algorithm={algorithm}
         /> */}
-        {questionState.currentQuestionType === "dnd" && (
-          <DndQuestion
-            idx={optionsAlgorithms.indexOf(algorithm)}
-            algorithm={algorithm}
-          />
+        {questionState.currentQuestionType === "dnd" && <DndQuestion />}
+        {questionState.currentQuestionType === "dropdown" && (
+          <DropdownQuestion />
         )}
-        {questionState.currentQuestionType === "dropdown" && <Dropdown />}
         {questionState.currentQuestionType === "quize" && <Quize />}
         {/* <Quize /> */}
         {/* {questionState.currentQuestionType === "dnd" ? (
@@ -188,7 +186,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           <Quize /> // itt egyből megy a submit ha rákattolt az adott kérdésre
         )} */}
 
-        {questionState.currentQuestionType === "quize" ? (
+        {/* {questionState.currentQuestionType === "quize" ? (
           questionState.isSubmitted ? (
             <button
               className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
@@ -211,7 +209,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
               Next
             </button>
           )
-        ) : null}
+        ) : null} */}
       </ModalStuktos>
       {/* )} */}
       <Button name="Valami" />

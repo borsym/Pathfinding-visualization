@@ -6,7 +6,7 @@ const initialState = {
   currentQuestionIndex: 0,
   showResults: false,
   correctAnswerCount: 0,
-  currentQuestionType: "quize",
+  currentQuestionType: "dropdown",
   questionTypeIndex: 0,
   currentQuestionId: "",
   algorithm: "",
@@ -69,7 +69,7 @@ const reducer = (state, action) => {
       // const questions = await handleGetQuestions(action.payload);
       // console.log("questions: ", questions);
       // console.log("questions: ", action.payload.questions);
-      
+
       return {
         ...state,
         algorithm: action.payload.algorithm,
@@ -85,6 +85,7 @@ const reducer = (state, action) => {
     // break;
     case "SET_ANSWER":
       console.log("payload valasz", action.payload);
+      // ezt szerintem backendben kéne lekezelni hogy jó választ adott e meg, leküldöm a választ és választ kapok rá hoyg jó e vagy sem
       return {
         ...state,
         correctAnswer: action.payload.solution,

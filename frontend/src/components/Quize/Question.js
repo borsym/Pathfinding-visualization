@@ -17,7 +17,7 @@ const Question = () => {
 
   const handleSelectAnswer = async (answer) => {
     const solution = await axios
-      .get(`http://localhost:8000/api/solutions/${quizeState.algorithm}`)
+      .get(`http://localhost:8000/api/solutions/${quizeState.algorithm}`)  // itt inkább le kéne küldenem a választ kés visszakapni rá egy eredményt hogy true vagy false
       .then(
         (result) =>
           Object.keys(result.data[quizeState.currentQuestionType])
