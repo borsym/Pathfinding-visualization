@@ -17,13 +17,7 @@ def parse_json(data):
 async def fetch_one_question(algorithm):
     print(algorithm)
     document = conn.local.questions.find_one({'algorithm': algorithm})
-    print("ITT A DOCUMENT")
-    print(document)
-    print("---")
     document = parse_json(document)
-    print("ujra")
-    print(document)
-    print("-__--_--")
     return document
 
 async def fetch_one_solution(algorithm):

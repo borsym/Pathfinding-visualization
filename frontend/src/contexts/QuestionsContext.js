@@ -2,7 +2,7 @@ import axios from "axios";
 import { createContext, useReducer } from "react";
 
 const initialState = {
-  questions: [],
+  questions: {},
   currentQuestionIndex: 0,
   showResults: false,
   correctAnswerCount: 0,
@@ -15,17 +15,21 @@ const initialState = {
 };
 
 const handleGetQuestions = async (algorithm) => {
-  const questions = await axios
-    .get(`http://localhost:8000/api/questions/${algorithm}`)
-    .then((res) => {
-      console.log("adatok:");
-      console.log(res.data);
-      return res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  return questions;
+  const questions = await axios.get(
+    `http://localhost:8000/api/questions/${algorithm}`
+  );
+  // .then(function (
+  //   // resolve promise
+  //   result
+  // ) {
+  //   return result;
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });
+
+  console.log("handle", questions.data);
+  return questions.data;
 };
 
 const handleSendAnswers = async (state, answers) => {
@@ -49,7 +53,7 @@ const handleSelectAnswer = (state, payload) => {
   const correctAnswer = axios
     .get(
       `http://localhost:8000/api/${state.algorithm}/${state.questionType}/${state.id}`
-    ) // ilyet lehet?
+    )
     .then((res) => {
       return res.data;
     });
@@ -59,20 +63,18 @@ const handleSelectAnswer = (state, payload) => {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "GET_QUESTIONS":
-      console.log(action.payload);
-      const questions = handleGetQuestions(action.payload);
+    case "SET_QUESTIONS":
+      // const questions = await handleGetQuestions(action.payload);
+      // console.log("questions: ", questions);
+      console.log("questions: ", action.payload.questions);
       return {
         ...state,
-        algorithm: action.payload,
-        questions: questions,
-        // currentQuestionType: questions[questionTypeIndex],
-        // currentQuestionId: questions[questionTypeIndex][0]
-        // currentQuestionSegmentLength: questions[0].length,
+        algorithm: action.payload.algorithm,
+        questions: action.payload.questions,
       };
     case "SEND_ANSWERS":
-      console.log("state", state);
-      console.log("payload", action.payload);
+      // console.log("state", state);
+      // console.log("payload", action.payload);
       // const checkedSelectedAnswer = handleSelectAnswer(state, action.payload);
       return { ...state };
     // const checkedSendAnswers = handleSendAnswers(state, action.payload);

@@ -27,7 +27,16 @@ const ModalStuktos = (props) => {
           }}
           className="cursor-pointer absolute top-5 right-5 w-8 h-8 p-0 z-10"
         />
-        
+        {console.log("gyerek", props.children)}
+        {/* 
+        {props.children.map((child) => {
+          if (child) {
+            Promise.resolve(child).then((child) => {
+              console.log("promise");
+              return child;
+            });
+          }
+        })} */}
         {props.children}
       </div>
     </div>

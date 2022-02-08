@@ -155,7 +155,7 @@ async def get_recursive_divison() -> dict:
 
 
 #Solutions
-@app.get("/api/solutions/{algorithm}")
+@app.get("/api/solutions/{algorithm}", tags=["Solutions"])
 async def get_solution(algorithm : str) -> dict: # request from backend?
     response = await fetch_one_solution(algorithm)
     if response:
@@ -163,7 +163,7 @@ async def get_solution(algorithm : str) -> dict: # request from backend?
     return HTTPException(404, "Not found")
 
 
-@app.get("/api/solutions")
+@app.get("/api/solutions", tags=["Solutions"])
 async def get_solution() -> dict: # request from backend?
     response = await fetch_all_solutions()
     if response:
@@ -171,7 +171,7 @@ async def get_solution() -> dict: # request from backend?
     return HTTPException(404, "Not found")
 
 
-@app.post("/api/createsolution/", response_model=Solutions)
+@app.post("/api/createsolution/", response_model=Solutions, tags=["Solutions"])
 async def post_solution(question: Solutions):
     response = await create_solution(question.dict())
     if response:
@@ -179,7 +179,7 @@ async def post_solution(question: Solutions):
     raise HTTPException(400, "Something went wrong")
 
 #Questions:
-@app.get("/api/questions/{algorithm}")
+@app.get("/api/questions/{algorithm}", tags=["Questions"])
 async def get_questions(algorithm : str) -> dict: # request from backend?
     response = await fetch_one_question(algorithm)
     if response:
@@ -188,24 +188,21 @@ async def get_questions(algorithm : str) -> dict: # request from backend?
     return HTTPException(404, "Not found")
 
 
-@app.get("/api/questions")
+@app.get("/api/questions", tags=["Questions"])
 async def get_questions() -> dict: # request from backend?
     response = await fetch_all_questions()
     if response:
         return response
     return HTTPException(404, "Not found")
 
-@app.post("/api/createquestion/", response_model=Questions)
+@app.post("/api/createquestion/", response_model=Questions, tags=["Questions"])
 async def post_question(question: Questions):
-    print("itt vagyok")
     response = await create_question(question.dict())
     if response:
-        print("itt vagyok2")
         return response
-    print("itt vagyok3")
     raise HTTPException(400, "Something went wrong")
 
-# @app.post("sendAnswers/api/${state.algorithm}/api/${state.questionType}/api/${state.id}")
+# @app.post("sendAnswers/api/${state.algorithm}/${state.questionType}/${state.id}")
 # async def send_answers(state : VALAMI):
 #     # updateCheckAnswers() #?
 #     return 200
