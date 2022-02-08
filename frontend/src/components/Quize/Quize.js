@@ -3,15 +3,15 @@ import { QuestionContext } from "../../contexts/QuestionsContext";
 import Question from "./Question";
 const Quize = () => {
   const [questionState, dispatch] = useContext(QuestionContext);
-  console.log("questionstate", questionState);
-  console.log("kerdesek", questionState.questions);
+  // console.log("questionstate", questionState);
+  // console.log("kerdesek", questionState.questions);
   return (
     <div className="quize">
       <div>
         <div className="flex justify-center">
           <div className="bg-blue-100 p-2 font-bold">
             Question {questionState.currentQuestionIndex + 1}/
-            {questionState.questions.length}
+            {Object.keys(questionState.questions.quize).length}
           </div>
         </div>
         <Question />

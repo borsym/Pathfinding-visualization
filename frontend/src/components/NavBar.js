@@ -138,7 +138,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           console.log("questions in nav2", result);
         }) */}
       {/* )} */}
-      {console.log("promise?", questionState)}
+      {/* {console.log("promise?", questionState)} */}
       {/* {questionState.questions && ( */}
 
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
@@ -156,11 +156,15 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
             });
           }
         })} */}
-        <p>{questionState.questions.algorithm}</p>
+
+        {/* EZ IT TA LEGJOBB CUCC EDDIG */}
+        {/* <p>{questionState.questions.algorithm}</p>
         {questionState.questions.dnd &&
           Object.keys(questionState.questions.dnd).map((id) => (
             <p>{questionState.questions.dnd[id].answers.join(" ")}</p>
-          ))}
+          ))} */}
+        {/* EZ IT TA LEGJOBB CUCC EDDIG */}
+
         {/* {questionState.questions.length &&
           questionState?.questions.map((question) => <p>{question}</p>)} */}
         {/* <DndQuestion
@@ -174,6 +178,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           />
         )}
         {questionState.currentQuestionType === "dropdown" && <Dropdown />}
+        {questionState.currentQuestionType === "quize" && <Quize />}
         {/* <Quize /> */}
         {/* {questionState.currentQuestionType === "dnd" ? (
          
@@ -183,8 +188,8 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           <Quize /> // itt egyből megy a submit ha rákattolt az adott kérdésre
         )} */}
 
-        {questionState.questionType === "Quize" ? (
-          !questionState.isSubmitted ? (
+        {questionState.currentQuestionType === "quize" ? (
+          questionState.isSubmitted ? (
             <button
               className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
               onClick={() => {

@@ -9,10 +9,10 @@ const Answer = (props) => {
     props.currentAnswer !== props.correctAnswer;
   const correctAnswerClass = isCorrectAnswer ? "bg-green-500" : "";
   const wrongAnswerClass = isWrongAnswer ? "bg-red-500" : "";
-  const disabledClass = props.currentAnswer ? "pointer-events-none" : "";
+  const disabledClass = props.currentAnswer ? "pointer-events-none" : ""; // ezt valahogy bele kell rakni
   return (
     <div
-      className={`p-3 bg-white flex justify-start  cursor-pointer ${disabledClass} `}
+      className={`p-3 bg-white flex justify-start  cursor-pointer  `}
       onClick={() => props.onSelectAnswer(props.answerText)}
     >
       <div className="p-2 border-2 bg-blue-500 border-transparent">

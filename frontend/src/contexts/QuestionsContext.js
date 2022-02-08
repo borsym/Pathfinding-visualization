@@ -6,12 +6,14 @@ const initialState = {
   currentQuestionIndex: 0,
   showResults: false,
   correctAnswerCount: 0,
-  currentQuestionType: "",
+  currentQuestionType: "quize",
   questionTypeIndex: 0,
   currentQuestionId: "",
   algorithm: "",
   isSubmitted: false,
   answers: [],
+  currentAnswer: "",
+  correctAnswer: "",
 };
 
 const handleGetQuestions = async (algorithm) => {
@@ -66,7 +68,8 @@ const reducer = (state, action) => {
     case "SET_QUESTIONS":
       // const questions = await handleGetQuestions(action.payload);
       // console.log("questions: ", questions);
-      console.log("questions: ", action.payload.questions);
+      // console.log("questions: ", action.payload.questions);
+      
       return {
         ...state,
         algorithm: action.payload.algorithm,
@@ -80,44 +83,55 @@ const reducer = (state, action) => {
     // const checkedSendAnswers = handleSendAnswers(state, action.payload);
     // // és itt kell pirossal meg zöldel jelezni a jókat sztm
     // break;
-    case "SELECT_ANSWER":
-      console.log("payload", action.payload);
-      // const checkedSelectedAnswer = handleSelectAnswer(state, action.payload);
-      return { ...state, answers: action.payload };
-    // return {
-    //   ...state,
-    //   correctAnswer: checkedSelectedAnswer,
-    //   isSubmitted: true,
-    // };
+    case "SET_ANSWER":
+      console.log("payload valasz", action.payload);
+      return {
+        ...state,
+        correctAnswer: action.payload.solution,
+        currentAnswer: action.payload.answer,
+      };
     case "NEXT_QUESTION":
-      const showResults =
-        state.currentQuestionIndex === state.questions.length - 1;
-      // const currentQuestionIndex = showResults
-      //   ? state.currentQuestionIndex
-      //   : state.currentQuestionIndex + 1;
-      const questionTypeIndex =
-        state.currentQuestionIndex >= state.currentQuestionSegmentLength
-          ? state.questionTypeIndex + 1
-          : state.questionTypeIndex;
-      const currentQuestionType =
-        state.questions[questionTypeIndex] !== state.currentQuestionType
-          ? state.questions[questionTypeIndex]
-          : state.currentQuestionType;
+      // const showResults =
+      //   state.currentQuestionIndex === state.questions.length - 1;
+      // // const currentQuestionIndex = showResults
+      // //   ? state.currentQuestionIndex
+      // //   : state.currentQuestionIndex + 1;
+      // const questionTypeIndex =
+      //   state.currentQuestionIndex >= state.currentQuestionSegmentLength
+      //     ? state.questionTypeIndex + 1
+      //     : state.questionTypeIndex;
+      // const currentQuestionType =
+      //   state.questions[questionTypeIndex] !== state.currentQuestionType
+      //     ? state.questions[questionTypeIndex]
+      //     : state.currentQuestionType;
       const currentQuestionIndex =
-        state.currentQuestionIndex >= state.currentQuestionSegmentLength
+        state.currentQuestionIndex >=
+        Object.keys(state.questions[state.currentQuestionType]).length - 1
           ? 0
           : state.currentQuestionIndex + 1;
-      const currentQuestionId =
-        state.questions[questionTypeIndex][currentQuestionIndex][0];
 
+      // console.log("current question index", currentQuestionIndex);
+      // const currentQuestionId =
+      //   state.questions[questionTypeIndex][currentQuestionIndex][0];
+
+      // get the state.questions currentquestion type length
+      // const val = state.currentQuestionType;
+      // console.log(
+      //   "next",
+      //   Object.keys(state.questions[state.currentQuestionType]).length
+      // );
+      // const a =
+      //   state.currentQuestionIndex +
+      //   1 /
+      //     Object.keys(`${state.questions}.${state.currentQuestionType}`).length;
       return {
         ...state,
         currentQuestionIndex,
-        showResults,
-        questionTypeIndex,
-        currentQuestionType,
-        currentQuestionId,
-        isSubmitted: false,
+        // showResults,
+        // questionTypeIndex,
+        // currentQuestionType,
+        // currentQuestionId,
+        // isSubmitted: false,
       };
     // case "SELECT_ANSWER":
     case "RESTART":
