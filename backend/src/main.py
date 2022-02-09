@@ -80,6 +80,19 @@ class Distance(BaseModel):
     def get_distance_formula(self):
         return self.distance
 
+class DropDownAnswers(BaseModel):
+    answers : list
+    algorithm : str
+    idx: int
+
+    def get_idx(self):
+        return self.idx
+
+    def get_answers(self):
+        return self.answers
+
+    def get_algorithm(self):
+        return self.algorithm
 
 
 app = FastAPI()
@@ -153,6 +166,26 @@ async def get_recursive_divison() -> dict:
         "order": order # mazelesz ebből
     }
 
+
+#DropDown
+@app.post("/api/dropdown/{algorithm}", tags=["DropDown"])
+async def post_solution(items: DropDownAnswers):
+    result = []
+   
+    # print(items.get_idx())
+    response = await fetch_one_solution(items.get_algorithm())
+    keys_list = list(response["dropdown"])
+    key = keys_list[items.get_idx()]
+
+    # print(response["dropdown"][key])
+    for idx,key_val in enumerate(response["dropdown"][key]):
+        print(response["dropdown"][key][key_val])
+        print(idx)
+        # print(items.get_answers()[idx])
+        result.append(response["dropdown"][key][key_val] == items.get_answers()[idx])
+    print(result)
+    return response
+    #raise HTTPException(400, "Something went wrong")
 
 #Solutions
 @app.get("/api/solutions/{algorithm}", tags=["Solutions"])

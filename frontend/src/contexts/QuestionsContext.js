@@ -135,6 +135,12 @@ const reducer = (state, action) => {
         // isSubmitted: false,
       };
     // case "SELECT_ANSWER":
+    case "SET_CURRENT_QUESTION_ID":
+      console.log("itt a payload", action.payload);
+      return {
+        ...state,
+        currentQuestionId: action.payload,
+      };
     case "RESTART":
       return initialState;
     default:
