@@ -17,6 +17,7 @@ const DndQuestion = () => {
 
   return (
     <>
+      hello
       {/* <Dnd taskId={currentData.taskId} words={currentData.words}>
         {currentData.text}
       </Dnd> */}

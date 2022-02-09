@@ -16,6 +16,14 @@ const Quize = () => {
         </div>
         <Question />
         <div className="flex justify-end "></div>
+        <button
+          className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
+          onClick={() => {
+            dispatch({ type: "NEXT_QUESTION" });
+          }}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

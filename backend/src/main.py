@@ -184,7 +184,7 @@ async def post_solution(items: DropDownAnswers):
         # print(items.get_answers()[idx])
         result.append(response["dropdown"][key][key_val] == items.get_answers()[idx])
     print(result)
-    return response
+    return result
     #raise HTTPException(400, "Something went wrong")
 
 #Solutions

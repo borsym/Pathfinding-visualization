@@ -11,7 +11,6 @@ import { GridContext } from "../contexts/GridContext.js";
 import DropdownQuestion from "./DropDownQuestions/DropdownQuestion";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
-import { QuizeProvider } from "../contexts/QuizeContext";
 import { QuestionContext } from "../contexts/QuestionsContext";
 
 const NavBar = ({ algorithm, setAlgorithm }) => {
@@ -172,11 +171,12 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           idx={optionsAlgorithms.indexOf(algorithm)}
           algorithm={algorithm}
         /> */}
-        {questionState.currentQuestionType === "dnd" && <DndQuestion />}
+        {questionState.currentQuestionType === "quize" && <Quize />}
         {questionState.currentQuestionType === "dropdown" && (
           <DropdownQuestion />
         )}
-        {questionState.currentQuestionType === "quize" && <Quize />}
+        {questionState.currentQuestionType === "dnd" && <DndQuestion />}
+
         {/* <Quize /> */}
         {/* {questionState.currentQuestionType === "dnd" ? (
          

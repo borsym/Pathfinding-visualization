@@ -6,7 +6,7 @@ const initialState = {
   currentQuestionIndex: 0,
   showResults: false,
   correctAnswerCount: 0,
-  currentQuestionType: "dropdown",
+  currentQuestionType: "quize",
   questionTypeIndex: 0,
   currentQuestionId: "",
   algorithm: "",
@@ -105,12 +105,19 @@ const reducer = (state, action) => {
       //   state.questions[questionTypeIndex] !== state.currentQuestionType
       //     ? state.questions[questionTypeIndex]
       //     : state.currentQuestionType;
+      console.log(state.questions);
       const currentQuestionIndex =
         state.currentQuestionIndex >=
         Object.keys(state.questions[state.currentQuestionType]).length - 1
           ? 0
           : state.currentQuestionIndex + 1;
 
+      const currentQuestionType =
+        currentQuestionIndex === 0
+          ? state.currentQuestionType === "quize"
+            ? "dropdown"
+            : "dnd"
+          : state.currentQuestionType;
       // console.log("current question index", currentQuestionIndex);
       // const currentQuestionId =
       //   state.questions[questionTypeIndex][currentQuestionIndex][0];
@@ -128,6 +135,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         currentQuestionIndex,
+        currentQuestionType,
         // showResults,
         // questionTypeIndex,
         // currentQuestionType,

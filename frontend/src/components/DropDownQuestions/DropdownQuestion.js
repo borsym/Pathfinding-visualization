@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 const DropdownQuestion = () => {
   const [quizeState, dispatch] = useContext(QuestionContext);
-
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
   const currentQuestion = Object.keys(
     quizeState.questions[quizeState.currentQuestionType]
   )
@@ -14,26 +14,15 @@ const DropdownQuestion = () => {
     })
     .filter((question) => question !== undefined)[0];
 
-  //   console.log(currentQuestion);
-  //   Object.keys(currentQuestion).map((key, idx) => {
-  //     console.log("key,idx", key, idx);
-  //     if (key !== "img") {
-  //       console.log("kerdesek", currentQuestion[key]);
-  //       currentQuestion[key].map((answer, index) => {
-  //         console.log("answer", answer);
-  //         console.log("index", index);
-  //       });
-  //     }
+  const clearAllBg = () => {
+    Object.keys(currentQuestion).map((key, idx) => {
+      if (key !== "img") {
+        document.getElementById(key).className = "flex p-1 m-1";
+      }
+    });
+  };
 
-  //     // for (const q of currentQuestion[key]) {
-  //     //   console.log(q);
-  //     // }
-  //   });
-  // const sendValuesBackend = (answers) => {
-
-  // };
-
-  const getValuesFromSelect = (e) => {
+  const getValuesFromSelect = () => {
     console.log("hello");
     const answers = Object.keys(currentQuestion)
       .map((key, idx) => {
@@ -46,11 +35,28 @@ const DropdownQuestion = () => {
       })
       .filter((answer) => answer !== undefined);
 
-    axios.post(`http://localhost:8000/api/dropdown/${quizeState.algorithm}`, {
-      answers: answers,
-      algorithm: quizeState.algorithm,
-      idx: quizeState.currentQuestionIndex,
-    });
+    axios
+      .post(`http://localhost:8000/api/dropdown/${quizeState.algorithm}`, {
+        answers: answers,
+        algorithm: quizeState.algorithm,
+        idx: quizeState.currentQuestionIndex,
+      })
+      .then((result) => {
+        // console.log("ez a result", result.data);
+        Object.keys(currentQuestion).map((key, idx) => {
+          if (key !== "img") {
+            // console.log("idx", idx);
+            // console.log("resultidx", result.data[idx - 1]);
+            // console.log(document.getElementById(key));
+            document.getElementById(key).className = result.data[idx - 1]
+              ? "flex p-1 m-1 bg-green-100"
+              : "flex p-1 m-1 bg-red-100";
+            // document.getElementById(key).class = " bg-green-100";
+          }
+        });
+      });
+
+    setIsSubmitted(true);
   };
   return (
     <>
@@ -66,12 +72,25 @@ const DropdownQuestion = () => {
             </select>
           )
       )}
-      <button
-        className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
-        onClick={getValuesFromSelect}
-      >
-        Submit
-      </button>
+      {!isSubmitted ? (
+        <button
+          className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
+          onClick={getValuesFromSelect}
+        >
+          Submit
+        </button>
+      ) : (
+        <button
+          className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
+          onClick={() => {
+            dispatch({ type: "NEXT_QUESTION" });
+            setIsSubmitted(false);
+            clearAllBg();
+          }}
+        >
+          Next
+        </button>
+      )}
     </>
   );
 };

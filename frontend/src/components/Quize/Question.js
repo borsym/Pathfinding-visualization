@@ -30,16 +30,9 @@ const Question = () => {
       );
     dispatch({ type: "SET_ANSWER", payload: { answer, solution } });
   };
-  // questionState.currentQuestionIndex + 1;
-  console.log("current", currentQuestion);
-  // console.log("--");
-  // Object.keys(quizeState.questions.quize).map((id, idx) => {
-  //   // <p>{questionState.questions.dnd[id].answers.join(" ")}</p>
-  //   console.log("idx", idx);
-  //   console.log("id", id);
-  //   console.log("kerdes", quizeState.questions.quize[id]);
-  // });dispatch({ type: "SELECT_ANSWER", payload: answerText })
-  // console.log("--");
+
+  // console.log("current", currentQuestion);
+
 
   return (
     <div>
