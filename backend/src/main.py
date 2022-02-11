@@ -270,15 +270,14 @@ async def refresh_table(item: CordinatesStartMove):
     item.print_cords()
     end = item.get_end()
     start = item.get_start()
+    print(start)
     field_type = Fields.START if item.get_type() == -1 else Fields.END
-    for i in range(table.get_row_size() + 1):
-        for j in range(table.get_column_size() + 1):
-            if [i,j] == end: 
-                table.set_node_field(i, j, field_type)
-                table.change_start(i,j) if field_type == Fields.START else table.change_end(i,j)
-            if [i,j] == start:
-                table.set_node_field(i, j, field_type)
    
+    table.set_node_field(end[0], end[1], field_type)
+    table.change_start(end[0], end[1]) if field_type == Fields.START else table.change_end(end[0], end[1])
+    table.set_node_field(start[0], start[1], Fields.EMPTY)
+    print(table.count_start())
+    print(table.get_node_field(start[0], start[1]))
     return item
 
 

@@ -10,7 +10,7 @@ const Grid = () => {
   const [isControl, setIsControl] = useState(false); // if the CTRL is pressed
   const [isMoveStartEnd, setIsMoveStartEnd] = useState(false); // if the start or end is moved
   const [StartOrEnd, setStartOrEnd] = useState(""); // start or end is moved
-
+  const [prevStart, setPrevStart] = useState({ row: -1, col: -1 }); // previous start position
   useEffect(() => {
     // refresh the page and put everything back to initial state
     window.onbeforeunload = function () {
@@ -27,15 +27,16 @@ const Grid = () => {
 
   const handleMouseDown = (e, row, col) => {
     // bit bugy
-    console.log(e.target.id);
+    console.log("itt2");
     if (e.target.id.includes("start") || e.target.id.includes("end")) {
       console.log("bent vagoyk");
       setChanges([...changes, { row, col }]);
       setStartOrEnd(e.target.id.includes("start") ? "start" : "end");
-      const newGrid = e.target.id.includes("start")
-        ? getNewGridMovedStart(grid, row, col, false)
-        : getNewGridMovedEnd(grid, row, col, false);
-      setGrid(newGrid);
+      // const newGrid = e.target.id.includes("start")
+      //   ? getNewGridMovedStart(grid, row, col, false)
+      //   : getNewGridMovedEnd(grid, row, col, false);
+      // setGrid(newGrid);
+      setPrevStart({ row, col });
       setMouseIsPressed(true);
       setIsMoveStartEnd(true);
     } else {
@@ -58,18 +59,20 @@ const Grid = () => {
 
   const handleMouseEnter = (e, row, col) => {
     if (!mouseIsPressed) return;
-
+    console.log("itt");
     if (isMoveStartEnd) {
+      console.log("valaha ide belép?");
+      setPrevStart({ row, col });
       const newGrid =
         StartOrEnd === "start"
-          ? getNewGridMovedStart(grid, row, col, true)
+          ? getNewGridMovedStart(grid, row, col, true, prevStart)
           : getNewGridMovedEnd(grid, row, col, true);
       setGrid(newGrid);
     } else {
       if (e.ctrlKey === true && !isControl) {
-        //itt is kell ez mivel akkor lerak egy falat ha ez nincs meg
         setIsControl(true);
       }
+
       setChanges([...changes, { row, col }]);
       const newGrid = getNewGridWithWallToggled(
         grid,
@@ -85,11 +88,13 @@ const Grid = () => {
   const handleMouseUp = (e) => {
     // check if the paramter row and col is in the changes arrey
     //remove all duplicated elements from the changes array
+    setMouseIsPressed(false);
     if (isMoveStartEnd) {
       axios
         .post("http://localhost:8000/api/moveStartEnd", {
-          start: [parseInt(changes[0].row), parseInt(changes[0].col)],
+          start: [parseInt(changes[0].row), parseInt(changes[0].col)], // innen indult ki
           end: [
+            // ide raktam le
             StartOrEnd === "start"
               ? parseInt(getStartPosition(grid).row)
               : parseInt(getEndPosition(grid).row),
@@ -111,41 +116,45 @@ const Grid = () => {
           setIsMoveStartEnd(false);
           setStartOrEnd("");
         });
-    }
-    setMouseIsPressed(false);
-    let unique = [];
-    const counts = {};
-    console.log(changes);
-    for (let i = 0; i < changes.length; i++) {
-      if (counts[changes[i].row + "-" + changes[i].col]) {
-        counts[changes[i].row + "-" + changes[i].col] = null;
-      } else {
-        counts[changes[i].row + "-" + changes[i].col] = 1;
+    } else {
+      let unique = [];
+      const counts = {};
+      console.log(changes);
+      for (let i = 0; i < changes.length; i++) {
+        if (counts[changes[i].row + "-" + changes[i].col]) {
+          counts[changes[i].row + "-" + changes[i].col] = null;
+        } else {
+          counts[changes[i].row + "-" + changes[i].col] = 1;
+        }
       }
-    }
 
-    for (let key in counts) {
-      if (counts[key]) {
-        unique.push([parseInt(key.split("-")[0]), parseInt(key.split("-")[1])]);
+      for (let key in counts) {
+        if (counts[key]) {
+          unique.push([
+            parseInt(key.split("-")[0]),
+            parseInt(key.split("-")[1]),
+          ]);
+        }
       }
-    }
 
-    axios
-      .post("http://localhost:8000/api/wallUpdate", {
-        cordinates: unique,
-        type: isControl ? type : 99999, // bad practie 999...
-      })
-      .then(function (response) {})
-      .catch(function (error) {
-        console.log(error);
-      })
-      .finally(function () {
-        console.log(isControl);
-        setChanges([]);
-        setIsControl(false);
-        setMouseIsPressed(false);
-        setIsMoveStartEnd(false);
-      });
+      console.log("unieq", unique);
+      axios
+        .post("http://localhost:8000/api/wallUpdate", {
+          cordinates: unique,
+          type: isControl ? type : 99999, // bad practie 999...
+        })
+        .then(function (response) {})
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          console.log(isControl);
+          setChanges([]);
+          setIsControl(false);
+          setMouseIsPressed(false);
+          setIsMoveStartEnd(false);
+        });
+    }
   };
 
   return (
@@ -185,9 +194,14 @@ const Grid = () => {
 const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
   const newGrid = grid.slice();
   const node = newGrid[row][col];
+  if (node.isFinish || node.isStart) {
+    return newGrid;
+  }
+
   const newNode = {
     ...node,
   };
+
   isControl
     ? newNode.type === type
       ? (newNode.type = 0)
@@ -220,21 +234,26 @@ const getEndPosition = (grid) => {
   return { row: -1, col: -1 };
 };
 // ezt a kettot mergelni kéne
-const getNewGridMovedStart = (grid, row, col, current) => {
+const getNewGridMovedStart = (grid, row, col, current, prevStart) => {
   const newGrid = grid.slice();
-  for (let i = 0; i < newGrid.length && current; i++) {
-    for (let j = 0; j < newGrid[i].length; j++) {
-      if (newGrid[i][j].isStart) {
-        newGrid[i][j].isStart = false;
-      }
-    }
-  }
+  console.log("row: " + row + " col: " + col);
+  console.log("prevStart: " + prevStart.row + " " + prevStart.col);
+
+  const prevNode = newGrid[prevStart.row][prevStart.col];
+  const newPrevNode = {
+    ...prevNode,
+    isStart: !current,
+  };
+
   const node = newGrid[row][col];
   const newNode = {
     ...node,
     isStart: current,
   };
+
+  newGrid[prevStart.row][prevStart.col] = newPrevNode;
   newGrid[row][col] = newNode;
+
   return newGrid;
 };
 

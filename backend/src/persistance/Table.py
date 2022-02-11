@@ -61,6 +61,14 @@ class Table:
     def get_end(self):
         return self.end
 
+    def count_start(self):
+        count = 0
+        for row in self.__grid:
+            for node in row:
+                if node.field == Fields.START:
+                    count += 1
+        return count
+
     def set_node_distance(self, x, y, val):
         self.__grid[x][y].set_distance(val)
 
