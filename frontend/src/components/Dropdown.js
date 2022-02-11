@@ -68,9 +68,13 @@ const Dropdown = (props) => {
                           break;
                         case "Distance Formula":
                         case "Maze":
+                          if (option === "Recursive Division")
+                            option = "RecursiveDivision";
                           props.function(option);
+
                           props.name === "Distance Formula" &&
                             props.setVariable(option);
+                          console.log("option", option);
                           break;
                         default:
                           props.setVariable(option);

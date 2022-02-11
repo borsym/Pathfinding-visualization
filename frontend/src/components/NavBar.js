@@ -15,15 +15,10 @@ import { QuestionContext } from "../contexts/QuestionsContext";
 
 const NavBar = ({ algorithm, setAlgorithm }) => {
   const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
-  const optionsMazes = ["Recursive Division", "Iterativ", "Valami"];
+  const optionsMazes = ["Recursive Division", "Random"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Empty [0]", "Grass [10]", "Water [20]", "Stone [30]"];
-  const optionDistance = [
-    "Euclidean",
-    "Manhattan",
-    "Chebyshev",
-    "Euclidean-mine",
-  ];
+  const optionDistance = ["Euclidean", "Manhattan", "Chebyshev"];
 
   const [maze, setMaze] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);

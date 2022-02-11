@@ -106,7 +106,6 @@ function animateAlgorithm(
   nodesInShortestPathOrder,
   speed
 ) {
-  let conditions = ["node-type"];
   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
     if (i === visitedNodesInOrder.length) {
       // if the visited nodes are all finished then the animation is the shortest path
@@ -117,16 +116,8 @@ function animateAlgorithm(
     }
     setTimeout(() => {
       const node = visitedNodesInOrder[i];
-      if (
-        !conditions.some((e) =>
-          document
-            .getElementById(`node-${node[0]}-${node[1]}`)
-            .classList.value.includes(e)
-        )
-      ) {
-        document.getElementById(`node-${node[0]}-${node[1]}`).className =
-          "node-style bg-visited-node-blue animate-fillBoxVisited";
-      }
+      document.getElementById(`node-${node[0]}-${node[1]}`).className =
+        "node-style bg-visited-node-blue animate-fillBoxVisited";
     }, speed * i);
   }
 }

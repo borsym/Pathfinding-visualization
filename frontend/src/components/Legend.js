@@ -61,19 +61,20 @@ const Legend = ({ algorithm }) => {
         </div>
         <div className="ml-4 flex">
           <p>Unvisited Node</p>
-          <div className="legend-icons bg-white"></div>
+          <div className="legend-icons bg-white animate-fillBoxNavbar"></div>
         </div>
         <div className="ml-4 flex">
           <p>Visited Node</p>
-          <div className="legend-icons bg-purple-500"></div>
+          <div className="legend-icons bg-purple-500 animate-fillBoxNavbar"></div>
+          <div className="legend-icons bg-visited-node-blue animate-fillBoxNavbar"></div>
         </div>
         <div className="ml-4 flex">
           <p>Shortest Path</p>
-          <div className="legend-icons bg-yellow-400"></div>
+          <div className="legend-icons bg-yellow-400 animate-fillBoxNavbar"></div>
         </div>
         <div className="ml-4 flex">
           <p>Wall Node</p>
-          <div className="legend-icons bg-black"></div>
+          <div className="legend-icons bg-black animate-fillBoxNavbar"></div>
         </div>
       </div>
       <div className="flex justify-center items-center mx-auto font-medium text-lg">

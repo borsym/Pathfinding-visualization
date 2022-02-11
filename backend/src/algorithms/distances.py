@@ -10,11 +10,6 @@ class Distance:
             return self.manhattan
         elif name == 'Chebyshev':
             return self.chebyshev
-        elif name == 'Euclidean-mine':
-            return self.euclidean_mine
-
-    def euclidean_mine(self, end, new_node): # fastet than eucledis_from_net, manhattan
-        return ((new_node.get_x() - end.get_x()) ** 2) + ((new_node.get_y() - end.get_y()) ** 2) 
 
     def euclidean(self, end, new_node):
         return math.sqrt((abs(new_node.get_x() - end.get_x()) ** 2) + (abs(new_node.get_y() - end.get_y()) ** 2) )

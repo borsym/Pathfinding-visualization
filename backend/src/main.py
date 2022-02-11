@@ -10,6 +10,7 @@ from algorithms.dfs import DFS
 from algorithms.astar import Astar
 from algorithms.dijkstra import Dijkstra
 from algorithms.recursive_division import RecursiveDivison
+from algorithms.random_maze import RandomMaze
 from algorithms.distances import Distance 
 from persistance.Node import Node
 from persistance.Fields import Fields
@@ -96,7 +97,7 @@ class DropDownAnswers(BaseModel):
 
 
 app = FastAPI()
-app.distance_formula = "Euclidean-mine"
+app.distance_formula = "Euclidean"
 
 origins = [
     'http://localhost:3000',
@@ -158,7 +159,7 @@ async def get_astar() -> dict:
     }
 
 #Maze Generation
-@app.get("/api/Recursive Division", tags=["Recursive Division"]) # lehet szóköz az elérési útban?
+@app.get("/api/RecursiveDivision", tags=["Maze generation"]) # lehet szóköz az elérési útban?
 async def get_recursive_divison() -> dict:
     recdiv = RecursiveDivison(table,0,0,table.get_column_size(), table.get_row_size() ,table.get_start(), table.get_end())
     order = recdiv.start_divide()
@@ -166,6 +167,13 @@ async def get_recursive_divison() -> dict:
         "order": order # mazelesz ebből
     }
 
+@app.get("/api/Random", tags=["Maze generation"]) # lehet szóköz az elérési útban?
+async def get_random_maze() -> dict:
+    random_maze = RandomMaze(table,0,0,table.get_column_size(), table.get_row_size() ,table.get_start(), table.get_end())
+    order = random_maze.generate()
+    return {
+        "order": order # mazelesz ebből
+    }
 
 #DropDown
 @app.post("/api/dropdown/{algorithm}", tags=["DropDown"])

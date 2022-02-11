@@ -29,7 +29,6 @@ const Grid = () => {
   const handleMouseDown = (e, row, col) => {
     // bit bugy
     if (isVisualize) return;
-    console.log("itt2");
     if (e.target.id.includes("start") || e.target.id.includes("end")) {
       console.log("bent vagoyk");
       setChanges([...changes, { row, col }]);
@@ -42,16 +41,15 @@ const Grid = () => {
       setMouseIsPressed(true);
       setIsMoveStartEnd(true);
     } else {
-      if (e.ctrlKey === true && !isControl) {
-        setIsControl(true);
-      }
-
+      setIsControl(e.ctrlKey === true || isControl);
+      console.log("elso", isControl);
+      const firstControl = e.ctrlKey === true || isControl;
       setChanges([...changes, { row, col }]);
       const newGrid = getNewGridWithWallToggled(
         grid,
         row,
         col,
-        isControl,
+        firstControl,
         type
       );
       setGrid(newGrid);
@@ -61,9 +59,8 @@ const Grid = () => {
 
   const handleMouseEnter = (e, row, col) => {
     if (!mouseIsPressed || isVisualize) return;
-    console.log("itt");
+
     if (isMoveStartEnd) {
-      console.log("valaha ide belép?");
       setPrevStart({ row, col });
       const newGrid =
         StartOrEnd === "start"
@@ -71,9 +68,7 @@ const Grid = () => {
           : getNewGridMovedEnd(grid, row, col, true);
       setGrid(newGrid);
     } else {
-      if (e.ctrlKey === true && !isControl) {
-        setIsControl(true);
-      }
+      setIsControl(e.ctrlKey === true || isControl);
 
       setChanges([...changes, { row, col }]);
       const newGrid = getNewGridWithWallToggled(
@@ -121,7 +116,6 @@ const Grid = () => {
     } else {
       let unique = [];
       const counts = {};
-      console.log(changes);
       for (let i = 0; i < changes.length; i++) {
         if (counts[changes[i].row + "-" + changes[i].col]) {
           counts[changes[i].row + "-" + changes[i].col] = null;
@@ -139,7 +133,6 @@ const Grid = () => {
         }
       }
 
-      console.log("unieq", unique);
       axios
         .post("http://localhost:8000/api/wallUpdate", {
           cordinates: unique,
