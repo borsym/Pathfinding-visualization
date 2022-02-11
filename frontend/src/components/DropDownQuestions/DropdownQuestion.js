@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
+import Button from "../Button";
 const DropdownQuestion = () => {
   const [quizeState, dispatch] = useContext(QuestionContext);
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const currentQuestion = Object.keys(
     quizeState.questions[quizeState.currentQuestionType]
   )
@@ -22,8 +24,15 @@ const DropdownQuestion = () => {
     });
   };
 
+  // const tmp = () => {
+  //   dispatch({
+  //     type: "SET_CORRECT_ANSWERS_NUMBER",
+  //     payload: countCorretAnswers,
+  //   });
+  // };
+
   const getValuesFromSelect = () => {
-    console.log("hello");
+    let countCorretAnswers = 0;
     const answers = Object.keys(currentQuestion)
       .map((key, idx) => {
         if (key !== "img") {
@@ -51,13 +60,23 @@ const DropdownQuestion = () => {
             document.getElementById(key).className = result.data[idx - 1]
               ? "flex p-1 m-1 bg-green-100"
               : "flex p-1 m-1 bg-red-100";
-            // document.getElementById(key).class = " bg-green-100";
+
+            countCorretAnswers = result.data[idx - 1]
+              ? countCorretAnswers + 1
+              : countCorretAnswers;
           }
         });
+      })
+      .then(() => {
+        console.log("countCorretAnswers", countCorretAnswers);
+        dispatch({
+          type: "SET_CORRECT_ANSWERS_NUMBER",
+          payload: countCorretAnswers,
+        });
       });
-
     setIsSubmitted(true);
   };
+
   return (
     <>
       <div>{currentQuestion.img}</div> {/* itt a kep lesz */}
@@ -73,23 +92,21 @@ const DropdownQuestion = () => {
           )
       )}
       {!isSubmitted ? (
-        <button
-          className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
-          onClick={getValuesFromSelect}
-        >
-          Submit
-        </button>
+        <Button
+          name="Submit"
+          questionSection={true}
+          function={getValuesFromSelect}
+        />
       ) : (
-        <button
-          className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
-          onClick={() => {
+        <Button
+          name="Next"
+          questionSection={true}
+          function={() => {
             dispatch({ type: "NEXT_QUESTION" });
             setIsSubmitted(false);
             clearAllBg();
           }}
-        >
-          Next
-        </button>
+        />
       )}
     </>
   );

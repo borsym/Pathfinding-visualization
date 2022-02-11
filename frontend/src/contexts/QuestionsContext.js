@@ -86,10 +86,28 @@ const reducer = (state, action) => {
     case "SET_ANSWER":
       console.log("payload valasz", action.payload);
       // ezt szerintem backendben kéne lekezelni hogy jó választ adott e meg, leküldöm a választ és választ kapok rá hoyg jó e vagy sem
+      const correctAnswerCount =
+        action.payload.solution === action.payload.answer
+          ? state.correctAnswerCount + 1
+          : state.correctAnswerCount;
+      console.log(
+        "egyenloek?",
+        action.payload.solution === action.payload.answer
+      );
+      console.log("corrent answerek", correctAnswerCount);
       return {
         ...state,
         correctAnswer: action.payload.solution,
         currentAnswer: action.payload.answer,
+        correctAnswerCount: correctAnswerCount,
+      };
+    case "SET_CORRECT_ANSWERS_NUMBER":
+      console.log("payload tmp", action.payload);
+      const tmp = state.correctAnswerCount + action.payload;
+      console.log("tmp", tmp);
+      return {
+        ...state,
+        correctAnswerCount: tmp,
       };
     case "NEXT_QUESTION":
       // const showResults =
@@ -142,13 +160,13 @@ const reducer = (state, action) => {
         // currentQuestionId,
         // isSubmitted: false,
       };
-    // case "SELECT_ANSWER":
     case "SET_CURRENT_QUESTION_ID":
       console.log("itt a payload", action.payload);
       return {
         ...state,
         currentQuestionId: action.payload,
       };
+
     case "RESTART":
       return initialState;
     default:

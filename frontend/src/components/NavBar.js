@@ -132,86 +132,16 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
     >
       <ToastContainer />
 
-      {/* {console.log(
-        "questions in nav",
-        Promise.resolve(questionState).then((result) => {
-          console.log("questions in nav2", result);
-        }) */}
-      {/* )} */}
-      {/* {console.log("promise?", questionState)} */}
-      {/* {questionState.questions && ( */}
-
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
-        {/* {console.log("hehe")} */}
-        {/* {console.log(questionState)} */}
-        {/* {Promise.resolve(questionState)?.then(function (result) {
-          console.log("cica");
-          console.log("result", result.questions);
-          for (const [key, value] of Object.entries(result.questions.dnd)) {
-            console.log(key, value);
-            console.log("value", value.answers);
-            value.answers.map((answer) => {
-              console.log(answer);
-              <p>answer</p>;
-            });
-          }
-        })} */}
-
-        {/* EZ IT TA LEGJOBB CUCC EDDIG */}
-        {/* <p>{questionState.questions.algorithm}</p>
-        {questionState.questions.dnd &&
-          Object.keys(questionState.questions.dnd).map((id) => (
-            <p>{questionState.questions.dnd[id].answers.join(" ")}</p>
-          ))} */}
-        {/* EZ IT TA LEGJOBB CUCC EDDIG */}
-
-        {/* {questionState.questions.length &&
-          questionState?.questions.map((question) => <p>{question}</p>)} */}
-        {/* <DndQuestion
-          idx={optionsAlgorithms.indexOf(algorithm)}
-          algorithm={algorithm}
-        /> */}
+     
         {questionState.currentQuestionType === "quize" && <Quize />}
         {questionState.currentQuestionType === "dropdown" && (
           <DropdownQuestion />
         )}
         {questionState.currentQuestionType === "dnd" && <DndQuestion />}
 
-        {/* <Quize /> */}
-        {/* {questionState.currentQuestionType === "dnd" ? (
-         
-        ) : questionState.currentQuestionType === "dropdown" ? (
-          <Dropdown /> // itt akkor megy a submit ha van kattinás gombra
-        ) : (
-          <Quize /> // itt egyből megy a submit ha rákattolt az adott kérdésre
-        )} */}
-
-        {/* {questionState.currentQuestionType === "quize" ? (
-          questionState.isSubmitted ? (
-            <button
-              className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
-              onClick={() => {
-                dispatchQuestion({
-                  type: "SEND_ANSWERS",
-                  payload: ["answers..."], // vagy megváltoztatom a választ a stateban, questionState.answers = [] és ezt küldöm majd tovább, és akkor az adott komponensen belül mehet a dolog
-                });
-              }}
-            >
-              Submit
-            </button>
-          ) : (
-            <button
-              className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
-              onClick={() => {
-                dispatchQuestion({ type: "NEXT_QUESTION" });
-              }}
-            >
-              Next
-            </button>
-          )
-        ) : null} */}
       </ModalStuktos>
-      {/* )} */}
+ 
       <Button name="Valami" />
       <Dropdown
         name="Distance Formula"

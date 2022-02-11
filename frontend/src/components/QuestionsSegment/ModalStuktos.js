@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "../Button";
 import Card from "../Card";
 import { AiOutlineClose } from "react-icons/ai";
-import DataStuktos from "../../Data/DataStuktos.js";
+import { QuestionContext } from "../../contexts/QuestionsContext";
 
 const cardsidx = [0, 1, 2, 3, 4];
 const ModalStuktos = (props) => {
+  const [questionState, dispatch] = useContext(QuestionContext);
   const [counter, setCounter] = useState(0);
   const handleButtonClick = (value) => {
     let max = cardsidx.length - 1;
@@ -24,19 +25,10 @@ const ModalStuktos = (props) => {
           onClick={() => {
             props.setShowModal(false);
             setCounter(0);
+            dispatch({ type: "RESTART" });
           }}
           className="cursor-pointer absolute top-5 right-5 w-8 h-8 p-0 z-10"
         />
-        {console.log("gyerek", props.children)}
-        {/* 
-        {props.children.map((child) => {
-          if (child) {
-            Promise.resolve(child).then((child) => {
-              console.log("promise");
-              return child;
-            });
-          }
-        })} */}
         {props.children}
       </div>
     </div>

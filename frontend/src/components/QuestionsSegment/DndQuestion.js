@@ -17,7 +17,8 @@ const DndQuestion = () => {
 
   return (
     <>
-      hello
+      hello -
+      {questionState.correctAnswerCount}
       {/* <Dnd taskId={currentData.taskId} words={currentData.words}>
         {currentData.text}
       </Dnd> */}
