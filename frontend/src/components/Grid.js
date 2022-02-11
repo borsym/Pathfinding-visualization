@@ -4,7 +4,8 @@ import { GridContext } from "../contexts/GridContext";
 import axios from "axios";
 
 const Grid = () => {
-  const [grid, setGrid, type, setType] = useContext(GridContext);
+  const [grid, setGrid, type, setType, dispatch, isVisualize, setIsVisualize] =
+    useContext(GridContext);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [changes, setChanges] = useState([]); // sends to the server the changes
   const [isControl, setIsControl] = useState(false); // if the CTRL is pressed
@@ -27,6 +28,7 @@ const Grid = () => {
 
   const handleMouseDown = (e, row, col) => {
     // bit bugy
+    if (isVisualize) return;
     console.log("itt2");
     if (e.target.id.includes("start") || e.target.id.includes("end")) {
       console.log("bent vagoyk");
@@ -58,7 +60,7 @@ const Grid = () => {
   };
 
   const handleMouseEnter = (e, row, col) => {
-    if (!mouseIsPressed) return;
+    if (!mouseIsPressed || isVisualize) return;
     console.log("itt");
     if (isMoveStartEnd) {
       console.log("valaha ide belép?");

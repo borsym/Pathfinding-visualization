@@ -1,4 +1,4 @@
-const { width } = require("tailwindcss/defaultTheme");
+const { width, backgroundColor } = require("tailwindcss/defaultTheme");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         "wall-blue": "#0C3547",
         "visited-node-blue": "#40cde3",
-        "answer-background-grey": "#f0f0f0"
+        "answer-background-grey": "#f0f0f0",
       },
       keyframes: {
         fillBox: {
@@ -24,9 +24,9 @@ module.exports = {
 
         fillBoxVisited: {
           // hogy kéne körből - négyzetet csinálni animáció közben
-          "0%": { transform: "scale(0.2)" },
-          "40%": { transform: "scale(0.4)" },
-          "100%": { transform: "scale(1.1)" },
+          "0%": { transform: "scale(0.2)", backgroundColor: "#c472ff" },
+          "40%": { transform: "scale(0.4)", backgroundColor: "#c472ff" },
+          "100%": { transform: "scale(1.1)", backgroundColor: "#4d8de0" },
         },
       },
       animation: {

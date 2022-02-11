@@ -10,6 +10,7 @@ export const GridContext = createContext();
 export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
   const [type, setType] = useState(10);
+  const [isVisualize, setIsVisualize] = useState(false);
   // communication between components
   const dispatchGridEvent = async (actionType, payload) => {
     switch (actionType) {
@@ -29,7 +30,15 @@ export const GridProvider = (props) => {
   };
   return (
     <GridContext.Provider
-      value={[grid, setGrid, type, setType, dispatchGridEvent]}
+      value={[
+        grid,
+        setGrid,
+        type,
+        setType,
+        dispatchGridEvent,
+        isVisualize,
+        setIsVisualize,
+      ]}
     >
       {props.children}
     </GridContext.Provider>
@@ -79,19 +88,16 @@ const createNode = (col, row) => {
   };
 };
 
-const anmiteMaze = async (maze, conditions) => {
-  cleareBoard(conditions);
-  let order = [];
-  await axios.get(`http://localhost:8000/api/${maze}`).then((res) => {
-    order = res.data.order;
-  });
-
-  for (let i = 0; i < order.length; i++) {
+const anmiteMaze = (maze, conditions, speed) => {
+  // cleareBoard(conditions);
+  clearPreviousVisualization(conditions);
+  console.log("elkezdte");
+  for (let i = 0; i < maze.length; i++) {
     setTimeout(() => {
-      const node = order[i];
+      const node = maze[i];
       document.getElementById(`node-${node[0]}-${node[1]}`).className =
         "node-style node-wall bg-wall-blue animate-fillBox";
-    }, 15 * i);
+    }, 20 * i);
   }
 };
 

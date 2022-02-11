@@ -30,8 +30,15 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
   const [speed, setSpeed] = useState(10);
   const [distanceFormula, setDistanceFormula] = useState("Euclidean");
   const [showModal, setShowModal] = useState(false);
-  const [grid, setGrid, type, setType, dispatchGridEvent] =
-    useContext(GridContext);
+  const [
+    grid,
+    setGrid,
+    type,
+    setType,
+    dispatchGridEvent,
+    isVisualize,
+    setIsVisualize,
+  ] = useContext(GridContext);
   const [questionState, dispatchQuestion] = useContext(QuestionContext);
 
   const handleClearBoard = () => {
@@ -40,16 +47,36 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
     });
   };
 
-  const handleVisualizeMaze = (maze) => {
-    setIsDisabled(true);
-    dispatchGridEvent("VISUALIZE_MAZE", {
-      maze: maze,
-      conditions: ["node-start", "node-finish"],
+  const handleVisualizeMaze = async (maze) => {
+    await axios.post("http://localhost:8000/api/clearForMaze", {
+      // indicated the clear
+      is_refreshed: true,
     });
-    setTimeout(() => {
-      // ezt mindenképpen meg kellene csinálni mindengyik elemre is
-      setIsDisabled(false);
-    }, ((0 + 10 * 15) * 93) / 2); // a probléma az hogy nem férek hozzá az order.lenght-hez ezért nem tudom a képlettel kiszámítani, erre kell egy ötlet.. statekkel vagy átrendezni a függvényhívásokat
+
+    await axios
+      .get(`http://localhost:8000/api/${maze}`)
+      .then((res) => {
+        setIsVisualize(true);
+        setIsDisabled(true);
+        dispatchGridEvent("VISUALIZE_MAZE", {
+          maze: res.data.order,
+          conditions: ["node-start", "node-finish"],
+          speed: speed,
+        });
+        // setTimeout(() => {
+        //   const node = order[i];
+        //   document.getElementById(`node-${node[0]}-${node[1]}`).className =
+        //     "node-style node-wall bg-wall-blue animate-fillBox";
+        // }, 15 * i);
+        setTimeout(() => {
+          // ezt mindenképpen meg kellene csinálni mindengyik elemre is
+          setIsDisabled(false);
+          setIsVisualize(false);
+        }, 20 * res.data.order.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleDistanceFormula = (distanceFormula) => {
@@ -75,6 +102,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
     if (!algorithm) {
       warningMessage();
     } else {
+      setIsVisualize(true);
       axios
         .get(`http://localhost:8000/api/${algorithm}`)
         .then((res) => {
@@ -88,6 +116,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           setTimeout(() => {
             // ezt mindenképpen meg kellene csinálni mindengyik elemre is
             setIsDisabled(false);
+            setIsVisualize(false);
           }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
         })
         .catch((err) => {
@@ -133,15 +162,13 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
       <ToastContainer />
 
       <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
-     
         {questionState.currentQuestionType === "quize" && <Quize />}
         {questionState.currentQuestionType === "dropdown" && (
           <DropdownQuestion />
         )}
         {questionState.currentQuestionType === "dnd" && <DndQuestion />}
-
       </ModalStuktos>
- 
+
       <Button name="Valami" />
       <Dropdown
         name="Distance Formula"
