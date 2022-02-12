@@ -12,6 +12,7 @@ import DropdownQuestion from "./DropDownQuestions/DropdownQuestion";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import { QuestionContext } from "../contexts/QuestionsContext";
+import Over from "./Over";
 
 const NavBar = ({ algorithm, setAlgorithm }) => {
   const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
@@ -162,6 +163,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
           <DropdownQuestion />
         )}
         {questionState.currentQuestionType === "dnd" && <DndQuestion />}
+        {questionState.currentQuestionType === "over" && <Over />}
       </ModalStuktos>
 
       <Button name="Valami" />

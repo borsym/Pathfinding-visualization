@@ -6,7 +6,7 @@ const initialState = {
   currentQuestionIndex: 0,
   showResults: false,
   correctAnswerCount: 0,
-  currentQuestionType: "quize",
+  currentQuestionType: "quize", //"quize",
   questionTypeIndex: 0,
   currentQuestionId: "",
   algorithm: "",
@@ -76,8 +76,7 @@ const reducer = (state, action) => {
         questions: action.payload.questions,
       };
     case "SEND_ANSWERS":
-      // console.log("state", state);
-      // console.log("payload", action.payload);
+      console.log("payload", action.payload);
       // const checkedSelectedAnswer = handleSelectAnswer(state, action.payload);
       return { ...state };
     // const checkedSendAnswers = handleSendAnswers(state, action.payload);
@@ -134,7 +133,9 @@ const reducer = (state, action) => {
         currentQuestionIndex === 0
           ? state.currentQuestionType === "quize"
             ? "dropdown"
-            : "dnd"
+            : state.currentQuestionType === "dropdown"
+            ? "dnd"
+            : "over"
           : state.currentQuestionType;
       // console.log("current question index", currentQuestionIndex);
       // const currentQuestionId =

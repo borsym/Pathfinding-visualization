@@ -15,6 +15,7 @@ import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
 import StukiPng from "../../images/stuki.png";
 import { QuestionContext } from "../../contexts/QuestionsContext";
+import axios from "axios";
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
@@ -22,27 +23,25 @@ const Dnd = (props) => {
   const [activeId, setActiveId] = useState(null);
   const [wordbank, setWordbank] = useState(props.words);
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor));
+
   const childrenWithBlanks = React.Children.toArray(props.children).map(
     (child, index) => {
       // lekérünk minden szöveget ami a dnd körbevesz
-      if (child.props?.solution) {
-        // ha van solution adattagja
-        const { solution } = child.props;
-        const solutions = Array.isArray(solution) ? solution : [solution];
+      if (child.props?.id) {
+        // ha van id adattagja
         return {
           id: `blank-${index}`,
-          solutions,
           items: [],
         };
       }
       return child;
     }
   );
-  const solutions = [];
+
   const blanks = childrenWithBlanks.reduce((acc, currChild) => {
-    if (currChild.solutions) {
-      solutions.push(...currChild.solutions);
+    if (currChild.id) {
       return {
         ...acc,
         [currChild.id]: currChild,
@@ -62,6 +61,11 @@ const Dnd = (props) => {
         answers.push(key + ":" + value.items);
       }
     }
+
+    answers = answers.map((answer) => {
+      return answer.substring(answer.indexOf(":") + 1, answer.length);
+    });
+
     return answers;
   }
 
@@ -165,9 +169,74 @@ const Dnd = (props) => {
     }
     setActiveId(null);
   };
+
   const handleDragCancle = () => {
     setActiveId(null);
   };
+
+  const handleSubmit = async () => {
+    const answers = gatherAnswers();
+    let countCorretAnswers = 0;
+    axios
+      .post(`http://localhost:8000/api/dnd/${questionState.algorithm}`, {
+        answers: answers,
+        algorithm: questionState.algorithm,
+        idx: questionState.currentQuestionIndex,
+      })
+      .then((result) => {
+        // ide ki kell talalni valamit
+        // let idx = 0;
+        // Object.entries(items).reduce((acc, [key, value]) => {
+        //   if (key !== "WORD_BANK") {
+        //     value.isCorrect = result.data[idx];
+        //     const { isCorrect } = value;
+        //     console.log("value", isCorrect);
+
+        //     console.log("val", result.data[idx]);
+        //     return value;
+        //   }
+        // }, {});
+
+        // props.children.map((child) => {
+        //   console.log("child", child);
+        //   if (child.props) {
+        //     console.log("anyhaad", document.getElementById(child.props.id));
+        //     // .className = "bg-green-200";
+        //   }
+        // });
+        // childrenWithBlanks.map((child, index) => {
+        //   const { id } = child;
+        //   console.log(
+        //     "document.getElementById(id)",
+        //     document.getElementById(id)
+        //   );
+        // });
+
+        // Object.keys(questionState).map((key, idx) => {
+        //   if (key !== "img") {
+        //     // console.log("idx", idx);
+        //     // console.log("resultidx", result.data[idx - 1]);
+        //     // console.log(document.getElementById(key));
+        //     document.getElementById(key).className = result.data[idx - 1]
+        //       ? "flex p-1 m-1 bg-green-100"
+        //       : "flex p-1 m-1 bg-red-100";
+        console.log("result data", result.data);
+        result.data.map((idx) => {
+          countCorretAnswers = result.data[idx - 1]
+            ? countCorretAnswers + 1
+            : countCorretAnswers;
+        });
+        // });
+      })
+      .then(() => {
+        console.log("countCorretAnswers", countCorretAnswers);
+        dispatchQuestion({
+          type: "SET_CORRECT_ANSWERS_NUMBER",
+          payload: countCorretAnswers,
+        });
+      });
+  };
+
   return (
     <div className="bg-red-100 mx-auto">
       <DndContext
@@ -182,11 +251,12 @@ const Dnd = (props) => {
           {/* itt lesz a szöveg ahova majd be kell huzni a válaszokat*/}
           <div>
             {childrenWithBlanks.map((child, index) => {
-              const { solutions, id } = child;
-              if (solutions) {
+              const { id } = child;
+              // console.log("id", id);
+
+              if (id) {
                 const { items: blankItems, isCorrect: isBlankCorrect } =
                   items[id];
-
                 return (
                   <>
                     {" "}
@@ -196,17 +266,16 @@ const Dnd = (props) => {
                       isCorrect={isBlankCorrect}
                     >
                       {blankItems.map((value) => {
-                        console.log("id", id, "value", value);
+                        // console.log("id", id, "value", value);
                         // {
                         //   questionState.answers.push(id + ":" + value);
                         // }
                         // console.log("a", questionState.answers);
                         return (
                           <SortableItem
-                            key={`sortable-item--${value}`}
+                            key={`sortable-item-${value}`}
                             id={value}
-                            taskId={props.taskId}
-                            // isCorrect={isBlankCorrect}
+                            taskid={props.taskid}
                           />
                         );
                       })}
@@ -221,7 +290,7 @@ const Dnd = (props) => {
         </div>
         <div
           className="w-48 border-2 border-black border-solid"
-          taskId={props.taskId}
+          taskid={props.taskid}
         >
           <SortableContext items={wordbank} strategy={() => {}}>
             {wordbank.map((id) => (
@@ -238,14 +307,16 @@ const Dnd = (props) => {
           elküldöm a kérdés id-jat a hozzá tartozó válaszokkal és a szerver
           válaszol hogy mi volt jó és mi nem?
         */}
-        {!questionState.isSubmitted ? (
+        {!isSubmitted ? (
           <button
             className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
             onClick={() => {
-              dispatchQuestion({
-                type: "SEND_ANSWERS",
-                payload: gatherAnswers(), // vagy megváltoztatom a választ a stateban, questionState.answers = [] és ezt küldöm majd tovább, és akkor az adott komponensen belül mehet a dolog
-              });
+              // dispatchQuestion({
+              //   type: "SEND_ANSWERS",
+              //   payload: gatherAnswers(), // vagy megváltoztatom a választ a stateban, questionState.answers = [] és ezt küldöm majd tovább, és akkor az adott komponensen belül mehet a dolog
+              // });
+              handleSubmit();
+              setIsSubmitted(true);
             }}
           >
             Submit
@@ -255,6 +326,8 @@ const Dnd = (props) => {
             className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
             onClick={() => {
               dispatchQuestion({ type: "NEXT_QUESTION" });
+              setIsSubmitted(false);
+              console.log("asdads", questionState.correctAnswerCount);
             }}
           >
             Next

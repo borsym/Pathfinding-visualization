@@ -42,7 +42,7 @@ module.exports = {
       animation: {
         fillBox: "fillBox 0.15s ease-in-out",
         fillBoxVisited: "fillBoxVisited 0.3s ease-in-out",
-        fillBoxNavbar: "fillBoxNavbar 0.75s ease-in-out",
+        fillBoxNavbar: "fillBoxNavbar 0.5s ease-in-out",
       },
     },
   },

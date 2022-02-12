@@ -175,6 +175,25 @@ async def get_random_maze() -> dict:
         "order": order # mazelesz ebből
     }
 
+
+#Dnd
+@app.post("/api/dnd/{algorithm}", tags=["DragAndDrop"])
+async def post_solution(items: DropDownAnswers):
+    result = []
+    response = await fetch_one_solution(items.get_algorithm())
+    keys_list = list(response["dnd"])
+    key = keys_list[items.get_idx()]
+
+    print(response["dnd"][key])
+    print("--")
+    for idx,key_val in enumerate(response["dnd"][key]):
+        print(key_val + " " + items.get_answers()[idx])
+        
+        result.append(key_val == items.get_answers()[idx])
+    print(result)
+    return result
+    #raise HTTPException(400, "Something went wrong")
+
 #DropDown
 @app.post("/api/dropdown/{algorithm}", tags=["DropDown"])
 async def post_solution(items: DropDownAnswers):

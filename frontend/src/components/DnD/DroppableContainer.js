@@ -3,13 +3,12 @@ import { useDroppable } from "@dnd-kit/core";
 
 const DroppableContainer = (props) => {
   // ide fogok dobálni
-  const { setNodeRef, over, isOver } = useDroppable({
+  const { setNodeRef, id } = useDroppable({
     // isOver megváltozik a megjelenése ha draggable köré ér
     // over ebből foogm az idt kikapni
     id: props.id,
   });
   // const isOverContainer =
-
   return (
     <div
       ref={setNodeRef}
