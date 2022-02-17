@@ -63,7 +63,6 @@ const handleSelectAnswer = (state, payload) => {
   return correctAnswer;
 };
 
-const db = firebase.firestore();
 
 const reducer = (state, action) => {
   switch (action.type) {

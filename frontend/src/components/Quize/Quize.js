@@ -25,15 +25,16 @@ const Quize = () => {
           </div>
         </div>
         <Question disabled={disabled} setDisabled={setDisabled} />
-        <div className="flex justify-end "></div>
-        <Button
-          name="Next"
-          questionSection={true}
-          function={() => {
-            clearPreviousResult();
-            dispatch({ type: "NEXT_QUESTION" });
-          }}
-        />
+        <div className="float-right">
+          <Button
+            name="Next"
+            questionSection={true}
+            function={() => {
+              clearPreviousResult();
+              dispatch({ type: "NEXT_QUESTION" });
+            }}
+          />
+        </div>
       </div>
     </div>
   );
