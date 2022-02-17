@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useReducer } from "react";
-
+import { firebase } from "../Firebase/firebase";
 const initialState = {
   questions: {},
   currentQuestionIndex: 0,
@@ -63,13 +63,25 @@ const handleSelectAnswer = (state, payload) => {
   return correctAnswer;
 };
 
+const db = firebase.firestore();
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_QUESTIONS":
       // const questions = await handleGetQuestions(action.payload);
       // console.log("questions: ", questions);
-      // console.log("questions: ", action.payload.questions);
-
+      console.log("questions: ", action.payload.questions);
+      // db.collection("users")
+      //   .doc(firebase.auth().currentUser.uid)
+      //   .get()
+      //   .then((doc) => {
+      //     return db
+      //       .collection("users")
+      //       .doc(firebase.auth().currentUser.uid)
+      //       .update({
+      //         points: Number(10),
+      //       });
+      //   });
       return {
         ...state,
         algorithm: action.payload.algorithm,

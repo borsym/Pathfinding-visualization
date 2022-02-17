@@ -25,6 +25,8 @@ from database import (
     create_solution,
 )
 
+from database_firebase import (get_solution_qtype_id, set_user_points, set_user_points_zero, new_user)
+
 start_x, start_y, end_x, end_y, map_x, map_y = 10,15,10,35,20,50
 start = Node(start_x, start_y , Fields.START)
 end = Node(end_x, end_y, Fields.END)
@@ -82,19 +84,42 @@ class Distance(BaseModel):
         return self.distance
 
 class DropDownAnswers(BaseModel):
-    answers : list
+    answers : dict
     algorithm : str
-    idx: int
+    questionsType : str
+    id: str
+    uid: str
 
-    def get_idx(self):
-        return self.idx
+    def get_id(self):
+        return self.id
 
     def get_answers(self):
         return self.answers
 
     def get_algorithm(self):
         return self.algorithm
+    
+    def get_questionType(self):
+        return self.questionsType
 
+    def get_uid(self):
+        return self.uid
+
+class UserId(BaseModel):
+    uid : str
+
+    def get_uid(self):
+        return self.uid
+
+class UserIdName(BaseModel):
+    uid: str
+    name: str
+
+    def get_uid(self):
+        return self.uid
+
+    def get_name(self):
+        return self.name
 
 app = FastAPI()
 app.distance_formula = "Euclidean"
@@ -175,46 +200,112 @@ async def get_random_maze() -> dict:
         "order": order # mazelesz ebből
     }
 
+#Restart points
+@app.post("/api/restartpoints", tags=["Restart Points"])
+async def restart_points(items : UserId):
+    print("itt van?")
+    set_user_points_zero(items.get_uid())
+     
+#user
+@app.post("/api/user", tags=["Restart Points"])
+async def user(items : UserIdName):
+    new_user(items.get_uid(), items.get_name())
+    
+#Quize
+@app.post("/api/quize/{algorithm}", tags=["DragAndDrop"])
+async def post_solution(items: DropDownAnswers):
+    result = {}
+    print("ans",items.get_answers())
+    print("alg", items.get_algorithm())
+    print("qtype", items.get_questionType())
+    print("id", items.get_id())
+    response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
+    print(response)
+    # keys_list = list(response["dnd"])
+    # key = keys_list[items.get_idx()]
+    idx = 0
+    points = 0
+    for key, value in items.get_answers().items():
+        if value:
+            print("value", value)
+            print("respnose idx",response[idx])
+            print("respnose",response)
+            result[key] = value == response
+            points +=  1 if value == response else 0 
+        idx += 1
+    print("elejen a pontok", points)
+    set_user_points(items.get_uid(), points)
+    
+    return result
 
-#Dnd
+#Dnd 
 @app.post("/api/dnd/{algorithm}", tags=["DragAndDrop"])
 async def post_solution(items: DropDownAnswers):
-    result = []
-    response = await fetch_one_solution(items.get_algorithm())
-    keys_list = list(response["dnd"])
-    key = keys_list[items.get_idx()]
-
-    print(response["dnd"][key])
-    print("--")
-    for idx,key_val in enumerate(response["dnd"][key]):
-        print(key_val + " " + items.get_answers()[idx])
-        
-        result.append(key_val == items.get_answers()[idx])
-    print(result)
+    result = {}
+    # print("ans",items.get_answers())
+    # print("alg", items.get_algorithm())
+    # print("qtype", items.get_questionType())
+    # print("id", items.get_id())
+    response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
+    # print(response)
+    # keys_list = list(response["dnd"])
+    # key = keys_list[items.get_idx()]
+    idx = 0
+    points = 0
+    for key, value in items.get_answers().items():
+        if value:
+            print("value", value)
+            print("respnose idx",response[idx])
+            result[key] = value == response[idx]
+            points += 1 if value == response[idx] else 0
+        idx += 1
+    set_user_points(items.get_uid(), points)
     return result
+    # print(response["dnd"][key])
+    # print("--")
+    # for idx,key_val in enumerate(response["dnd"][key]):
+    #     print(key_val + " " + items.get_answers()[idx])
+        
+    #     result.append(key_val == items.get_answers()[idx])
+    # print(result)
+    # return result
     #raise HTTPException(400, "Something went wrong")
 
 #DropDown
 @app.post("/api/dropdown/{algorithm}", tags=["DropDown"])
 async def post_solution(items: DropDownAnswers):
-    result = []
-   
-    # print(items.get_idx())
-    response = await fetch_one_solution(items.get_algorithm())
-    keys_list = list(response["dropdown"])
-    key = keys_list[items.get_idx()]
-
-    # print(response["dropdown"][key])
-    for idx,key_val in enumerate(response["dropdown"][key]):
-        print(response["dropdown"][key][key_val])
-        print(idx)
-        # print(items.get_answers()[idx])
-        result.append(response["dropdown"][key][key_val] == items.get_answers()[idx])
-    print(result)
+    print("HALLO")
+    result = {}
+    # print("ans",items.get_answers())
+    # print("alg", items.get_algorithm())
+    # print("qtype", items.get_questionType())
+    # print("id", items.get_id())
+    response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
+    print(response)
+    points = 0;
+    for key, value in items.get_answers().items():
+        # print("responsekey", response[key])
+        # print("value", value)
+        result[key] = response[key] == value
+        points += 1 if response[key] == value else 0
+    # print(result)
+    set_user_points(items.get_uid(), points)
     return result
-    #raise HTTPException(400, "Something went wrong")
+    # response = await fetch_one_solution(items.get_algorithm())
+    # keys_list = list(response["dropdown"])
+    # key = keys_list[items.get_idx()]
 
-#Solutions
+    # # print(response["dropdown"][key])
+    # for idx,key_val in enumerate(response["dropdown"][key]):
+    #     print(response["dropdown"][key][key_val])
+    #     print(idx)
+    #     # print(items.get_answers()[idx])
+    #     result.append(response["dropdown"][key][key_val] == items.get_answers()[idx])
+    # print(result)
+    # return result
+    raise HTTPException(400, "Something went wrong")
+
+#Solutions itt irokálom majd át
 @app.get("/api/solutions/{algorithm}", tags=["Solutions"])
 async def get_solution(algorithm : str) -> dict: # request from backend?
     response = await fetch_one_solution(algorithm)

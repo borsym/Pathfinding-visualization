@@ -1,0 +1,67 @@
+{
+  "algorithm": "Astar",
+  "dnd": {
+    "id-1": {
+      "answers": [
+        "logaritmikus",
+        "negyzetes",
+        "sulyozott",
+        "nem sulyozott",
+        "Astar"
+      ],
+      "question": [
+        "Mit gondolsz itt mi lesz a valasz?: ",
+        "@@@",
+        "ha behuztad akkor huzd mar be ide is pls ",
+        "@@@",
+        "nagyon ugyes vagyok"
+      ]
+    },
+    "id-2": {
+      "answers": ["kiscica", "nagycica", "sulyozott", "nem sulyozott", "Astar"],
+      "question": [
+        "Ez egy teszt mi itt a valasz: ",
+        "@@@",
+        "ha behuztad akkor huzd mar be ide is pls ",
+        "@@@",
+        "nagyon ugyes vagyok"
+      ]
+    }
+  },
+  "quize": {
+    "id-1": {
+      "question": "What does CSS stand for?",
+      "answers": [
+        "Computer Style Sheets",
+        "Creative Style Sheets",
+        "Colorful Style Sheets",
+        "Cascading Style Sheets egy"
+      ]
+    },
+    "id-2": {
+      "question": "What does CSS stand for masodik?",
+      "answers": [
+        "Computer Style Sheets masiodik",
+        "Creative Style Sheets",
+        "Colorful Style Sheets",
+        "Cascading Style Sheets ketto"
+      ]
+    }
+  },
+  "dropdown": {
+    "id-1": {
+      "img": "img",
+      "answers-1": ["kutya", "ketto", "harom", "negy"],
+      "answers-2": ["egy", "ketto", "harom", "negy"],
+      "answers-3": ["egy", "ketto", "harom", "negy"],
+      "answers-4": ["egy", "ketto", "harom", "negy"]
+    },
+    "id-2": {
+      "img": "img2",
+      "answers-1": ["cica", "c", "h", "n"],
+      "answers-2": ["k", "k", "k", "k"],
+      "answers-3": ["egy", "ketto", "harom", "negy"],
+      "answers-4": ["egy", "ketto", "harom", "negy"]
+    }
+  }
+}

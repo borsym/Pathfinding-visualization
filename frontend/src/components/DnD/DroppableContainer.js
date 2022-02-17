@@ -8,18 +8,10 @@ const DroppableContainer = (props) => {
     // over ebből foogm az idt kikapni
     id: props.id,
   });
+  // console.log("dropable", props.id);
   // const isOverContainer =
   return (
-    <div
-      ref={setNodeRef}
-      className={`min-w-[150px] min-h-[40px] p-1 mt-1 mb-1 border-2 inline-block rounded-md border-inherit  ${
-        typeof props.isCorrect === "boolean"
-          ? props.isCorrect
-            ? "bg-green-100"
-            : "bg-red-700"
-          : "bg-slate-600"
-      } `}
-    >
+    <div id={props.id} ref={setNodeRef} className={`blank-style bg-slate-600`}>
       {props.children ? (
         props.children
       ) : (

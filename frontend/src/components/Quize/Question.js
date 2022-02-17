@@ -1,41 +1,48 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import Answer from "./Answer";
 import axios from "axios";
-
-
+import { firebase } from "../../Firebase/firebase";
 // ezt inkább backendbe kéne leküldeni
-const Question = () => {
+const Question = (props) => {
   const [quizeState, dispatch] = useContext(QuestionContext);
+  let currentQuestionId = null;
   const currentQuestion = Object.keys(quizeState.questions.quize)
     .map((id, idx) => {
       if (idx === quizeState.currentQuestionIndex) {
+        currentQuestionId = id;
         return quizeState.questions.quize[id];
       }
     })
     .filter((question) => question !== undefined)[0];
 
-  const handleSelectAnswer = async (answer) => {
-    const solution = await axios
-      .get(`http://localhost:8000/api/solutions/${quizeState.algorithm}`)  // itt inkább le kéne küldenem a választ kés visszakapni rá egy eredményt hogy true vagy false
-      .then(
-        (result) =>
-          Object.keys(result.data[quizeState.currentQuestionType])
-            .map((id, idx) => {
-              if (idx === quizeState.currentQuestionIndex) {
-                return result.data[quizeState.currentQuestionType][id];
-              }
-            })
-            .filter((question) => question !== undefined)[0]
-      );
-    dispatch({ type: "SET_ANSWER", payload: { answer, solution } });
+  const handleSelectAnswer = async (answer, index) => {
+    let answers = {};
+    answers[index] = answer;
+    props.setDisabled("pointer-events-none");
+    axios
+      .post(`http://localhost:8000/api/quize/${quizeState.algorithm}`, {
+        answers: answers,
+        algorithm: quizeState.algorithm,
+        questionsType: quizeState.currentQuestionType,
+        id: currentQuestionId,
+        uid: firebase.auth().currentUser.uid
+      })
+      .then((result) => {
+        console.log("ez a result", result.data);
+        Object.keys(result.data).map((key, idx) => {
+          console.log("key", key);
+          console.log("idx", idx);
+          console.log("res", result.data[key]);
+          document.getElementById(key).className = result.data[key]
+            ? "border-2 w-full flex justify-center font-semibold bg-green-100"
+            : "border-2 w-full flex justify-center font-semibold bg-red-100";
+        });
+      });
   };
 
-  // console.log("current", currentQuestion);
-
-
   return (
-    <div>
+    <div className={`${props.disabled}`}>
       <div className="flex justify-center font-semibold text-2xl">
         {currentQuestion.question}
       </div>
@@ -46,12 +53,14 @@ const Question = () => {
             index // options
           ) => (
             <Answer
+              id={index}
               answerText={answer}
               key={index}
               index={index}
               currentAnswer={quizeState.currentAnswer}
-              correctAnswer={quizeState.correctAnswer}
-              onSelectAnswer={(answerText) => handleSelectAnswer(answerText)}
+              onSelectAnswer={(answerText) =>
+                handleSelectAnswer(answerText, index)
+              }
             />
           )
         )}

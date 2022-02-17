@@ -16,6 +16,8 @@ import DroppableContainer from "./DroppableContainer";
 import StukiPng from "../../images/stuki.png";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import axios from "axios";
+import { firebase } from "../../Firebase/firebase";
+
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
@@ -55,16 +57,18 @@ const Dnd = (props) => {
   const [items, setItems] = useState(blanks);
 
   function gatherAnswers() {
-    let answers = [];
+    let answers = {};
     for (const [key, value] of Object.entries(items)) {
       if (key !== "WORD_BANK") {
-        answers.push(key + ":" + value.items);
+        console.log("value0", value.items);
+        // answers.push(key + ":" + value.items);
+        answers[key] = value.items[0];
       }
     }
-
-    answers = answers.map((answer) => {
-      return answer.substring(answer.indexOf(":") + 1, answer.length);
-    });
+    console.log("answers1", answers);
+    // answers = answers.map((answer) => {
+    //   return answer.substring(answer.indexOf(":") + 1, answer.length);
+    // });
 
     return answers;
   }
@@ -176,63 +180,21 @@ const Dnd = (props) => {
 
   const handleSubmit = async () => {
     const answers = gatherAnswers();
-    let countCorretAnswers = 0;
+    console.log("answers", answers);
     axios
       .post(`http://localhost:8000/api/dnd/${questionState.algorithm}`, {
         answers: answers,
         algorithm: questionState.algorithm,
-        idx: questionState.currentQuestionIndex,
+        questionsType: questionState.currentQuestionType,
+        id: props.currentQuestionId,
+        uid: firebase.auth().currentUser.uid,
       })
       .then((result) => {
-        // ide ki kell talalni valamit
-        // let idx = 0;
-        // Object.entries(items).reduce((acc, [key, value]) => {
-        //   if (key !== "WORD_BANK") {
-        //     value.isCorrect = result.data[idx];
-        //     const { isCorrect } = value;
-        //     console.log("value", isCorrect);
-
-        //     console.log("val", result.data[idx]);
-        //     return value;
-        //   }
-        // }, {});
-
-        // props.children.map((child) => {
-        //   console.log("child", child);
-        //   if (child.props) {
-        //     console.log("anyhaad", document.getElementById(child.props.id));
-        //     // .className = "bg-green-200";
-        //   }
-        // });
-        // childrenWithBlanks.map((child, index) => {
-        //   const { id } = child;
-        //   console.log(
-        //     "document.getElementById(id)",
-        //     document.getElementById(id)
-        //   );
-        // });
-
-        // Object.keys(questionState).map((key, idx) => {
-        //   if (key !== "img") {
-        //     // console.log("idx", idx);
-        //     // console.log("resultidx", result.data[idx - 1]);
-        //     // console.log(document.getElementById(key));
-        //     document.getElementById(key).className = result.data[idx - 1]
-        //       ? "flex p-1 m-1 bg-green-100"
-        //       : "flex p-1 m-1 bg-red-100";
         console.log("result data", result.data);
-        result.data.map((idx) => {
-          countCorretAnswers = result.data[idx - 1]
-            ? countCorretAnswers + 1
-            : countCorretAnswers;
-        });
-        // });
-      })
-      .then(() => {
-        console.log("countCorretAnswers", countCorretAnswers);
-        dispatchQuestion({
-          type: "SET_CORRECT_ANSWERS_NUMBER",
-          payload: countCorretAnswers,
+        Object.keys(result.data).map((key, value) => {
+          document.getElementById(key).className = result.data[key]
+            ? `blank-style bg-green-400`
+            : `blank-style bg-red-700`;
         });
       });
   };

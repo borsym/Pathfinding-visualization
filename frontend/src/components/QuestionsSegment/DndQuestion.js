@@ -13,12 +13,14 @@ megkapom az adatokat és az alapján fogok tovább iterálni
 const DndQuestion = () => {
   // get the text from the questions array by the idx and algorithm, is it good practice?
   const [quizeState, dispatch] = useContext(QuestionContext);
+  let currentQuestionId = null;
   console.log("questionstate", quizeState.questions);
   const currentQuestion = Object.keys(
     quizeState.questions[quizeState.currentQuestionType]
   )
     .map((id, idx) => {
       if (idx === quizeState.currentQuestionIndex) {
+        currentQuestionId = id;
         return quizeState.questions[quizeState.currentQuestionType][id];
       }
     })
@@ -42,6 +44,7 @@ const DndQuestion = () => {
         taskid={quizeState.currentQuestionIndex}
         words={currentQuestion.answers}
         key={quizeState.currentQuestionIndex}
+        currentQuestionId={currentQuestionId}
       >
         {text}
       </Dnd>

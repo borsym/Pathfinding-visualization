@@ -13,14 +13,16 @@ import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import { QuestionContext } from "../contexts/QuestionsContext";
 import Over from "./Over";
+import Profile from "./Profile/Profile";
+import { firebase } from "../Firebase/firebase";
 
-const NavBar = ({ algorithm, setAlgorithm }) => {
+const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutorial }) => {
   const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
   const optionsMazes = ["Recursive Division", "Random"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
   const optionsType = ["Empty [0]", "Grass [10]", "Water [20]", "Stone [30]"];
   const optionDistance = ["Euclidean", "Manhattan", "Chebyshev"];
-
+  const db = firebase.firestore();
   const [maze, setMaze] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(10);
@@ -36,6 +38,7 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
     setIsVisualize,
   ] = useContext(GridContext);
   const [questionState, dispatchQuestion] = useContext(QuestionContext);
+  const [isOpenProfile, setIsOpenProfile] = useState(false);
 
   const handleClearBoard = () => {
     dispatchGridEvent("CLEAR_BOARD", {
@@ -73,6 +76,10 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const openProfile = () => {
+    setIsOpenProfile(true);
   };
 
   const handleDistanceFormula = (distanceFormula) => {
@@ -128,28 +135,36 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
   // };
 
   const handleGetQuestions = async (algorithm) => {
-    const questions = await axios.get(
-      `http://localhost:8000/api/questions/${algorithm}`
-    );
-    // .then(function (
-    //   // resolve promise
-    //   result
-    // ) {
-    //   return result;
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
+    await axios.post(`http://localhost:8000/api/restartpoints`, {
+      uid: firebase.auth().currentUser.uid,
+    });
 
-    console.log("handle", questions.data);
-
+    const questions = await db
+      .collection("questions")
+      .doc(algorithm)
+      .get()
+      .then((doc) => {
+        return doc;
+      });
+      
     dispatchQuestion({
       type: "SET_QUESTIONS",
-      payload: { algorithm, questions: questions.data },
+      payload: { algorithm, questions: questions.data() },
     });
     setShowModal(true);
   };
-
+  // const db = firebase.firestore();
+  // const handleGetProfile = async () => {
+  //   await db
+  //     .collection("users")
+  //     .doc(firebase.auth().currentUser.uid)
+  //     .get()
+  //     .then((doc) => {
+  //       const user = doc.data();
+  //       console.log("user", user);
+  //       return user;
+  //     });
+  // };
   return (
     <nav
       className="flex justify-center items-center mx-auto bg-slate-800 p-4"
@@ -165,8 +180,14 @@ const NavBar = ({ algorithm, setAlgorithm }) => {
         {questionState.currentQuestionType === "dnd" && <DndQuestion />}
         {questionState.currentQuestionType === "over" && <Over />}
       </ModalStuktos>
-
-      <Button name="Valami" />
+      <Profile
+        isOpenProfile={isOpenProfile}
+        setIsOpenProfile={setIsOpenProfile}
+        showModelTutorial={showModelTutorial}
+        setShowModelTutorial={setShowModelTutorial}
+        // getData={handleGetProfile}
+      />
+      <Button name="Profile" function={openProfile} />
       <Dropdown
         name="Distance Formula"
         options={optionDistance}

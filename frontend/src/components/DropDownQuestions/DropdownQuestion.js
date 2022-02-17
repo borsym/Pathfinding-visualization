@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import Button from "../Button";
+import { firebase } from "../../Firebase/firebase";
 const DropdownQuestion = () => {
   const [quizeState, dispatch] = useContext(QuestionContext);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -24,69 +25,70 @@ const DropdownQuestion = () => {
     });
   };
 
-  // const tmp = () => {
-  //   dispatch({
-  //     type: "SET_CORRECT_ANSWERS_NUMBER",
-  //     payload: countCorretAnswers,
-  //   });
-  // };
-
   const getValuesFromSelect = () => {
-    let countCorretAnswers = 0;
-    const answers = Object.keys(currentQuestion)
-      .map((key, idx) => {
-        if (key !== "img") {
-          let select = document.getElementById(key);
-          let value = select.options[select.selectedIndex].value;
-          //return `${value}-${key}`; // lehet elég csak a value-t adni
-          return value;
+    let currentQuestionId = null;
+    Object.keys(quizeState.questions[quizeState.currentQuestionType]).map(
+      (id, idx) => {
+        if (idx === quizeState.currentQuestionIndex) {
+          currentQuestionId = id;
         }
-      })
-      .filter((answer) => answer !== undefined);
-
+      }
+    );
+    console.log("test", currentQuestionId);
+    let answers = {};
+    Object.keys(currentQuestion).map((key, idx) => {
+      if (key !== "kep") {
+        let select = document.getElementById(key);
+        let value = select.options[select.selectedIndex].value;
+        // return `${key}-${value}`; // lehet elég csak a value-t adni
+        // return value;
+        // return (answer[key] = value);
+        answers[key] = value;
+      }
+    });
+    // .filter((answer) => answer !== undefined);
+    // mar itt baja van
+    // console.log("a", answers);
+    // console.log("b", quizeState.algorithm);
+    // console.log("c", quizeState.currentQuestionType);
     axios
       .post(`http://localhost:8000/api/dropdown/${quizeState.algorithm}`, {
         answers: answers,
         algorithm: quizeState.algorithm,
-        idx: quizeState.currentQuestionIndex,
+        questionsType: quizeState.currentQuestionType,
+        id: currentQuestionId,
+        uid: firebase.auth().currentUser.uid,
       })
       .then((result) => {
-        // console.log("ez a result", result.data);
-        Object.keys(currentQuestion).map((key, idx) => {
-          if (key !== "img") {
-            // console.log("idx", idx);
-            // console.log("resultidx", result.data[idx - 1]);
-            // console.log(document.getElementById(key));
-            document.getElementById(key).className = result.data[idx - 1]
-              ? "flex p-1 m-1 bg-green-100"
-              : "flex p-1 m-1 bg-red-100";
-
-            countCorretAnswers = result.data[idx - 1]
-              ? countCorretAnswers + 1
-              : countCorretAnswers;
-          }
-        });
-      })
-      .then(() => {
-        console.log("countCorretAnswers", countCorretAnswers);
-        dispatch({
-          type: "SET_CORRECT_ANSWERS_NUMBER",
-          payload: countCorretAnswers,
+        console.log("ez a result", result.data);
+        Object.keys(result.data).map((key, idx) => {
+          document.getElementById(key).className = result.data[key]
+            ? "flex p-1 m-1 bg-green-100"
+            : "flex p-1 m-1 bg-red-100";
         });
       });
+
     setIsSubmitted(true);
+  };
+  const replacing = {
+    "answer-1": "A",
+    "answer-2": "B",
+    "answer-3": "C",
+    "answer-4": "D",
   };
 
   return (
-    <>
+    <div key={quizeState.currentQuestionIndex}>
       <div>{currentQuestion.img}</div> {/* itt a kep lesz */}
       {/* <label for="cars">Choose a car:</label> */}
       {Object.keys(currentQuestion).map(
         (key, idx) =>
-          key !== "img" && (
+          key !== "kep" && (
             <select name={key} id={key} className="flex p-1 m-1">
               {currentQuestion[key].map((question, index) => (
-                <option value={question}>{question}</option>
+                <option value={question}>
+                  {replacing[key]}: {question}
+                </option>
               ))}
             </select>
           )
@@ -108,7 +110,7 @@ const DropdownQuestion = () => {
           }}
         />
       )}
-    </>
+    </div>
   );
 };
 

@@ -2,13 +2,6 @@ import React from "react";
 
 const Answer = (props) => {
   const letterMapping = ["A", "B", "C", "D"];
-  const isCorrectAnswer =
-    props.currentAnswer && props.answerText === props.correctAnswer;
-  const isWrongAnswer =
-    props.currentAnswer === props.answerText &&
-    props.currentAnswer !== props.correctAnswer;
-  const correctAnswerClass = isCorrectAnswer ? "bg-green-500" : "";
-  const wrongAnswerClass = isWrongAnswer ? "bg-red-500" : "";
   const disabledClass = props.currentAnswer ? "pointer-events-none" : ""; // ezt valahogy bele kell rakni, egyszer bekapcsolódik utána bent is marad, ugyhogy a nextel majd valamit művelni kell
   return (
     <div
@@ -19,7 +12,8 @@ const Answer = (props) => {
         {letterMapping[props.index]}
       </div>
       <div
-        className={`border-2 w-full flex justify-center font-semibold ${correctAnswerClass} ${wrongAnswerClass} `}
+        id={props.id}
+        className={`border-2 w-full flex justify-center font-semibold`}
       >
         {props.answerText}
       </div>

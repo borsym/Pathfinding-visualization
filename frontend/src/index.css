@@ -41,4 +41,8 @@
   .card {
     @apply p-2 max-w-[90px] max-h-1 bg-white cursor-pointer text-xs;
   }
+
+  .blank-style {
+    @apply min-w-[150px] min-h-[40px] p-1 mt-1 mb-1 border-2 inline-block rounded-md border-inherit;
+  }
 }
