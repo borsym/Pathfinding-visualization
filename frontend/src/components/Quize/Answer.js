@@ -8,7 +8,7 @@ const Answer = (props) => {
       className={`p-3 bg-white flex justify-start  cursor-pointer  `}
       onClick={() => props.onSelectAnswer(props.answerText)}
     >
-      <div className="p-2 border-2 bg-blue-500 border-transparent">
+      <div className="p-2 border-2 bg-slate-800 border-transparent text-white">
         {letterMapping[props.index]}
       </div>
       <div

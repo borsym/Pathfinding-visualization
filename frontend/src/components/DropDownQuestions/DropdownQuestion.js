@@ -79,8 +79,15 @@ const DropdownQuestion = () => {
 
   return (
     <div key={quizeState.currentQuestionIndex}>
-      <div>{currentQuestion.img}</div> {/* itt a kep lesz */}
+      {/* <div>{currentQuestion.img}</div> itt a kep lesz */}
       {/* <label for="cars">Choose a car:</label> */}
+      <div className="flex justify-center">
+        <img
+          src={currentQuestion["kep"]}
+          alt="kep"
+          className="max-h-28 max-w-xs"
+        />
+      </div>
       {Object.keys(currentQuestion).map(
         (key, idx) =>
           key !== "kep" && (

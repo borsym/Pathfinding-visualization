@@ -10,6 +10,8 @@ const Profile = (props) => {
   const SignOut = () => {
     firebase.auth().signOut();
   };
+
+  // ha ez nincs itt nincs lehetőség a user adatokat megjeleníteni
   const getUser = () => {
     // get the user name and points from the firebase
     db.collection("users")
@@ -53,7 +55,6 @@ const Profile = (props) => {
           <div className="pt-2">
             <Button
               function={() => {
-                console.log("itt");
                 props.setIsOpenProfile(false);
                 props.setShowModelTutorial(true);
               }}

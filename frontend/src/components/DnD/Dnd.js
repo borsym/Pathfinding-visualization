@@ -200,7 +200,7 @@ const Dnd = (props) => {
   };
 
   return (
-    <div className="bg-red-100 mx-auto">
+    <div className="mx-auto">
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}

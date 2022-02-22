@@ -153,18 +153,8 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
     });
     setShowModal(true);
   };
-  // const db = firebase.firestore();
-  // const handleGetProfile = async () => {
-  //   await db
-  //     .collection("users")
-  //     .doc(firebase.auth().currentUser.uid)
-  //     .get()
-  //     .then((doc) => {
-  //       const user = doc.data();
-  //       console.log("user", user);
-  //       return user;
-  //     });
-  // };
+
+  
   return (
     <nav
       className="flex justify-center items-center mx-auto bg-slate-800 p-4"

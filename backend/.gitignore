@@ -19,8 +19,8 @@ docs_build
 venv
 docs.zip
 archive.zip
-serviceAccountKey
-
+src/service/serviceAccountKey
+src/service
 # vim temporary files
 *~
 .*.sw?
