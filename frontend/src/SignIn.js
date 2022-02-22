@@ -45,7 +45,6 @@ const uiConfig = {
 const SignIn = () => {
   return (
     <div className="grid place-items-center h-screen bg-slate-700">
-      {/* <button onClick={SignInFirebase}>Sign in</button> */}
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
     </div>
   );

@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
-import { QuestionContext } from "../../contexts/QuestionsContext";
 import Answer from "./Answer";
 import axios from "axios";
 import { firebase } from "../../Firebase/firebase";
-// ezt inkább backendbe kéne leküldeni
+import { QuestionContext } from "../../contexts/QuestionsContext";
+import React, { useContext } from "react";
+
 const Question = (props) => {
   const [quizeState, dispatch] = useContext(QuestionContext);
   let currentQuestionId = null;
@@ -29,11 +29,7 @@ const Question = (props) => {
         uid: firebase.auth().currentUser.uid
       })
       .then((result) => {
-        console.log("ez a result", result.data);
         Object.keys(result.data).map((key, idx) => {
-          console.log("key", key);
-          console.log("idx", idx);
-          console.log("res", result.data[key]);
           document.getElementById(key).className = result.data[key]
             ? "border-2 w-full flex justify-center font-semibold bg-green-100"
             : "border-2 w-full flex justify-center font-semibold bg-red-100";

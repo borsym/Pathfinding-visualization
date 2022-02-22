@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import { QuestionContext } from "../../contexts/QuestionsContext";
 import Button from "../Button";
 import { firebase } from "../../Firebase/firebase";
+import { QuestionContext } from "../../contexts/QuestionsContext";
+import React, { useContext, useState } from "react";
+
 const DropdownQuestion = () => {
   const [quizeState, dispatch] = useContext(QuestionContext);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -17,7 +18,7 @@ const DropdownQuestion = () => {
     })
     .filter((question) => question !== undefined)[0];
 
-  const clearAllBg = () => {
+  const clearAllBg = () => { 
     Object.keys(currentQuestion).map((key, idx) => {
       if (key !== "img") {
         document.getElementById(key).className = "flex p-1 m-1";
@@ -34,7 +35,6 @@ const DropdownQuestion = () => {
         }
       }
     );
-    console.log("test", currentQuestionId);
     let answers = {};
     Object.keys(currentQuestion).map((key, idx) => {
       if (key !== "kep") {
@@ -46,11 +46,7 @@ const DropdownQuestion = () => {
         answers[key] = value;
       }
     });
-    // .filter((answer) => answer !== undefined);
-    // mar itt baja van
-    // console.log("a", answers);
-    // console.log("b", quizeState.algorithm);
-    // console.log("c", quizeState.currentQuestionType);
+
     axios
       .post(`http://localhost:8000/api/dropdown/${quizeState.algorithm}`, {
         answers: answers,
@@ -70,6 +66,7 @@ const DropdownQuestion = () => {
 
     setIsSubmitted(true);
   };
+
   const replacing = {
     "answer-1": "A",
     "answer-2": "B",
@@ -79,8 +76,6 @@ const DropdownQuestion = () => {
 
   return (
     <div key={quizeState.currentQuestionIndex}>
-      {/* <div>{currentQuestion.img}</div> itt a kep lesz */}
-      {/* <label for="cars">Choose a car:</label> */}
       <div className="flex justify-center">
         <img
           src={currentQuestion["kep"]}

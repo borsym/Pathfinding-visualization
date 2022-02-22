@@ -12,6 +12,7 @@ const Grid = () => {
   const [isMoveStartEnd, setIsMoveStartEnd] = useState(false); // if the start or end is moved
   const [StartOrEnd, setStartOrEnd] = useState(""); // start or end is moved
   const [prevStart, setPrevStart] = useState({ row: -1, col: -1 }); // previous start position
+
   useEffect(() => {
     // refresh the page and put everything back to initial state
     window.onbeforeunload = function () {
@@ -42,7 +43,6 @@ const Grid = () => {
       setIsMoveStartEnd(true);
     } else {
       setIsControl(e.ctrlKey === true || isControl);
-      console.log("elso", isControl);
       const firstControl = e.ctrlKey === true || isControl;
       setChanges([...changes, { row, col }]);
       const newGrid = getNewGridWithWallToggled(
@@ -143,7 +143,6 @@ const Grid = () => {
           console.log(error);
         })
         .finally(function () {
-          console.log(isControl);
           setChanges([]);
           setIsControl(false);
           setMouseIsPressed(false);
@@ -228,7 +227,7 @@ const getEndPosition = (grid) => {
   }
   return { row: -1, col: -1 };
 };
-// ezt a kettot mergelni kéne
+
 const getNewGridMovedStart = (grid, row, col, current, prevStart) => {
   const newGrid = grid.slice();
   console.log("row: " + row + " col: " + col);

@@ -50,7 +50,6 @@ const Dropdown = (props) => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items
-          // class="cica"
           className="origin-top-right absolute right-0 mt-5 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <div className="py-1">
@@ -97,4 +96,5 @@ const Dropdown = (props) => {
     </Menu>
   );
 };
+
 export default Dropdown;

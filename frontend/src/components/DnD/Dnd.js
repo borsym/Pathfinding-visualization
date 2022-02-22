@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
-// import Droppable from "./Droppable";
-// import Draggable from "./Draggable";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
+import axios from "axios";
+import Button from "../Button";
 import {
   DndContext,
   DragOverlay,
@@ -8,31 +8,26 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { arrayMove, SortableContext } from "@dnd-kit/sortable";
-import { Item } from "./Item";
-import { SortableItem } from "./SortableItem";
-import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
-import StukiPng from "../../images/stuki.png";
-import { QuestionContext } from "../../contexts/QuestionsContext";
-import axios from "axios";
 import { firebase } from "../../Firebase/firebase";
+import { Item } from "./Item";
+import { QuestionContext } from "../../contexts/QuestionsContext";
+import React, { useState, useContext } from "react";
+import { SortableItem } from "./SortableItem";
 
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
-  const [questionState, dispatchQuestion] = useContext(QuestionContext); // belerakom a questionState.answers = [] be a válaszokat gondolom amiket kiválaszott és úgy ellenőrzöm
+  const [questionState, dispatchQuestion] = useContext(QuestionContext);
   const [activeId, setActiveId] = useState(null);
   const [wordbank, setWordbank] = useState(props.words);
-
   const [isSubmitted, setIsSubmitted] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor));
 
   const childrenWithBlanks = React.Children.toArray(props.children).map(
     (child, index) => {
-      // lekérünk minden szöveget ami a dnd körbevesz
+      // get every question that provides dnd
       if (child.props?.id) {
-        // ha van id adattagja
         return {
           id: `blank-${index}`,
           items: [],
@@ -60,37 +55,11 @@ const Dnd = (props) => {
     let answers = {};
     for (const [key, value] of Object.entries(items)) {
       if (key !== "WORD_BANK") {
-        console.log("value0", value.items);
-        // answers.push(key + ":" + value.items);
         answers[key] = value.items[0];
       }
     }
-    console.log("answers1", answers);
-    // answers = answers.map((answer) => {
-    //   return answer.substring(answer.indexOf(":") + 1, answer.length);
-    // });
 
     return answers;
-  }
-
-  function handleButtonClick() {
-    // backendbe kell validálni, oda kérés, szerver összesít pontokat, magát a kérdést is a backend küldi
-    const checkedBlanks = Object.entries(items).reduce((acc, [key, value]) => {
-      if (key !== WORD_BANK) {
-        const isBlankCorrect = value.items.some((item) =>
-          value.solutions.includes(item)
-        );
-
-        acc[key] = {
-          ...value,
-          isCorrect: isBlankCorrect,
-        };
-      } else {
-        acc[key] = { ...value, isCorrect: null };
-      }
-      return acc;
-    }, {});
-    setItems(checkedBlanks);
   }
 
   const handleDragStart = (e) => {
@@ -99,16 +68,16 @@ const Dnd = (props) => {
   // find the blank/droppableContainer that an item is in
   const findContainer = (id) => {
     if (id in items) {
-      // ha  benne van a listában akkor tudjuk hogy dropable
+      // if its in the list we know its droppable
       return id;
     }
-    // ha szöveg fölé húzom?
+    // if i move over container
 
     return Object.keys(items).find((key) => items[key].items.includes(id));
   };
 
   const handleDragEnd = ({ active, over }) => {
-    const activeContainer = findContainer(active.id); // ahonnan kiveszed
+    const activeContainer = findContainer(active.id); // where i take out
     if (!activeContainer) {
       setActiveId(null);
       return;
@@ -120,19 +89,18 @@ const Dnd = (props) => {
       const activeIndex = items[activeContainer].items.indexOf(active.id);
       const overIndex = items[overContainer].items.indexOf(overId);
       if (activeContainer !== overContainer) {
-        // vagyis más kontérbe helyezünk át
+        // inside container
         setItems((prevItems) => {
           let activeItems = [...items[activeContainer].items];
           let overItems = [...items[overContainer].items];
-          // activeContainer gets what was in overContainer and vice versa
           // first check if overContainer is word bank or a blank
           // if it's a blank (NOT the word bank), swap contents with activeContainer
           // if it IS word bank, just move activeContainer contents to word bank
           if (overContainer === WORD_BANK) {
             activeItems = [];
-            overItems.push(active.id); // az adott szöveg...
+            overItems.push(active.id);
           } else {
-            activeItems.splice(activeIndex, 1); // kiveszem az adott elemet belőle...
+            activeItems.splice(activeIndex, 1);
             // if there's already something in the blank, push its contents to activeItems
             if (overItems.length) {
               activeItems.push(...overItems);
@@ -180,7 +148,6 @@ const Dnd = (props) => {
 
   const handleSubmit = async () => {
     const answers = gatherAnswers();
-    console.log("answers", answers);
     axios
       .post(`http://localhost:8000/api/dnd/${questionState.algorithm}`, {
         answers: answers,
@@ -204,18 +171,13 @@ const Dnd = (props) => {
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
-        // onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancle}
-        // collisionDetection={closestCorners}
       >
         <div className="flex-col items-start ">
-          {/* itt lesz a szöveg ahova majd be kell huzni a válaszokat*/}
           <div>
             {childrenWithBlanks.map((child, index) => {
               const { id } = child;
-              // console.log("id", id);
-
               if (id) {
                 const { items: blankItems, isCorrect: isBlankCorrect } =
                   items[id];
@@ -228,11 +190,6 @@ const Dnd = (props) => {
                       isCorrect={isBlankCorrect}
                     >
                       {blankItems.map((value) => {
-                        // console.log("id", id, "value", value);
-                        // {
-                        //   questionState.answers.push(id + ":" + value);
-                        // }
-                        // console.log("a", questionState.answers);
                         return (
                           <SortableItem
                             key={`sortable-item-${value}`}
@@ -263,37 +220,24 @@ const Dnd = (props) => {
             {activeId ? <Item label={activeId} /> : null}
           </DragOverlay>
         </div>
-        {/* Drag Overlay ez kell majd ahhoz hogyha mozagtom lássam */}
-        {/*
-          amint rákattint erre a gombra történjen meg egy lekérés a szervertől
-          elküldöm a kérdés id-jat a hozzá tartozó válaszokkal és a szerver
-          válaszol hogy mi volt jó és mi nem?
-        */}
         {!isSubmitted ? (
-          <button
-            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
-            onClick={() => {
-              // dispatchQuestion({
-              //   type: "SEND_ANSWERS",
-              //   payload: gatherAnswers(), // vagy megváltoztatom a választ a stateban, questionState.answers = [] és ezt küldöm majd tovább, és akkor az adott komponensen belül mehet a dolog
-              // });
+          <Button
+            function={() => {
               handleSubmit();
               setIsSubmitted(true);
             }}
-          >
-            Submit
-          </button>
+            name="Submit"
+            questionSection={true}
+          />
         ) : (
-          <button
-            className="px-4 py-3 leading-none font-semibold rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400"
-            onClick={() => {
+          <Button
+            function={() => {
               dispatchQuestion({ type: "NEXT_QUESTION" });
               setIsSubmitted(false);
-              console.log("asdads", questionState.correctAnswerCount);
             }}
-          >
-            Next
-          </button>
+            name="Next"
+            questionSection={true}
+          />
         )}
       </DndContext>
     </div>

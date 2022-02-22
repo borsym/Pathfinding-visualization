@@ -1,22 +1,26 @@
-import React, { useContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import DndQuestion from "./QuestionsSegment/DndQuestion";
-import Quize from "./Quize/Quize";
-import { GridContext } from "../contexts/GridContext.js";
 import DropdownQuestion from "./DropDownQuestions/DropdownQuestion";
-import "react-toastify/dist/ReactToastify.css";
-import "../index.css";
-import { QuestionContext } from "../contexts/QuestionsContext";
+import { GridContext } from "../contexts/GridContext.js";
+import { firebase } from "../Firebase/firebase";
+import React, { useContext, useState } from "react";
+import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Over from "./Over";
 import Profile from "./Profile/Profile";
-import { firebase } from "../Firebase/firebase";
+import Quize from "./Quize/Quize";
+import { QuestionContext } from "../contexts/QuestionsContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../index.css";
 
-const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutorial }) => {
+const NavBar = ({
+  algorithm,
+  setAlgorithm,
+  showModelTutorial,
+  setShowModelTutorial,
+}) => {
   const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
   const optionsMazes = ["Recursive Division", "Random"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
@@ -62,13 +66,9 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
           conditions: ["node-start", "node-finish"],
           speed: speed,
         });
-        // setTimeout(() => {
-        //   const node = order[i];
-        //   document.getElementById(`node-${node[0]}-${node[1]}`).className =
-        //     "node-style node-wall bg-wall-blue animate-fillBox";
-        // }, 15 * i);
+
         setTimeout(() => {
-          // ezt mindenképpen meg kellene csinálni mindengyik elemre is
+          // wait till the maze is visualized
           setIsDisabled(false);
           setIsVisualize(false);
         }, 20 * res.data.order.length);
@@ -83,6 +83,7 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
   };
 
   const handleDistanceFormula = (distanceFormula) => {
+    // change the distance formula for the heuristic alogrithm
     axios.post("http://localhost:8000/api/changeDistance", {
       distance: distanceFormula,
     });
@@ -117,7 +118,6 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
             conditions: ["node-start", "node-finish", "node-wall", "node-type"],
           });
           setTimeout(() => {
-            // ezt mindenképpen meg kellene csinálni mindengyik elemre is
             setIsDisabled(false);
             setIsVisualize(false);
           }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
@@ -129,12 +129,8 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
     }
   };
 
-  // const handleGetQuestions = () => {
-  //   dispatchQuestion({ type: "GET_QUESTIONS", payload: algorithm });
-  //   setShowModal(true);
-  // };
-
   const handleGetQuestions = async (algorithm) => {
+    // every time he starts a new quize we set the points to 0
     await axios.post(`http://localhost:8000/api/restartpoints`, {
       uid: firebase.auth().currentUser.uid,
     });
@@ -146,15 +142,15 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
       .then((doc) => {
         return doc;
       });
-      
+
     dispatchQuestion({
       type: "SET_QUESTIONS",
       payload: { algorithm, questions: questions.data() },
     });
+
     setShowModal(true);
   };
 
-  
   return (
     <nav
       className="flex justify-center items-center mx-auto bg-slate-800 p-4"
@@ -175,7 +171,6 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
         setIsOpenProfile={setIsOpenProfile}
         showModelTutorial={showModelTutorial}
         setShowModelTutorial={setShowModelTutorial}
-        // getData={handleGetProfile}
       />
       <Button name="Profile" function={openProfile} />
       <Dropdown
@@ -184,6 +179,7 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
         setVariable={setDistanceFormula}
         function={handleDistanceFormula}
         distanceFormula={distanceFormula}
+        key="distanceFormulaKey"
       />
       <Button name="Clear Board" function={handleClearBoard} />
       <Button
@@ -204,25 +200,29 @@ const NavBar = ({ algorithm, setAlgorithm, showModelTutorial, setShowModelTutori
         name="Algorithms"
         options={optionsAlgorithms}
         setVariable={setAlgorithm}
-      ></Dropdown>
+        key="Algorithms"
+      />
       <Dropdown
         name="Maze"
         options={optionsMazes}
         maze={maze}
         setVariable={setMaze}
         function={handleVisualizeMaze}
+        key="Maze"
       />
       <Dropdown
         name="Speed"
         options={optionsSpeed}
         speed={speed}
         setVariable={setSpeed}
+        key="Speed"
       />
       <Dropdown
         name="Type"
         options={optionsType}
         type={type}
         setVariable={setType}
+        key="Type"
       />
     </nav>
   );

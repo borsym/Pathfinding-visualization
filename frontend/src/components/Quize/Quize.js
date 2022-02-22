@@ -1,13 +1,12 @@
-import React, { useContext, useState } from "react";
-import { QuestionContext } from "../../contexts/QuestionsContext";
 import Button from "../Button";
 import Question from "./Question";
+import { QuestionContext } from "../../contexts/QuestionsContext";
+import React, { useContext, useState } from "react";
+
 const Quize = () => {
   const [questionState, dispatch] = useContext(QuestionContext);
   const [disabled, setDisabled] = useState("");
 
-  // console.log("questionstate", questionState);
-  // console.log("kerdesek", questionState.questions);
   const clearPreviousResult = () => {
     setDisabled("");
     for (let i = 0; i < 4; i++) {
@@ -15,6 +14,7 @@ const Quize = () => {
         "border-2 w-full flex justify-center font-semibold";
     }
   };
+  
   return (
     <div className="quize">
       <div>

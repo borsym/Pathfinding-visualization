@@ -9,8 +9,9 @@ export const GridContext = createContext();
 
 export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
-  const [type, setType] = useState(10);
+  const [type, setType] = useState(10);  // current weight
   const [isVisualize, setIsVisualize] = useState(false);
+
   // communication between components
   const dispatchGridEvent = async (actionType, payload) => {
     switch (actionType) {
@@ -91,7 +92,6 @@ const createNode = (col, row) => {
 const anmiteMaze = (maze, conditions, speed) => {
   // cleareBoard(conditions);
   clearPreviousVisualization(conditions);
-  console.log("elkezdte");
   for (let i = 0; i < maze.length; i++) {
     setTimeout(() => {
       const node = maze[i];

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { firebase } from "../../Firebase/firebase";
 import Button from "../Button";
+import { firebase } from "../../Firebase/firebase";
+import React, { useState, useEffect } from "react";
 
 const Profile = (props) => {
   const [user, setUser] = useState({});
@@ -11,9 +11,7 @@ const Profile = (props) => {
     firebase.auth().signOut();
   };
 
-  // ha ez nincs itt nincs lehetőség a user adatokat megjeleníteni
   const getUser = () => {
-    // get the user name and points from the firebase
     db.collection("users")
       .doc(firebase.auth().currentUser.uid)
       .get()
@@ -21,7 +19,7 @@ const Profile = (props) => {
         setUser(doc.data());
       });
   };
-
+  // ez bugos ide kell kitalálni valamit
   // useEffect(() => {
   //   // const updateUser = () => {
   //   getUser();

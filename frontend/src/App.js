@@ -10,17 +10,15 @@ import { firebase } from "./Firebase/firebase";
 import axios from "axios";
 
 export default function App() {
-  // const [user] = useAuthState(auth);
   const [showModal, setShowModal] = useState(false);
   const [algorithm, setAlgorithm] = useState("");
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
 
   // Modal tutorial
   useEffect(() => {
+    // if user is signed in, send request to backend create a new user, if exists the backend will handle
     firebase.auth().onAuthStateChanged((user) => {
-      console.log("itt");
       if (user) {
-        // ez kurva sokszor töltődik be valamit csinálni kell vele, működik de az hogy 20x kérdezi le az már nem okés
         axios.post("http://localhost:8000/api/user", {
           uid: user.uid,
           name: user.displayName,
