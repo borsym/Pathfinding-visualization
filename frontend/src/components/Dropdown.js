@@ -73,7 +73,6 @@ const Dropdown = (props) => {
 
                           props.name === "Distance Formula" &&
                             props.setVariable(option);
-                          console.log("option", option);
                           break;
                         default:
                           props.setVariable(option);

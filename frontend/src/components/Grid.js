@@ -31,13 +31,8 @@ const Grid = () => {
     // bit bugy
     if (isVisualize) return;
     if (e.target.id.includes("start") || e.target.id.includes("end")) {
-      console.log("bent vagoyk");
       setChanges([...changes, { row, col }]);
       setStartOrEnd(e.target.id.includes("start") ? "start" : "end");
-      // const newGrid = e.target.id.includes("start")
-      //   ? getNewGridMovedStart(grid, row, col, false)
-      //   : getNewGridMovedEnd(grid, row, col, false);
-      // setGrid(newGrid);
       setPrevStart({ row, col });
       setMouseIsPressed(true);
       setIsMoveStartEnd(true);
@@ -149,6 +144,7 @@ const Grid = () => {
           setIsMoveStartEnd(false);
         });
     }
+    return;
   };
 
   return (
@@ -200,9 +196,17 @@ const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
     ? newNode.type === type
       ? (newNode.type = 0)
       : (newNode.type = type)
-    : (newNode.isWall = !node.isWall);
+    : (newNode.isWall =
+        !node.isWall && // ezt innen lehet törölni kell documenteset...
+        !document
+          .getElementById(`node-${row}-${col}`)
+          .className.includes("wall"));
 
   newGrid[row][col] = newNode;
+  if (!newNode.isWall) {
+    // ez nem teljesen így kéne erre más ötlet kell (hafalat generálok és kiszedem ez arra van)
+    document.getElementById(`node-${row}-${col}`).className = "node node-style";
+  }
   return newGrid;
 };
 

@@ -93,6 +93,11 @@ class Table:
         self.end = Node(end_x, end_y, Fields.END)
 
     def print_grid(self):
+        f = open("its_me.txt", "w")
+        for row in self.__grid:
+            for cell in row:
+                f.write(str(cell.weight) + " ")
+            f.write('\n')
         print('\n'.join(['\t'.join([str(cell.weight) for cell in row]) for row in self.__grid]))
 
     def print_grid_2(self):

@@ -16,6 +16,7 @@ class Astar:
         self.closed_list = []
         self.distance = distance
 
+
     def start_astar(self):
         # Initialize both open and closed list
         

@@ -177,7 +177,7 @@ async def get_dfs() -> dict:
 async def get_astar() -> dict:
     astar = Astar(table, table.get_start(), table.get_end(), distance.get_distance(app.distance_formula))
     # print(table.get_start().get_x(), table.get_start().get_y())
-    order,shorthest_path = astar.start_astar()
+    order, shorthest_path = astar.start_astar()
     return {
         "path": order,
         "shortestPath": shorthest_path
@@ -368,12 +368,15 @@ async def get_checked_answers() -> dict:
 @app.post("/api/wallUpdate")
 async def refresh_table(item: CordinatesItem):
     list = item.get_list()
+    print(list)
     type = Fields.get_field_by_name(item.get_type())
     for i in range(table.get_row_size() + 1):
         for j in range(table.get_column_size() + 1):
             if [i,j] in list: # type
                 field_type = Fields.EMPTY if table.get_node_field(i,j) == type else type
-                table.set_node_field(i, j, field_type)
+                print(field_type)
+                if [i,j] not in [[start_x,start_y], [end_x,end_y]]:
+                    table.set_node_field(i, j, field_type)
         
     return item
 
