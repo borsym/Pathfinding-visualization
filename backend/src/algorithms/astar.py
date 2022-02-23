@@ -19,8 +19,6 @@ class Astar:
 
     def start_astar(self):
         # Initialize both open and closed list
-        
-        
         # Add the self.start node
         self.open_list.append(self.start)
 
@@ -81,7 +79,7 @@ class Astar:
                     
                 if is_valid:
                     self.open_list.append(new_node)
-              
+        return list(self.visited_nodes_oreder), []
 
 
 

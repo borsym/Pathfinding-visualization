@@ -1,8 +1,11 @@
+
+
 import heapq  # priory que
 import sys
 sys.path.append("..")
 from persistance.Fields import Fields
-
+from persistance.Table import Table
+from persistance.Node import Node
 # TODO FIXME: this is not working properly, when we are tracking back the shortesth path when there are weighted nodes
 # nagyon bugos....
 
@@ -47,7 +50,7 @@ class Dijkstra:
                 cc = col + dc
                 if not (0 <= rr < self.grid.get_row_size() and 0 <= cc < self.grid.get_column_size()): # ez lehet forditva
                     continue
-                if self.grid.get_node_field(row, col) == Fields.WALL:
+                if self.grid.get_node_field(rr, cc) == Fields.WALL:
                     continue
                 if (rr,cc) in self.visited:
                     continue
@@ -77,7 +80,7 @@ class Dijkstra:
 # # print(a)
 # # print()
 # print(b)
-# # table.print_grid()
+# table.print_grid()
 
 
 

@@ -59,7 +59,7 @@ class DFS:
                 if self.grid.get_node(row, col).get_field() == Fields.END:
                     self.ptr = self.grid.get_node(row, col)
                     return list(self.visited_order), self.get_nodes_in_shortest_path_order() # es majd egy backtracking
-
+        return list(self.visited_order), []
     
 
 # table = Table(20,50, Node(10,15,Fields.START), Node(10,35,Fields.END))
