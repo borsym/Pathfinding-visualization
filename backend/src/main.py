@@ -203,7 +203,6 @@ async def get_random_maze() -> dict:
 #Restart points
 @app.post("/api/restartpoints", tags=["Restart Points"])
 async def restart_points(items : UserId):
-    print("itt van?")
     set_user_points_zero(items.get_uid())
      
 #user
@@ -215,25 +214,25 @@ async def user(items : UserIdName):
 @app.post("/api/quize/{algorithm}", tags=["DragAndDrop"])
 async def post_solution(items: DropDownAnswers):
     result = {}
-    print("ans",items.get_answers())
-    print("alg", items.get_algorithm())
-    print("qtype", items.get_questionType())
-    print("id", items.get_id())
+    # print("ans",items.get_answers())
+    # print("alg", items.get_algorithm())
+    # print("qtype", items.get_questionType())
+    # print("id", items.get_id())
     response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
-    print(response)
+    # print(response)
     # keys_list = list(response["dnd"])
     # key = keys_list[items.get_idx()]
     idx = 0
     points = 0
     for key, value in items.get_answers().items():
         if value:
-            print("value", value)
-            print("respnose idx",response[idx])
-            print("respnose",response)
+            # print("value", value)
+            # print("respnose idx",response[idx])
+            # print("respnose",response)
             result[key] = value == response
             points +=  1 if value == response else 0 
         idx += 1
-    print("elejen a pontok", points)
+    # print("elejen a pontok", points)
     set_user_points(items.get_uid(), points)
     
     return result
@@ -254,8 +253,8 @@ async def post_solution(items: DropDownAnswers):
     points = 0
     for key, value in items.get_answers().items():
         if value:
-            print("value", value)
-            print("respnose idx",response[idx])
+            # print("value", value)
+            # print("respnose idx",response[idx])
             result[key] = value == response[idx]
             points += 1 if value == response[idx] else 0
         idx += 1
@@ -368,13 +367,13 @@ async def get_checked_answers() -> dict:
 @app.post("/api/wallUpdate")
 async def refresh_table(item: CordinatesItem):
     list = item.get_list()
-    print(list)
+    # print(list)
     type = Fields.get_field_by_name(item.get_type())
     for i in range(table.get_row_size() + 1):
         for j in range(table.get_column_size() + 1):
             if [i,j] in list: # type
                 field_type = Fields.EMPTY if table.get_node_field(i,j) == type else type
-                print(field_type)
+                # print(field_type)
                 if [i,j] not in [[start_x,start_y], [end_x,end_y]]:
                     table.set_node_field(i, j, field_type)
         

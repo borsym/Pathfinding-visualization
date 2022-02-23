@@ -106,17 +106,17 @@ const NavBar = ({
     console.log("belep ide?");
     if (!algorithm) {
       warningMessage();
-      console.log("itt tuti nem");
+      // console.log("itt tuti nem");
     } else {
-      console.log("itt?");
+      // console.log("itt?");
       setIsVisualize(true);
-      console.log("algo", algorithm);
+      // console.log("algo", algorithm);
       axios
         .get(`http://localhost:8000/api/${algorithm}`)
         .then((res) => {
-          console.log("eljut ide?");
+          // console.log("eljut ide?");
           setIsDisabled(true);
-          console.log(res.data);
+          // console.log(res.data);
           dispatchGridEvent("VISUALIZE_ALGORITHM", {
             path: res.data.path,
             shortestPath: res.data.shortestPath,
