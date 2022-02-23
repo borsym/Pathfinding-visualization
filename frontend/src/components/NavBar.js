@@ -102,16 +102,43 @@ const NavBar = ({
     });
   };
 
-  const handleVisualize = () => {
+  const handleVisualize = async () => {
     console.log("belep ide?");
     if (!algorithm) {
       warningMessage();
       // console.log("itt tuti nem");
     } else {
-      // console.log("itt?");
+      // this is where should I put back the types
+      await axios.get("http://localhost:8000/api/getTypes").then((res) => {
+        Object.values(res.data).map((key, value) => {
+          Object.entries(key).map(([key, value]) => {
+            console.log("k", key);
+            console.log("v", value);
+            console.log("doc: ", document.getElementById(key));
+            switch (value) {
+              case 10:
+                document.getElementById(key).className =
+                  "node node-style node-type bg-green-900 animate-fillBox";
+                break;
+              case 20:
+                document.getElementById(key).className =
+                  "node node-style node-type bg-blue-900 animate-fillBox";
+                break;
+              case 30:
+                document.getElementById(key).className =
+                  "node node-style node-type bg-neutral-400 animate-fillBox";
+                break;
+              default:
+                break;
+            }
+          });
+        });
+        console.log("vegzett");
+      });
+      console.log("elkezdodott");
       setIsVisualize(true);
       // console.log("algo", algorithm);
-      axios
+      await axios
         .get(`http://localhost:8000/api/${algorithm}`)
         .then((res) => {
           // console.log("eljut ide?");

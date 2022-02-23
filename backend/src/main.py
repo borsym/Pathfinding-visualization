@@ -200,6 +200,17 @@ async def get_random_maze() -> dict:
         "order": order # mazelesz ebből
     }
 
+@app.get("/api/getTypes", tags=["Types"])
+async def get_types() -> dict:
+    d = {}
+    for i in table.get_grid():
+        for j in i:
+            if j.get_weight() > 0 and j.get_weight() < 100:
+                d[f"node-{j.get_x()}-{j.get_y()}"] = j.get_weight() # x-y valami ilyen formába kell átadni
+    return {
+        "dict": d
+    }
+
 #Restart points
 @app.post("/api/restartpoints", tags=["Restart Points"])
 async def restart_points(items : UserId):

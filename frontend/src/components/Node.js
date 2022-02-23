@@ -1,7 +1,6 @@
 import React from "react";
 import "../Node.css";
-import { GiHighGrass, GiStonePile } from "react-icons/gi";
-import { FaWater } from "react-icons/fa";
+
 const Node = (props) => {
   const {
     col,
@@ -67,17 +66,6 @@ const Node = (props) => {
           />
         </svg>
       )}
-      {/* {isWall ? (
-        "node-wall bg-wall-blue animate-fillBox"
-      ) : type === "10" || type === 10 ? (
-        <GiHighGrass className="animate-fillBox" />
-      ) : type === "20" ? (
-        <FaWater className="animate-fillBox" />
-      ) : type === "30" ? (
-        <GiStonePile className="animate-fillBox" />
-      ) : (
-        ""
-      )} */}
     </div>
   );
 };
