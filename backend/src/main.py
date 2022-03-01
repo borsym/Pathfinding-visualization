@@ -225,25 +225,15 @@ async def user(items : UserIdName):
 @app.post("/api/quize/{algorithm}", tags=["DragAndDrop"])
 async def post_solution(items: DropDownAnswers):
     result = {}
-    # print("ans",items.get_answers())
-    # print("alg", items.get_algorithm())
-    # print("qtype", items.get_questionType())
-    # print("id", items.get_id())
     response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
-    # print(response)
-    # keys_list = list(response["dnd"])
-    # key = keys_list[items.get_idx()]
     idx = 0
     points = 0
+
     for key, value in items.get_answers().items():
         if value:
-            # print("value", value)
-            # print("respnose idx",response[idx])
-            # print("respnose",response)
             result[key] = value == response
             points +=  1 if value == response else 0 
         idx += 1
-    # print("elejen a pontok", points)
     set_user_points(items.get_uid(), points)
     
     return result
@@ -252,92 +242,37 @@ async def post_solution(items: DropDownAnswers):
 @app.post("/api/dnd/{algorithm}", tags=["DragAndDrop"])
 async def post_solution(items: DropDownAnswers):
     result = {}
-    # print("ans",items.get_answers())
-    # print("alg", items.get_algorithm())
-    # print("qtype", items.get_questionType())
-    # print("id", items.get_id())
     response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
-    # print(response)
-    # keys_list = list(response["dnd"])
-    # key = keys_list[items.get_idx()]
     idx = 0
     points = 0
     for key, value in items.get_answers().items():
         if value:
-            # print("value", value)
-            # print("respnose idx",response[idx])
             result[key] = value == response[idx]
             points += 1 if value == response[idx] else 0
         idx += 1
     set_user_points(items.get_uid(), points)
     return result
-    # print(response["dnd"][key])
-    # print("--")
-    # for idx,key_val in enumerate(response["dnd"][key]):
-    #     print(key_val + " " + items.get_answers()[idx])
-        
-    #     result.append(key_val == items.get_answers()[idx])
-    # print(result)
-    # return result
-    #raise HTTPException(400, "Something went wrong")
 
 #DropDown
 @app.post("/api/dropdown/{algorithm}", tags=["DropDown"])
 async def post_solution(items: DropDownAnswers):
-    print("HALLO")
     result = {}
-    # print("ans",items.get_answers())
-    # print("alg", items.get_algorithm())
-    # print("qtype", items.get_questionType())
-    # print("id", items.get_id())
     response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
     print(response)
     points = 0;
     for key, value in items.get_answers().items():
-        # print("responsekey", response[key])
-        # print("value", value)
         result[key] = response[key] == value
         points += 1 if response[key] == value else 0
-    # print(result)
     set_user_points(items.get_uid(), points)
     return result
-    # response = await fetch_one_solution(items.get_algorithm())
-    # keys_list = list(response["dropdown"])
-    # key = keys_list[items.get_idx()]
-
-    # # print(response["dropdown"][key])
-    # for idx,key_val in enumerate(response["dropdown"][key]):
-    #     print(response["dropdown"][key][key_val])
-    #     print(idx)
-    #     # print(items.get_answers()[idx])
-    #     result.append(response["dropdown"][key][key_val] == items.get_answers()[idx])
-    # print(result)
-    # return result
-    raise HTTPException(400, "Something went wrong")
 
 #Solutions itt irokálom majd át
 @app.get("/api/solutions/{algorithm}", tags=["Solutions"])
-async def get_solution(algorithm : str) -> dict: # request from backend?
+async def get_solution(algorithm : str) -> dict:
     response = await fetch_one_solution(algorithm)
     if response:
         return response
     return HTTPException(404, "Not found")
-
-
-@app.get("/api/solutions", tags=["Solutions"])
-async def get_solution() -> dict: # request from backend?
-    response = await fetch_all_solutions()
-    if response:
-        return response
-    return HTTPException(404, "Not found")
-
-
-@app.post("/api/createsolution/", response_model=Solutions, tags=["Solutions"])
-async def post_solution(question: Solutions):
-    response = await create_solution(question.dict())
-    if response:
-        return response
-    raise HTTPException(400, "Something went wrong")
 
 #Questions:
 @app.get("/api/questions/{algorithm}", tags=["Questions"])
@@ -348,37 +283,10 @@ async def get_questions(algorithm : str) -> dict: # request from backend?
     
     return HTTPException(404, "Not found")
 
-
-@app.get("/api/questions", tags=["Questions"])
-async def get_questions() -> dict: # request from backend?
-    response = await fetch_all_questions()
-    if response:
-        return response
-    return HTTPException(404, "Not found")
-
-@app.post("/api/createquestion/", response_model=Questions, tags=["Questions"])
-async def post_question(question: Questions):
-    response = await create_question(question.dict())
-    if response:
-        return response
-    raise HTTPException(400, "Something went wrong")
-
-# @app.post("sendAnswers/api/${state.algorithm}/${state.questionType}/${state.id}")
-# async def send_answers(state : VALAMI):
-#     # updateCheckAnswers() #?
-#     return 200
-
-@app.get("/api/checkedAnswers")
-async def get_checked_answers() -> dict:
-    return {
-        "checkedAnswers": [] # id-1: true, id-2: false, id-3: true 
-    }
-
 #Others
 @app.post("/api/wallUpdate")
 async def refresh_table(item: CordinatesItem):
     list = item.get_list()
-    # print(list)
     type = Fields.get_field_by_name(item.get_type())
     for i in range(table.get_row_size() + 1):
         for j in range(table.get_column_size() + 1):
@@ -394,7 +302,6 @@ async def refresh_table(item: CordinatesItem):
 async def set_distance_formula(item: Distance):
     app.distance_formula = item.get_distance_formula()
     return item
-
 
 @app.post("/api/moveStartEnd")
 async def refresh_table(item: CordinatesStartMove):

@@ -184,6 +184,7 @@ const NavBar = ({
     setShowModal(true);
   };
 
+  // for future myself, if you want to stop the algorithm you have to disable the dropdowns make a div around the menu and disable that with pointern event
   return (
     <nav
       className="flex justify-center items-center mx-auto bg-slate-800 p-4"
