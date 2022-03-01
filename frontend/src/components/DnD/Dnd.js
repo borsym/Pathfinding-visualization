@@ -1,6 +1,4 @@
-import { arrayMove, SortableContext } from "@dnd-kit/sortable";
-import axios from "axios";
-import Button from "../Button";
+/* eslint-disable no-unused-vars */
 import {
   DndContext,
   DragOverlay,
@@ -8,11 +6,15 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import DroppableContainer from "./DroppableContainer";
-import { firebase } from "../../Firebase/firebase";
-import { Item } from "./Item";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
+import axios from "axios";
+import PropTypes from "prop-types";
+import React, { useContext, useState } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
-import React, { useState, useContext } from "react";
+import { firebase } from "../../Firebase/firebase";
+import Button from "../Button";
+import DroppableContainer from "./DroppableContainer";
+import { Item } from "./Item";
 import { SortableItem } from "./SortableItem";
 
 export const WORD_BANK = "WORD_BANK";
@@ -20,9 +22,9 @@ export const WORD_BANK = "WORD_BANK";
 const Dnd = (props) => {
   const [questionState, dispatchQuestion] = useContext(QuestionContext);
   const [activeId, setActiveId] = useState(null);
-  const [wordbank, setWordbank] = useState(props.words);
+  const [wordbank, setWordbank] = useState(props.words); // Containing the answers
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(useSensor(PointerSensor)); // if I drag over a container this will handle it
 
   const childrenWithBlanks = React.Children.toArray(props.children).map(
     (child, index) => {
@@ -48,10 +50,11 @@ const Dnd = (props) => {
     return acc;
   }, {});
 
-  blanks[WORD_BANK] = { items: wordbank };
+  blanks[WORD_BANK] = { items: wordbank }; // add the blanks to the wordbank
   const [items, setItems] = useState(blanks);
 
   function gatherAnswers() {
+    // get the answers from the blanks
     let answers = {};
     for (const [key, value] of Object.entries(items)) {
       if (key !== "WORD_BANK") {
@@ -157,7 +160,6 @@ const Dnd = (props) => {
         uid: firebase.auth().currentUser.uid,
       })
       .then((result) => {
-        console.log("result data", result.data);
         Object.keys(result.data).map((key, value) => {
           document.getElementById(key).className = result.data[key]
             ? `blank-style bg-green-400`
@@ -242,6 +244,15 @@ const Dnd = (props) => {
       </DndContext>
     </div>
   );
+};
+
+Dnd.propTypes = {
+  children: PropTypes.node.isRequired,
+  taskid: PropTypes.string.isRequired,
+  currentQuestionId: PropTypes.string.isRequired,
+  words: PropTypes.array.isRequired,
+  questionState: PropTypes.object.isRequired,
+  dispatchQuestion: PropTypes.func.isRequired,
 };
 
 export default Dnd;

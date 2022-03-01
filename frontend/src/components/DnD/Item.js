@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 
 export const Item = forwardRef(({ label, style, ...props }, ref) => {
@@ -7,3 +8,10 @@ export const Item = forwardRef(({ label, style, ...props }, ref) => {
     </div>
   );
 });
+
+Item.propTypes = {
+  label: PropTypes.string.isRequired,
+  style: PropTypes.object,
+};
+
+Item.displayName = "Item";

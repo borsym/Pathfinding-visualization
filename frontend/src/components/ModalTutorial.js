@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Button from "./Button";
 import Card from "./Card";
 import { AiOutlineClose } from "react-icons/ai";
 import DataTutorial from "../Data/DataTutorial";
+import PropTypes from "prop-types";
 
 const cardsidx = [0, 1, 2, 3, 4]; // how many tutorial cards do i have
 const ModalTutorial = (props) => {
@@ -63,6 +63,12 @@ const ModalTutorial = (props) => {
   ) : (
     ""
   );
+};
+
+ModalTutorial.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default ModalTutorial;

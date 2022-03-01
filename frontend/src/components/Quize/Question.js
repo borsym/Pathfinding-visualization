@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import Answer from "./Answer";
 import axios from "axios";
 import { firebase } from "../../Firebase/firebase";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 
 const Question = (props) => {
   const [quizeState, dispatch] = useContext(QuestionContext);
@@ -19,14 +21,14 @@ const Question = (props) => {
   const handleSelectAnswer = async (answer, index) => {
     let answers = {};
     answers[index] = answer;
-    props.setDisabled("pointer-events-none");
+    props.setDisabled("pointer-events-none"); // disable all answers
     axios
       .post(`http://localhost:8000/api/quize/${quizeState.algorithm}`, {
         answers: answers,
         algorithm: quizeState.algorithm,
         questionsType: quizeState.currentQuestionType,
         id: currentQuestionId,
-        uid: firebase.auth().currentUser.uid
+        uid: firebase.auth().currentUser.uid,
       })
       .then((result) => {
         Object.keys(result.data).map((key, idx) => {
@@ -64,4 +66,10 @@ const Question = (props) => {
     </div>
   );
 };
+
+Question.propTypes = {
+  disabled: PropTypes.string,
+  setDisabled: PropTypes.func,
+};
+
 export default Question;

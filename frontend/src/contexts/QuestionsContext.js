@@ -1,5 +1,5 @@
-import { createContext, useReducer } from "react";
-
+import React, { createContext, useReducer } from "react";
+import PropTypes from "prop-types";
 const initialState = {
   questions: {},
   currentQuestionIndex: 0,
@@ -23,7 +23,8 @@ const reducer = (state, action) => {
         algorithm: action.payload.algorithm,
         questions: action.payload.questions,
       };
-    case "SET_ANSWER":
+
+    case "SET_ANSWER": {
       const correctAnswerCount =
         action.payload.solution === action.payload.answer
           ? state.correctAnswerCount + 1
@@ -34,13 +35,17 @@ const reducer = (state, action) => {
         currentAnswer: action.payload.answer,
         correctAnswerCount: correctAnswerCount,
       };
-    case "SET_CORRECT_ANSWERS_NUMBER":
+    }
+
+    case "SET_CORRECT_ANSWERS_NUMBER": {
       const tmp = state.correctAnswerCount + action.payload;
       return {
         ...state,
         correctAnswerCount: tmp,
       };
-    case "NEXT_QUESTION":
+    }
+
+    case "NEXT_QUESTION": {
       const currentQuestionIndex =
         state.currentQuestionIndex >=
         Object.keys(state.questions[state.currentQuestionType]).length - 1
@@ -61,6 +66,8 @@ const reducer = (state, action) => {
         currentQuestionIndex,
         currentQuestionType,
       };
+    }
+
     case "SET_CURRENT_QUESTION_ID":
       return {
         ...state,
@@ -83,4 +90,8 @@ export const QuestionProvider = ({ children }) => {
       {children}
     </QuestionContext.Provider>
   );
+};
+
+QuestionProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

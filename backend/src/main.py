@@ -1,6 +1,5 @@
 from http.client import OK
 from typing import Optional
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -14,17 +13,6 @@ from algorithms.random_maze import RandomMaze
 from algorithms.distances import Distance 
 from persistance.Node import Node
 from persistance.Fields import Fields
-from model import Questions, Solutions
-from database import (
-    fetch_one_question,
-    fetch_all_questions,
-    create_question,
-    # update_question,
-    fetch_one_solution,
-    fetch_all_solutions,
-    create_solution,
-)
-
 from database_firebase import (get_solution_qtype_id, set_user_points, set_user_points_zero, new_user)
 
 start_x, start_y, end_x, end_y, map_x, map_y = 10,15,10,35,20,50
@@ -33,8 +21,7 @@ end = Node(end_x, end_y, Fields.END)
 table = Table(map_x, map_y, start, end)
 distance = Distance()
 
-
-
+# For changes types in the backend, walls,types
 class CordinatesItem(BaseModel):
     cordinates : list
     type : int
@@ -49,6 +36,7 @@ class CordinatesItem(BaseModel):
     def get_type(self):
         return self.type
 
+#moving the start and end points
 class CordinatesStartMove(BaseModel):
     start : list
     end: list
@@ -69,6 +57,7 @@ class CordinatesStartMove(BaseModel):
     def get_type(self):
         return self.type
 
+#refresh the board
 class InitialState(BaseModel):
     is_refreshed : bool
     
@@ -77,13 +66,15 @@ class InitialState(BaseModel):
         if is_refreshed:
             table.refresh_board(start_x, start_y, end_x, end_y)
 
+#change the heuristic
 class Distance(BaseModel):
     distance : str
 
     def get_distance_formula(self):
         return self.distance
 
-class DropDownAnswers(BaseModel):
+#Sent answers from different types of questions
+class AnswersQuestions(BaseModel):
     answers : dict
     algorithm : str
     questionsType : str
@@ -137,11 +128,13 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+# if the user whisited the site refresh the board 
 @app.post("/", tags=["root"])
 async def get_table(refreshed : InitialState):
     refreshed.refresh_board(refreshed.is_refreshed, start_x,start_y,end_x,end_y)
 
-@app.post("/api/clearForMaze", tags=["clearforMaze"])  # itt át kell adnom a start.x,y end.x.y és ugy már jónak kell lennie de akkor új initialState kell
+# clear the board, before starting the maze generation
+@app.post("/api/clearForMaze", tags=["clearforMaze"])
 async def clear_for_maze(refreshed : InitialState):
     refreshed.refresh_board(refreshed.is_refreshed, table.start.get_x(),table.start.get_y(), table.end.get_x(), table.end.get_y())
 
@@ -176,7 +169,6 @@ async def get_dfs() -> dict:
 @app.get("/api/Astar", tags=["Astar"])
 async def get_astar() -> dict:
     astar = Astar(table, table.get_start(), table.get_end(), distance.get_distance(app.distance_formula))
-    # print(table.get_start().get_x(), table.get_start().get_y())
     order, shorthest_path = astar.start_astar()
     return {
         "path": order,
@@ -200,6 +192,7 @@ async def get_random_maze() -> dict:
         "order": order # mazelesz ebből
     }
 
+#Types
 @app.get("/api/getTypes", tags=["Types"])
 async def get_types() -> dict:
     d = {}
@@ -223,7 +216,7 @@ async def user(items : UserIdName):
     
 #Quize
 @app.post("/api/quize/{algorithm}", tags=["DragAndDrop"])
-async def post_solution(items: DropDownAnswers):
+async def post_solution(items: AnswersQuestions):
     result = {}
     response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
     idx = 0
@@ -240,7 +233,7 @@ async def post_solution(items: DropDownAnswers):
 
 #Dnd 
 @app.post("/api/dnd/{algorithm}", tags=["DragAndDrop"])
-async def post_solution(items: DropDownAnswers):
+async def post_solution(items: AnswersQuestions):
     result = {}
     response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
     idx = 0
@@ -255,7 +248,7 @@ async def post_solution(items: DropDownAnswers):
 
 #DropDown
 @app.post("/api/dropdown/{algorithm}", tags=["DropDown"])
-async def post_solution(items: DropDownAnswers):
+async def post_solution(items: AnswersQuestions):
     result = {}
     response = get_solution_qtype_id(items.get_algorithm(), items.get_questionType(), items.get_id())
     print(response)
@@ -266,22 +259,6 @@ async def post_solution(items: DropDownAnswers):
     set_user_points(items.get_uid(), points)
     return result
 
-#Solutions itt irokálom majd át
-@app.get("/api/solutions/{algorithm}", tags=["Solutions"])
-async def get_solution(algorithm : str) -> dict:
-    response = await fetch_one_solution(algorithm)
-    if response:
-        return response
-    return HTTPException(404, "Not found")
-
-#Questions:
-@app.get("/api/questions/{algorithm}", tags=["Questions"])
-async def get_questions(algorithm : str) -> dict: # request from backend?
-    response = await fetch_one_question(algorithm)
-    if response:
-        return response
-    
-    return HTTPException(404, "Not found")
 
 #Others
 @app.post("/api/wallUpdate")
@@ -290,9 +267,8 @@ async def refresh_table(item: CordinatesItem):
     type = Fields.get_field_by_name(item.get_type())
     for i in range(table.get_row_size() + 1):
         for j in range(table.get_column_size() + 1):
-            if [i,j] in list: # type
+            if [i,j] in list:
                 field_type = Fields.EMPTY if table.get_node_field(i,j) == type else type
-                # print(field_type)
                 if [i,j] not in [[start_x,start_y], [end_x,end_y]]:
                     table.set_node_field(i, j, field_type)
         

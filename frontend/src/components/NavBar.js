@@ -1,19 +1,21 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
+import PropTypes from "prop-types";
+import React, { useContext, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { GridContext } from "../contexts/GridContext.js";
+import { QuestionContext } from "../contexts/QuestionsContext";
+import { firebase } from "../Firebase/firebase";
+import "../index.css";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import DndQuestion from "./QuestionsSegment/DndQuestion";
 import DropdownQuestion from "./DropDownQuestions/DropdownQuestion";
-import { GridContext } from "../contexts/GridContext.js";
-import { firebase } from "../Firebase/firebase";
-import React, { useContext, useState } from "react";
-import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Over from "./Over";
 import Profile from "./Profile/Profile";
+import DndQuestion from "./QuestionsSegment/DndQuestion";
+import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Quize from "./Quize/Quize";
-import { QuestionContext } from "../contexts/QuestionsContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "../index.css";
 
 const NavBar = ({
   algorithm,
@@ -103,18 +105,13 @@ const NavBar = ({
   };
 
   const handleVisualize = async () => {
-    console.log("belep ide?");
     if (!algorithm) {
       warningMessage();
-      // console.log("itt tuti nem");
     } else {
-      // this is where should I put back the types
+      // I have to put back the weights if another algorithm is visited them
       await axios.get("http://localhost:8000/api/getTypes").then((res) => {
         Object.values(res.data).map((key, value) => {
           Object.entries(key).map(([key, value]) => {
-            console.log("k", key);
-            console.log("v", value);
-            console.log("doc: ", document.getElementById(key));
             switch (value) {
               case 10:
                 document.getElementById(key).className =
@@ -133,17 +130,13 @@ const NavBar = ({
             }
           });
         });
-        console.log("vegzett");
       });
-      console.log("elkezdodott");
       setIsVisualize(true);
-      // console.log("algo", algorithm);
+      // and now visualize the algorithm
       await axios
         .get(`http://localhost:8000/api/${algorithm}`)
         .then((res) => {
-          // console.log("eljut ide?");
           setIsDisabled(true);
-          // console.log(res.data);
           dispatchGridEvent("VISUALIZE_ALGORITHM", {
             path: res.data.path,
             shortestPath: res.data.shortestPath,
@@ -151,6 +144,7 @@ const NavBar = ({
             conditions: ["node-start", "node-finish", "node-wall", "node-type"],
           });
           setTimeout(() => {
+            // after timeout everything is aviable again
             setIsDisabled(false);
             setIsVisualize(false);
           }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
@@ -168,7 +162,7 @@ const NavBar = ({
       uid: firebase.auth().currentUser.uid,
     });
 
-    const questions = await db
+    const questions = await db // get the questions from the database related to the current algorithm
       .collection("questions")
       .doc(algorithm)
       .get()
@@ -260,6 +254,23 @@ const NavBar = ({
       />
     </nav>
   );
+};
+
+NavBar.propTypes = {
+  dispatchGridEvent: PropTypes.func.isRequired,
+  dispatchQuestion: PropTypes.func.isRequired,
+  questionState: PropTypes.object.isRequired,
+  algorithm: PropTypes.string.isRequired,
+  maze: PropTypes.string.isRequired,
+  speed: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  distanceFormula: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  isVisualize: PropTypes.bool.isRequired,
+  isOpenProfile: PropTypes.bool.isRequired,
+  showModelTutorial: PropTypes.bool.isRequired,
+  setAlgorithm: PropTypes.func.isRequired,
+  setShowModelTutorial: PropTypes.func.isRequired,
 };
 
 export default NavBar;

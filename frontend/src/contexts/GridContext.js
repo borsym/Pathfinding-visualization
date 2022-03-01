@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState, createContext } from "react";
+import React, { createContext, useState } from "react";
+import PropTypes from "prop-types";
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
@@ -9,8 +10,8 @@ export const GridContext = createContext();
 
 export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
-  const [type, setType] = useState(10);  // current weight
-  const [isVisualize, setIsVisualize] = useState(false);
+  const [type, setType] = useState(10); // current weight, what we are putting when pressing control
+  const [isVisualize, setIsVisualize] = useState(false); // if we are visualizing the grid is disabled
 
   // communication between components
   const dispatchGridEvent = async (actionType, payload) => {
@@ -44,6 +45,10 @@ export const GridProvider = (props) => {
       {props.children}
     </GridContext.Provider>
   );
+};
+
+GridProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 const cleareBoard = async (conditions) => {
@@ -89,7 +94,8 @@ const createNode = (col, row) => {
   };
 };
 
-const anmiteMaze = (maze, conditions, speed) => {
+const anmiteMaze = (maze, conditions) => {
+  // speed
   // cleareBoard(conditions);
   clearPreviousVisualization(conditions);
   for (let i = 0; i < maze.length; i++) {

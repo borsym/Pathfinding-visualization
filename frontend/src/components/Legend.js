@@ -1,5 +1,6 @@
 import React from "react";
 import descriptionAlgorithm from "../Data/DataAlgoDestcription";
+import PropTypes from "prop-types";
 
 const Legend = ({ algorithm }) => {
   return (
@@ -68,6 +69,10 @@ const Legend = ({ algorithm }) => {
       </div>
     </>
   );
+};
+
+Legend.propTypes = {
+  algorithm: PropTypes.string,
 };
 
 export default Legend;

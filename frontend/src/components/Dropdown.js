@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import PropTypes from "prop-types";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -26,7 +27,7 @@ const getKeyByValue = (object, value) => {
 const Dropdown = (props) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <div>
+      <div>  {/*  hacky solution */}
         <Menu.Button className="inline-flex justify-center w-full rounded-full bg-gray-800 font-bold text-white hover:text-emerald-500 hover:bg-gray-700 py-2 px-4">
           {props.name}
           {props.name === "Speed"
@@ -54,7 +55,7 @@ const Dropdown = (props) => {
         >
           <div className="py-1">
             {props.options.map((option) => (
-              <Menu.Item>
+              <Menu.Item key={option}>
                 {({ active }) => (
                   <button
                     onClick={() => {
@@ -94,6 +95,16 @@ const Dropdown = (props) => {
       </Transition>
     </Menu>
   );
+};
+
+Dropdown.propTypes = {
+  name: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+  function: PropTypes.func.isRequired,
+  setVariable: PropTypes.func.isRequired,
+  speed: PropTypes.number,
+  type: PropTypes.number,
+  distanceFormula: PropTypes.string,
 };
 
 export default Dropdown;

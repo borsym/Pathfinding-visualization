@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import Button from "../Button";
 import { firebase } from "../../Firebase/firebase";
-import React, { useState, useEffect } from "react";
+import Button from "../Button";
+import PropTypes from "prop-types";
 
 const Profile = (props) => {
   const [user, setUser] = useState({});
@@ -19,7 +21,7 @@ const Profile = (props) => {
         setUser(doc.data());
       });
   };
-  // ez bugos ide kell kitalálni valamit
+  // get the user data but its not the right solution...
   // useEffect(() => {
   //   // const updateUser = () => {
   //   getUser();
@@ -79,4 +81,12 @@ const Profile = (props) => {
 //     .then((result) => {
 //       console.log("result", result);
 //     })}
+
+
+Profile.propTypes = {
+  isOpenProfile: PropTypes.bool.isRequired,
+  setIsOpenProfile: PropTypes.func.isRequired,
+  setShowModelTutorial: PropTypes.func.isRequired,
+};
+
 export default Profile;

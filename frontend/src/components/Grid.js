@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import Node from "./Node";
-import { GridContext } from "../contexts/GridContext";
+/* eslint-disable no-unused-vars */
 import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { GridContext } from "../contexts/GridContext";
+import Node from "./Node";
 
 const Grid = () => {
   const [grid, setGrid, type, setType, dispatch, isVisualize, setIsVisualize] =

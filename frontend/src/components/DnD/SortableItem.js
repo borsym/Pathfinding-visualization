@@ -1,7 +1,7 @@
-import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
+import PropTypes from "prop-types";
+import React from "react";
 import { Item } from "./Item";
 
 export function SortableItem(props) {
@@ -32,3 +32,7 @@ export function SortableItem(props) {
     />
   );
 }
+
+SortableItem.propTypes = {
+  id: PropTypes.string.isRequired,
+};

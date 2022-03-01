@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 
 const Button = (props) => {
@@ -21,6 +22,16 @@ const Button = (props) => {
       {props.name} {props.algorithmName}
     </button>
   );
+};
+
+Button.propTypes = {
+  name: PropTypes.string.isRequired,
+  function: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
+  isVisualize: PropTypes.string,
+  id: PropTypes.string,
+  questionSection: PropTypes.bool,
+  algorithmName: PropTypes.string,
 };
 
 export default Button;

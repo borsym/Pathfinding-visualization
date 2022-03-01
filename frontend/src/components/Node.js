@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import "../Node.css";
 
@@ -68,6 +69,18 @@ const Node = (props) => {
       )}
     </div>
   );
+};
+
+Node.propTypes = {
+  col: PropTypes.number,
+  row: PropTypes.number,
+  isFinish: PropTypes.bool,
+  isStart: PropTypes.bool,
+  isWall: PropTypes.bool,
+  onMouseDown: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseUp: PropTypes.func,
+  type: PropTypes.number,
 };
 
 export default Node;

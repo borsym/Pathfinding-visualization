@@ -1,13 +1,12 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Grid from "./components/Grid";
 import Legend from "./components/Legend";
 import NavBar from "./components/NavBar";
-import Grid from "./components/Grid";
-import React, { useState, useEffect } from "react";
 import { GridProvider } from "./contexts/GridContext";
-import ModalTutorial from "./components/ModalTutorial";
 import { QuestionProvider } from "./contexts/QuestionsContext";
-import SignIn from "./SignIn";
 import { firebase } from "./Firebase/firebase";
-import axios from "axios";
+import SignIn from "./SignIn";
 
 export default function App() {
   const [showModal, setShowModal] = useState(false);
@@ -36,7 +35,6 @@ export default function App() {
   return isUserSignedIn ? (
     // Grid provider for shareing the grid between every component
     <GridProvider>
-      {/* modal tutorial */}
       {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */}
       {/* sharing the questions between different components in the question segment */}
       <QuestionProvider>
@@ -47,11 +45,11 @@ export default function App() {
           setShowModelTutorial={setShowModal}
         />
       </QuestionProvider>
-      <Legend algorithm={algorithm} />{" "}
       {/* legend showing a little description to the algorithm */}
-      <Grid />
+      <Legend algorithm={algorithm} /> <Grid />
     </GridProvider>
   ) : (
+    // if the user is not signed in, show the sign in page
     <SignIn />
   );
   // this is how I uploaded image and get the url

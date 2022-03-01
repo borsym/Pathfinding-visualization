@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import PickAlgoGif from "../images/algorithms.gif";
 import WallWeight from "../images/wallWeight.gif";
@@ -10,7 +11,9 @@ const Card = (props) => {
           <h1 className="text-position-tutorial title">{item.title}</h1>
           <h3 className="text-position-tutorial subtitle">{item.subtitle}</h3>
           {item.text.map((text) => (
-            <p className="text-tutorial">{text}</p>
+            <p className="text-tutorial" key={text}>
+              {text}
+            </p>
           ))}
           {props.cardIdx === 3 && (
             <img
@@ -30,6 +33,11 @@ const Card = (props) => {
       ))}
     </div>
   );
+};
+
+Card.propTypes = {
+  data: PropTypes.array.isRequired,
+  cardIdx: PropTypes.number.isRequired,
 };
 
 export default Card;

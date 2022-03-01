@@ -14,7 +14,7 @@ const Quize = () => {
         "border-2 w-full flex justify-center font-semibold";
     }
   };
-  
+
   return (
     <div className="quize">
       <div>
