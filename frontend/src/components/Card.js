@@ -11,9 +11,7 @@ const Card = (props) => {
           <h1 className="text-position-tutorial title">{item.title}</h1>
           <h3 className="text-position-tutorial subtitle">{item.subtitle}</h3>
           {item.text.map((text) => (
-            <p className="text-tutorial" key={text}>
-              {text}
-            </p>
+            <p className="text-tutorial" key={text}>{text}</p>
           ))}
           {props.cardIdx === 3 && (
             <img

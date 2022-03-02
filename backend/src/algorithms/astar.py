@@ -80,15 +80,3 @@ class Astar:
                 if is_valid:
                     self.open_list.append(new_node)
         return list(self.visited_nodes_oreder), []
-
-
-
-# self.start = Node(10,15 , Fields.self.START)
-# end = Node(10, 35, Fields.END)
-# table = Table(20, 50, self.start, end)
-# table.print_grid()
-
-
-# visited, path = astar(table, self.start, end)
-# print(visited)
-# print(path)

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /// <reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
@@ -13,17 +12,21 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-/**
- * @type {Cypress.PluginConfig}
- */
-// eslint-disable-next-line no-unused-vars
-const admin = require("firebase-admin");
-const cypressFirebasePlugin = require("cypress-firebase").plugin;
+/* eslint-disable no-undef */
+/// <reference types="cypress" />
 
-module.exports = (on, config) => {
-  const extendedConfig = cypressFirebasePlugin(on, config, admin);
+// import { getLoginButton, getTitle } from "../support/commands";
+describe("Home", () => {
+  it("can log in and view dashbord", () => {
+    cy.login();
+    cy.visit("http://localhost:3000/");
+    cy.contains("Sign in with Google").click();
+    // getLoginButton().click();
+    // getTitle().should("contain.text", "Clients");
+  });
 
-  // Add other plugins/tasks such as code coverage here
+  // afterEach(() => {
+  //   cy.logout();
+  // });
+});
 
-  return extendedConfig;
-};

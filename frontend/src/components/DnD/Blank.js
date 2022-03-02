@@ -1,5 +1,7 @@
 import React from "react";
-const Blank = ({ solution }) => {
+
+
+const Blank = () => {
   return <span></span>;
 };
 
