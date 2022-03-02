@@ -19,6 +19,7 @@ import DndQuestion from "./QuestionsSegment/DndQuestion";
 import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Quize from "./Quize/Quize";
 import { v4 as uuidv4 } from 'uuid';
+
 const NavBar = ({
   algorithm,
   setAlgorithm,

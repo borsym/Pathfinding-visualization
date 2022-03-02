@@ -98,12 +98,23 @@ const Grid = () => {
           ],
           type: StartOrEnd === "start" ? -1 : -2,
         })
+
         .then(function (response) {})
         .catch(function (error) {
           console.log(error);
         })
         .finally(function () {
-          console.log(isControl);
+          document.getElementById(
+            `node-${parseInt(getStartPosition(grid).row)}-${parseInt(
+              getStartPosition(grid).col
+            )}`
+          ).className = "node-style";
+          document.getElementById(
+            `node-${parseInt(getEndPosition(grid).row)}-${parseInt(
+              getEndPosition(grid).col
+            )}`
+          ).className = "node-style";
+
           setChanges([]);
           setIsControl(false);
           setMouseIsPressed(false);
@@ -236,8 +247,6 @@ const getEndPosition = (grid) => {
 
 const getNewGridMovedStart = (grid, row, col, current, prevStart) => {
   const newGrid = grid.slice();
-  console.log("row: " + row + " col: " + col);
-  console.log("prevStart: " + prevStart.row + " " + prevStart.col);
 
   const prevNode = newGrid[prevStart.row][prevStart.col];
   const newPrevNode = {
