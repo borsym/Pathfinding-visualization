@@ -8,7 +8,6 @@ from persistance.Fields import Fields
 class BFS:
     def __init__(self, grid, start):
         self.__q = queue()
-        print("start",start)
         self.__q.append(start)
 
         self.__order_of_visited_nodes = []

@@ -53,6 +53,9 @@ class Node:
     def set_weight(self, w):
         self.weight = w
 
+    def get_is_wall(self):
+        return self.is_wall
+    
     def set_previous_node(self, node):
         self.previous_node = node
 
