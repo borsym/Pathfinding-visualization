@@ -1,8 +1,8 @@
-from xml.dom.minidom import DocumentFragment
 from pymongo import MongoClient
 from model import Questions, Solutions
 import json
 from bson import json_util
+#NOT USED ANYMORE
 conn = MongoClient('mongodb://localhost:27017/')
 
 # import motor.motor_asyncio

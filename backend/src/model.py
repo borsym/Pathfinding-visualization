@@ -1,9 +1,12 @@
 from pydantic import BaseModel
+
+
 class Questions(BaseModel):
     algorithm: str
     dnd: dict
     quize: dict
     dropdown: dict
+
 
 class Solutions(BaseModel):
     algorithm: str
@@ -11,11 +14,12 @@ class Solutions(BaseModel):
     quize: dict
     dropdown: dict
 
-#Sent answers from different types of questions
+
+# Sent answers from different types of questions
 class AnswersQuestions(BaseModel):
-    answers : dict
-    algorithm : str
-    questionsType : str
+    answers: dict
+    algorithm: str
+    questionsType: str
     id: str
     uid: str
 
@@ -27,18 +31,20 @@ class AnswersQuestions(BaseModel):
 
     def get_algorithm(self):
         return self.algorithm
-    
+
     def get_questionType(self):
         return self.questionsType
 
     def get_uid(self):
         return self.uid
 
+
 class UserId(BaseModel):
-    uid : str
+    uid: str
 
     def get_uid(self):
         return self.uid
+
 
 class UserIdName(BaseModel):
     uid: str
@@ -53,8 +59,8 @@ class UserIdName(BaseModel):
 
 # For changes types in the backend, walls,types
 class CordinatesItem(BaseModel):
-    cordinates : list
-    type : int
+    cordinates: list
+    type: int
 
     def print_cords(self):
         for i in self.cordinates:
@@ -62,15 +68,16 @@ class CordinatesItem(BaseModel):
 
     def get_list(self):
         return self.cordinates
-    
+
     def get_type(self):
         return self.type
 
-#moving the start and end points
+
+# moving the start and end points
 class CordinatesStartMove(BaseModel):
-    start : list
+    start: list
     end: list
-    type : int
+    type: int
 
     def print_cords(self):
         for i in self.start:
@@ -80,9 +87,9 @@ class CordinatesStartMove(BaseModel):
 
     def get_start(self):
         return self.start
-    
+
     def get_end(self):
         return self.end
-    
+
     def get_type(self):
         return self.type

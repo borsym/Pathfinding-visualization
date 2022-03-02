@@ -1,5 +1,6 @@
 from .Fields import Fields
 
+
 class Node:
     def __init__(self, x, y, field, parent=None):
         self.distance = float('inf')
@@ -22,11 +23,11 @@ class Node:
         return hash(self.__key())
 
     def __eq__(self, other):
-        return (self.weight) == (other.get_weight()) # ez át lett írva distancról
+        return (self.weight) == (other.get_weight())
 
     def __lt__(self, other):
-        return self.distance < other.distance # vagy <=?
-    
+        return self.distance < other.distance
+
     def __repr__(self):
         return f'(d={self.distance}, w={self.weight}, x={self.x}, y={self.y})'
 
@@ -43,7 +44,7 @@ class Node:
 
     def set_distance(self, dist):
         self.distance = dist
-    
+
     def get_distance(self):
         return self.distance
 
@@ -55,13 +56,13 @@ class Node:
 
     def get_is_wall(self):
         return self.is_wall
-    
+
     def set_previous_node(self, node):
         self.previous_node = node
 
     def get_previous_node(self):
         return self.previous_node
-        
+
     def get_field(self):
         return self.field
 

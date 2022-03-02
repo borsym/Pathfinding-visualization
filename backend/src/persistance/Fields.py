@@ -1,8 +1,9 @@
 from enum import Enum
 
+
 class Fields(Enum):
     EMPTY = 0
-    WALL = 99999 #float('inf')
+    WALL = 99999  # float('inf')
     START = -1  # ez probléma lehet
     END = -2    # ezzel együtt
     GRASS = 10
@@ -14,7 +15,3 @@ class Fields(Enum):
             if field.value == value:
                 return field
         return None
-
-
-
-
