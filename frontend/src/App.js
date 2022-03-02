@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import { GridProvider } from "./contexts/GridContext";
 import { QuestionProvider } from "./contexts/QuestionsContext";
 import { firebase } from "./Firebase/firebase";
+import errorMessage from "./functions/ErrorMessage";
 import SignIn from "./SignIn";
 
 export default function App() {
@@ -18,10 +19,14 @@ export default function App() {
     // if user is signed in, send request to backend create a new user, if exists the backend will handle
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        axios.post("http://localhost:8000/api/user", {
-          uid: user.uid,
-          name: user.displayName,
-        });
+        axios
+          .post("http://localhost:8000/api/user", {
+            uid: user.uid,
+            name: user.displayName,
+          })
+          .catch(() => {
+            errorMessage("Nincs kapcsolat a szerverrel!");
+          });
         return setIsUserSignedIn(true);
       }
       setIsUserSignedIn(false);

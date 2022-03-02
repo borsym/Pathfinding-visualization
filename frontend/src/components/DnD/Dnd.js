@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
+import errorMessage from "../../functions/ErrorMessage";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
 import { Item } from "./Item";
@@ -165,6 +166,9 @@ const Dnd = (props) => {
             ? `blank-style bg-green-400`
             : `blank-style bg-red-700`;
         });
+      })
+      .catch(() => {
+        errorMessage("A szerver nem elérhető!");
       });
   };
 
@@ -175,6 +179,7 @@ const Dnd = (props) => {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancle}
+        key={props.taskid}
       >
         <div className="flex-col items-start ">
           <div>
@@ -213,7 +218,11 @@ const Dnd = (props) => {
           className="w-48 border-2 border-black border-solid"
           taskid={props.taskid}
         >
-          <SortableContext items={wordbank} strategy={() => {}}>
+          <SortableContext
+            key={props.taskid}
+            items={wordbank}
+            strategy={() => {}}
+          >
             {wordbank.map((id) => (
               <SortableItem key={id} id={id} />
             ))}
@@ -248,11 +257,11 @@ const Dnd = (props) => {
 
 Dnd.propTypes = {
   children: PropTypes.node.isRequired,
-  taskid: PropTypes.string.isRequired,
+  taskid: PropTypes.int,
   currentQuestionId: PropTypes.string.isRequired,
   words: PropTypes.array.isRequired,
-  questionState: PropTypes.object.isRequired,
-  dispatchQuestion: PropTypes.func.isRequired,
+  questionState: PropTypes.object,
+  dispatchQuestion: PropTypes.func,
 };
 
 export default Dnd;

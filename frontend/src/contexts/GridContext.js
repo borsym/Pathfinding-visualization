@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
+import errorMessage from "../functions/ErrorMessage";
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
@@ -57,6 +58,8 @@ const cleareBoard = async (conditions) => {
   await axios.post("http://localhost:8000/api/clearForMaze", {
     // indicated the clear
     is_refreshed: true,
+  }).catch(() => {
+    errorMessage("A szerver nem elérhető!");
   });
 };
 

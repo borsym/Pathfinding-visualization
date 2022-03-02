@@ -24,7 +24,7 @@ const Answer = (props) => {
 Answer.propTypes = {
   answerText: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   onSelectAnswer: PropTypes.func.isRequired,
 };
 

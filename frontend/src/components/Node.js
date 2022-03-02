@@ -16,11 +16,11 @@ const Node = (props) => {
   } = props;
   const extraClassName = isWall
     ? "node-wall bg-wall-blue animate-fillBox"
-    : type === "10" || type === 10
+    : type === 10
     ? "node-type bg-green-900 animate-fillBox"
-    : type === "20"
+    : type === 20
     ? "node-type bg-blue-900 animate-fillBox"
-    : type === "30"
+    : type === 30
     ? "node-type bg-neutral-400 animate-fillBox"
     : "";
 

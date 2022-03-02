@@ -45,7 +45,6 @@ class InitialState(BaseModel):
     is_refreshed: bool
 
     def refresh_board(self, is_refreshed, start_x, start_y, end_x, end_y):
-        print(is_refreshed)
         if is_refreshed:
             table.refresh_board(start_x, start_y, end_x, end_y)
 
@@ -117,9 +116,7 @@ async def get_astar() -> dict:
 
 
 # Maze Generation
-@app.get(
-    "/api/RecursiveDivision", tags=["Maze generation"]
-)  # lehet szóköz az elérési útban?
+@app.get("/api/RecursiveDivision", tags=["Maze generation"])
 async def get_recursive_divison() -> dict:
     recdiv = RecursiveDivison(
         table,
@@ -134,7 +131,7 @@ async def get_recursive_divison() -> dict:
     return {"order": order}  # mazelesz ebből
 
 
-@app.get("/api/Random", tags=["Maze generation"])  # lehet szóköz az elérési útban?
+@app.get("/api/Random", tags=["Maze generation"])
 async def get_random_maze() -> dict:
     random_maze = RandomMaze(
         table,
@@ -156,9 +153,7 @@ async def get_types() -> dict:
     for i in table.get_grid():
         for j in i:
             if j.get_weight() > 0 and j.get_weight() < 100:
-                d[
-                    f"node-{j.get_x()}-{j.get_y()}"
-                ] = j.get_weight()  # x-y valami ilyen formába kell átadni
+                d[f"node-{j.get_x()}-{j.get_y()}"] = j.get_weight()
     return {"dict": d}
 
 
@@ -219,7 +214,7 @@ async def post_solution_dropdown(items: AnswersQuestions):
     response = get_solution_qtype_id(
         items.get_algorithm(), items.get_questionType(), items.get_id()
     )
-    print(response)
+
     points = 0
     for key, value in items.get_answers().items():
         result[key] = response[key] == value
@@ -256,7 +251,7 @@ async def move_start_end(item: CordinatesStartMove):
     item.print_cords()
     end = item.get_end()
     start = item.get_start()
-    print(start)
+
     field_type = Fields.START if item.get_type() == -1 else Fields.END
 
     table.set_node_field(end[0], end[1], field_type)
@@ -264,8 +259,7 @@ async def move_start_end(item: CordinatesStartMove):
         end[0], end[1]
     ) if field_type == Fields.START else table.change_end(end[0], end[1])
     table.set_node_field(start[0], start[1], Fields.EMPTY)
-    print(table.count_start())
-    print(table.get_node_field(start[0], start[1]))
+
     return item
 
 

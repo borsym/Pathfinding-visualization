@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { GridContext } from "../contexts/GridContext";
+import errorMessage from "../functions/ErrorMessage";
 import Node from "./Node";
 
 const Grid = () => {
@@ -135,8 +136,8 @@ const Grid = () => {
           type: isControl ? type : 99999, // bad practie 999...
         })
         .then(function (response) {})
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
+          errorMessage("A szerver nem elérhető!");
         })
         .finally(function () {
           setChanges([]);
@@ -165,7 +166,7 @@ const Grid = () => {
                     isStart={isStart}
                     isWall={isWall}
                     mouseIsPressed={mouseIsPressed}
-                    type={type}
+                    type={parseInt(type)}
                     onMouseDown={(e, row, col) => handleMouseDown(e, row, col)}
                     onMouseEnter={(e, row, col) =>
                       handleMouseEnter(e, row, col)

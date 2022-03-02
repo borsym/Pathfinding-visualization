@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
-import Answer from "./Answer";
 import axios from "axios";
-import { firebase } from "../../Firebase/firebase";
-import { QuestionContext } from "../../contexts/QuestionsContext";
-import React, { useContext } from "react";
 import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import { QuestionContext } from "../../contexts/QuestionsContext";
+import { firebase } from "../../Firebase/firebase";
+import errorMessage from "../../functions/ErrorMessage";
+import Answer from "./Answer";
 
 const Question = (props) => {
   const [quizeState, dispatch] = useContext(QuestionContext);
@@ -36,6 +37,9 @@ const Question = (props) => {
             ? "border-2 w-full flex justify-center font-semibold bg-green-100"
             : "border-2 w-full flex justify-center font-semibold bg-red-100";
         });
+      })
+      .catch(() => {
+        errorMessage("A szerver nem elérhető!");
       });
   };
 
@@ -51,7 +55,7 @@ const Question = (props) => {
             index // options
           ) => (
             <Answer
-              id={index}
+              id={parseInt(index)}
               answerText={answer}
               key={index}
               index={index}

@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import Button from "../Button";
-import { firebase } from "../../Firebase/firebase";
-import { QuestionContext } from "../../contexts/QuestionsContext";
 import React, { useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { QuestionContext } from "../../contexts/QuestionsContext";
+import { firebase } from "../../Firebase/firebase";
+import errorMessage from "../../functions/ErrorMessage";
+import Button from "../Button";
 
 const DropdownQuestion = () => {
   const [quizeState, dispatch] = useContext(QuestionContext);
@@ -21,7 +23,7 @@ const DropdownQuestion = () => {
 
   const clearAllBg = () => {
     Object.keys(currentQuestion).map((key, idx) => {
-      if (key !== "img") {
+      if (key !== "img" && document.getElementById(key) !== null) {
         document.getElementById(key).className = "flex p-1 m-1";
       }
     });
@@ -55,12 +57,14 @@ const DropdownQuestion = () => {
         uid: firebase.auth().currentUser.uid,
       })
       .then((result) => {
-        console.log("ez a result", result.data);
         Object.keys(result.data).map((key, idx) => {
           document.getElementById(key).className = result.data[key]
             ? "flex p-1 m-1 bg-green-100"
             : "flex p-1 m-1 bg-red-100";
         });
+      })
+      .catch(() => {
+        errorMessage("A szerver nem elérhető!");
       });
 
     setIsSubmitted(true);
@@ -86,9 +90,9 @@ const DropdownQuestion = () => {
       {Object.keys(currentQuestion).map(
         (key, idx) =>
           key !== "kep" && (
-            <select name={key} id={key} className="flex p-1 m-1">
+            <select key={key} name={key} id={key} className="flex p-1 m-1">
               {currentQuestion[key].map((question, index) => (
-                <option value={question} key={key}>
+                <option value={question} key={`${key}-${question}-${uuidv4()}`}>
                   {replacing[key]}: {question}
                 </option>
               ))}

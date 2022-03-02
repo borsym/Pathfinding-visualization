@@ -27,7 +27,9 @@ const getKeyByValue = (object, value) => {
 const Dropdown = (props) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <div>  {/*  hacky solution */}
+      <div>
+        {" "}
+        {/*  hacky solution */}
         <Menu.Button className="inline-flex justify-center w-full rounded-full bg-gray-800 font-bold text-white hover:text-emerald-500 hover:bg-gray-700 py-2 px-4">
           {props.name}
           {props.name === "Speed"
@@ -50,9 +52,7 @@ const Dropdown = (props) => {
         leaveFrom="transform opacity-100 scale-150"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items
-          className="origin-top-right absolute right-0 mt-5 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none"
-        >
+        <Menu.Items className="origin-top-right absolute right-0 mt-5 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             {props.options.map((option) => (
               <Menu.Item key={option}>
@@ -100,7 +100,7 @@ const Dropdown = (props) => {
 Dropdown.propTypes = {
   name: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
-  function: PropTypes.func.isRequired,
+  function: PropTypes.func,
   setVariable: PropTypes.func.isRequired,
   speed: PropTypes.number,
   type: PropTypes.number,

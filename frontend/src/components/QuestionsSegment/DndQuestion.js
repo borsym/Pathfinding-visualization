@@ -21,15 +21,19 @@ const DndQuestion = () => {
 
   const text = Object.keys(currentQuestion.question).map((key, idx) => {
     // in the database we have "@@@" meaning a blank
-    return currentQuestion.question[key] === "@@@" ?  <Blank id={idx} /> :  currentQuestion.question[key] + " ";
+    return currentQuestion.question[key] === "@@@" ? (
+      <Blank id={idx} />
+    ) : (
+      currentQuestion.question[key] + " "
+    );
   });
-  
+
   return (
     <>
       <Dnd
-        taskid={quizeState.currentQuestionIndex}
+        taskid={parseInt(quizeState.currentQuestionIndex)}
         words={currentQuestion.answers}
-        key={quizeState.currentQuestionIndex}
+        key={parseInt(quizeState.currentQuestionIndex)}
         currentQuestionId={currentQuestionId}
       >
         {text}

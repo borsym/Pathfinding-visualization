@@ -2,11 +2,13 @@
 import axios from "axios";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GridContext } from "../contexts/GridContext.js";
 import { QuestionContext } from "../contexts/QuestionsContext";
 import { firebase } from "../Firebase/firebase";
+import warningMessage from "../functions/WarningMessage.js";
+import errorMessage from "../functions/ErrorMessage";
 import "../index.css";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
@@ -16,7 +18,7 @@ import Profile from "./Profile/Profile";
 import DndQuestion from "./QuestionsSegment/DndQuestion";
 import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Quize from "./Quize/Quize";
-
+import { v4 as uuidv4 } from 'uuid';
 const NavBar = ({
   algorithm,
   setAlgorithm,
@@ -53,10 +55,14 @@ const NavBar = ({
   };
 
   const handleVisualizeMaze = async (maze) => {
-    await axios.post("http://localhost:8000/api/clearForMaze", {
-      // indicated the clear
-      is_refreshed: true,
-    });
+    await axios
+      .post("http://localhost:8000/api/clearForMaze", {
+        // indicated the clear
+        is_refreshed: true,
+      })
+      .catch(() => {
+        errorMessage("A szerver nem elérhető!");
+      });
 
     await axios
       .get(`http://localhost:8000/api/${maze}`)
@@ -75,8 +81,8 @@ const NavBar = ({
           setIsVisualize(false);
         }, 20 * res.data.order.length);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        errorMessage("A szerver nem elérhető!");
       });
   };
 
@@ -91,46 +97,39 @@ const NavBar = ({
     });
   };
 
-  const warningMessage = () => {
-    toast.warn("You have to pick an algorithm!", {
-      position: "top-right",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
-
   const handleVisualize = async () => {
     if (!algorithm) {
-      warningMessage();
+      warningMessage("You have to pick an algorithm!");
     } else {
       // I have to put back the weights if another algorithm is visited them
-      await axios.get("http://localhost:8000/api/getTypes").then((res) => {
-        Object.values(res.data).map((key, value) => {
-          Object.entries(key).map(([key, value]) => {
-            switch (value) {
-              case 10:
-                document.getElementById(key).className =
-                  "node node-style node-type bg-green-900 animate-fillBox";
-                break;
-              case 20:
-                document.getElementById(key).className =
-                  "node node-style node-type bg-blue-900 animate-fillBox";
-                break;
-              case 30:
-                document.getElementById(key).className =
-                  "node node-style node-type bg-neutral-400 animate-fillBox";
-                break;
-              default:
-                break;
-            }
+      await axios
+        .get("http://localhost:8000/api/getTypes")
+        .then((res) => {
+          Object.values(res.data).map((key, value) => {
+            Object.entries(key).map(([key, value]) => {
+              switch (value) {
+                case 10:
+                  document.getElementById(key).className =
+                    "node node-style node-type bg-green-900 animate-fillBox";
+                  break;
+                case 20:
+                  document.getElementById(key).className =
+                    "node node-style node-type bg-blue-900 animate-fillBox";
+                  break;
+                case 30:
+                  document.getElementById(key).className =
+                    "node node-style node-type bg-neutral-400 animate-fillBox";
+                  break;
+                default:
+                  break;
+              }
+            });
           });
+        })
+        .catch(() => {
+          errorMessage("A szerver nem elérhető!");
         });
-      });
+
       setIsVisualize(true);
       // and now visualize the algorithm
       await axios
@@ -149,18 +148,21 @@ const NavBar = ({
             setIsVisualize(false);
           }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
         })
-        .catch((err) => {
-          console.log(err);
-          console.log(algorithm);
+        .catch(() => {
+          errorMessage("A szerver nem elérhető!");
         });
     }
   };
 
   const handleGetQuestions = async (algorithm) => {
     // every time he starts a new quize we set the points to 0
-    await axios.post(`http://localhost:8000/api/restartpoints`, {
-      uid: firebase.auth().currentUser.uid,
-    });
+    await axios
+      .post(`http://localhost:8000/api/restartpoints`, {
+        uid: firebase.auth().currentUser.uid,
+      })
+      .catch(() => {
+        errorMessage("A szerver nem elérhető!");
+      });
 
     const questions = await db // get the questions from the database related to the current algorithm
       .collection("questions")
@@ -191,7 +193,9 @@ const NavBar = ({
         {questionState.currentQuestionType === "dropdown" && (
           <DropdownQuestion />
         )}
-        {questionState.currentQuestionType === "dnd" && <DndQuestion />}
+        {questionState.currentQuestionType === "dnd" && (
+          <DndQuestion key={uuidv4()} />
+        )}
         {questionState.currentQuestionType === "over" && <Over />}
       </ModalStuktos>
       <Profile
@@ -213,7 +217,9 @@ const NavBar = ({
       <Button
         name="Questions"
         function={() => {
-          !algorithm ? warningMessage() : handleGetQuestions(algorithm);
+          !algorithm
+            ? warningMessage("You have to pick an algorithm!")
+            : handleGetQuestions(algorithm);
         }}
       />
       <Button
@@ -241,14 +247,14 @@ const NavBar = ({
       <Dropdown
         name="Speed"
         options={optionsSpeed}
-        speed={speed}
+        speed={parseInt(speed)}
         setVariable={setSpeed}
         key="Speed"
       />
       <Dropdown
         name="Type"
         options={optionsType}
-        type={type}
+        type={parseInt(type)}
         setVariable={setType}
         key="Type"
       />
@@ -257,17 +263,17 @@ const NavBar = ({
 };
 
 NavBar.propTypes = {
-  dispatchGridEvent: PropTypes.func.isRequired,
-  dispatchQuestion: PropTypes.func.isRequired,
-  questionState: PropTypes.object.isRequired,
+  dispatchGridEvent: PropTypes.func,
+  dispatchQuestion: PropTypes.func,
+  questionState: PropTypes.object,
   algorithm: PropTypes.string.isRequired,
-  maze: PropTypes.string.isRequired,
-  speed: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  distanceFormula: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
-  isVisualize: PropTypes.bool.isRequired,
-  isOpenProfile: PropTypes.bool.isRequired,
+  maze: PropTypes.string,
+  speed: PropTypes.number,
+  type: PropTypes.string,
+  distanceFormula: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  isVisualize: PropTypes.bool,
+  isOpenProfile: PropTypes.bool,
   showModelTutorial: PropTypes.bool.isRequired,
   setAlgorithm: PropTypes.func.isRequired,
   setShowModelTutorial: PropTypes.func.isRequired,
