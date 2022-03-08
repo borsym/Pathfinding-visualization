@@ -84,7 +84,7 @@ async def clear_for_maze(refreshed: InitialState):
 # Maze solvers
 @app.get("/api/BFS", tags=["BFS"])
 def get_bfs() -> dict:
-    bfs = BFS(table, (table.get_start().get_x(), table.get_start().get_y()))
+    bfs = BFS(table, table.get_start())
     order, shorthest_path = bfs.start_bfs()
     return {"path": order, "shortestPath": shorthest_path}
 

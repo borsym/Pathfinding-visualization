@@ -1,21 +1,11 @@
 from persistance.Fields import Fields
-from collections import deque as queue
+from algorithms.common_propertys import CommonPropertys
 import sys
 
 sys.path.append("..")
 
 
-class Dijkstra:
-    def __init__(self, grid, start, end):
-        self.grid = grid
-        start.set_distance(0)
-        self.start = start
-        self.end = end
-        self.visited_nodes_oreder = queue()
-        self.open_list = []
-        self.closed_list = []
-        self.directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
-
+class Dijkstra(CommonPropertys):
     def start_dijsktra(self):
         # Initialize both open and closed list
         # Add the self.start node
@@ -35,7 +25,7 @@ class Dijkstra:
                     current_index = index
             distance = current_node.get_distance()
             # Pop current off open list, add to closed list
-            self.visited_nodes_oreder.append(
+            self.visited_nodes_order.append(
                 (current_node.get_x(), current_node.get_y())
             )
             self.open_list.pop(current_index)
@@ -49,7 +39,7 @@ class Dijkstra:
                     path.append((current.get_x(), current.get_y()))
                     current = current.previous_node
                 return (
-                    list(self.visited_nodes_oreder),
+                    list(self.visited_nodes_order),
                     path[::-1],
                 )  # Return reversed path
 
@@ -59,12 +49,8 @@ class Dijkstra:
                 currx, curry = (current_node.get_x() + dr, current_node.get_y() + dy)
 
                 # Make sure within range
-                if (
-                    not (
-                        0 <= currx < self.grid.get_row_size()
-                        and 0 <= curry < self.grid.get_column_size()
-                    )
-                    or self.grid.get_node_field(currx, curry) == Fields.WALL
+                if not self.isValid(
+                    currx, curry, self.grid.get_row_size(), self.grid.get_column_size()
                 ):
                     continue
 
@@ -95,4 +81,4 @@ class Dijkstra:
                 if is_valid:
                     new_node.set_distance(1 + distance)
                     self.open_list.append(new_node)
-        return list(self.visited_nodes_oreder), []
+        return list(self.visited_nodes_order), []

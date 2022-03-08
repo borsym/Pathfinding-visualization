@@ -1,32 +1,13 @@
 import sys
-from collections import deque as queue
 from persistance.Fields import Fields
+from algorithms.common_propertys import CommonPropertys
 
 sys.path.append("..")
 
 
 # Function to perform DFS
 # Traversal on the matrix grid[]
-class DFS:
-    def __init__(self, grid, start):
-        self.grid = grid
-        self.vis = set()
-        self.visited_order = queue()
-        self.stack = []
-        self.stack.append((start.get_x(), start.get_y()))
-        self.ptr = None
-
-    def get_nodes_in_shortest_path_order(self):
-        nodes_in_shortest_path_order = []
-        current_node = self.ptr
-        while current_node is not None:
-            # print(current_node.get_x(), current_node.get_y())
-            nodes_in_shortest_path_order.insert(
-                0, (current_node.get_x(), current_node.get_y())
-            )
-            current_node = current_node.previous_node
-        return nodes_in_shortest_path_order
-
+class DFS(CommonPropertys):
     def start_dfs(self, Node=None):
         # Iterate until the
         # stack is not empty
@@ -43,33 +24,30 @@ class DFS:
                 continue
             # Mark the current
             # cell as visited
-            self.visited_order.append((row, col))
+            self.visited_nodes_order.append((row, col))
             self.vis.add((row, col))
 
             self.grid.get_node(row, col).set_previous_node(Node)
             Node = self.grid.get_node(row, col)
 
             # Push all the adjacent cells
-            for dr, dc in [(0, -1), (0, 1), (1, 0), (-1, 0)]:
+            for dr, dc in self.directions:
                 adjx = row + dr
                 adjy = col + dc
-                if (
-                    not (
-                        0 <= adjx < self.grid.get_row_size()
-                        and 0 <= adjy < self.grid.get_column_size()
-                    )
-                    or self.grid.get_node_field(adjx, adjy) == Fields.WALL
+                if not self.isValid(
+                    adjx, adjy, self.grid.get_row_size(), self.grid.get_column_size()
                 ):
                     continue
+
                 self.stack.append((adjx, adjy))
 
-                if self.grid.get_node(row, col).get_field() == Fields.END:
+                if self.grid.get_node_field(row, col) == Fields.END:
                     self.ptr = self.grid.get_node(row, col)
                     return (
-                        list(self.visited_order),
+                        list(self.visited_nodes_order),
                         self.get_nodes_in_shortest_path_order(),
                     )  # es majd egy backtracking
-        return list(self.visited_order), []
+        return list(self.visited_nodes_order), []
 
 
 # table = Table(20,50, Node(10,15,Fields.START), Node(10,35,Fields.END))

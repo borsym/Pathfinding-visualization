@@ -1,49 +1,19 @@
-from collections import deque as queue
-from persistance.Fields import Fields
 import sys
+from persistance.Fields import Fields
+from algorithms.common_propertys import CommonPropertys
 
 sys.path.append("..")
 
 
-class BFS:
-    def __init__(self, grid, start):
-        self.__q = queue()
-        self.__q.append(start)
-
-        self.__order_of_visited_nodes = []
-        self.__order_of_visited_nodes.append(start)
-
-        self.grid = grid
-
-        self.ptr = None
-
-    def isValid(self, rr, cc, size_x, size_y):
-        if (
-            not (0 <= rr < size_x and 0 <= cc < size_y)
-            or self.grid.get_node_field(rr, cc) == Fields.WALL
-        ):
-            return False
-        return False if (rr, cc) in self.__order_of_visited_nodes else True
-
-    def get_nodes_in_shortest_path_order(self):
-        nodes_in_shortest_path_order = []
-        current_node = self.ptr
-        while current_node is not None:
-            nodes_in_shortest_path_order.insert(
-                0, (current_node.get_x(), current_node.get_y())
-            )
-            current_node = current_node.previous_node
-
-        return nodes_in_shortest_path_order
-
+class BFS(CommonPropertys):
     def start_bfs(self):
-        while len(self.__q) > 0:
-            arr = self.__q.popleft()
+        while len(self.q):
+            arr = self.q.popleft()
             x = arr[0]
             y = arr[1]
 
             # Go to the adjacent cells
-            for dr, dc in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
+            for dr, dc in self.directions:
                 adjx = x + dr
                 adjy = y + dc
                 if self.isValid(
@@ -53,16 +23,16 @@ class BFS:
                         self.grid.get_node(x, y)
                     )
                     tmp = (adjx, adjy)
-                    self.__q.append(tmp)
-                    self.__order_of_visited_nodes.append(tmp)
+                    self.q.append(tmp)
+                    self.order_of_visited_nodes.append(tmp)
                     if self.grid.get_node_field(adjx, adjy) == Fields.END:
                         self.ptr = self.grid.get_node(adjx, adjy)
                         return (
-                            self.__order_of_visited_nodes,
+                            self.order_of_visited_nodes,
                             self.get_nodes_in_shortest_path_order(),
                         )
 
-        return self.__order_of_visited_nodes, []
+        return self.order_of_visited_nodes, []
 
 
 # start = Node(10,15 , Fields.START)
