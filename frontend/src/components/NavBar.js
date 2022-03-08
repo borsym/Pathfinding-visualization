@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from 'uuid';
 import { GridContext } from "../contexts/GridContext.js";
 import { QuestionContext } from "../contexts/QuestionsContext";
 import { firebase } from "../Firebase/firebase";
-import warningMessage from "../functions/WarningMessage.js";
 import errorMessage from "../functions/ErrorMessage";
+import warningMessage from "../functions/WarningMessage.js";
 import "../index.css";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
@@ -18,7 +19,6 @@ import Profile from "./Profile/Profile";
 import DndQuestion from "./QuestionsSegment/DndQuestion";
 import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Quize from "./Quize/Quize";
-import { v4 as uuidv4 } from 'uuid';
 
 const NavBar = ({
   algorithm,

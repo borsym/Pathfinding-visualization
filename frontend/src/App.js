@@ -7,7 +7,8 @@ import { GridProvider } from "./contexts/GridContext";
 import { QuestionProvider } from "./contexts/QuestionsContext";
 import { firebase } from "./Firebase/firebase";
 import errorMessage from "./functions/ErrorMessage";
-import SignIn from "./SignIn";
+import SignIn from "./components/SignIn";
+// import ModalTutorial from "./components/ModalTutorial";
 
 export default function App() {
   const [showModal, setShowModal] = useState(false);

@@ -1,5 +1,5 @@
 import React from "react";
-import { firebase } from "./Firebase/firebase";
+import { firebase } from "../Firebase/firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 // const db = firebase.firestore();
 
