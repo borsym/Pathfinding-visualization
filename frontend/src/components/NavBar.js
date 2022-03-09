@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { GridContext } from "../contexts/GridContext.js";
 import { QuestionContext } from "../contexts/QuestionsContext";
 import { firebase } from "../Firebase/firebase";
@@ -102,6 +102,10 @@ const NavBar = ({
     if (!algorithm) {
       warningMessage("You have to pick an algorithm!");
     } else {
+      if (isVisualize) {
+        dispatchGridEvent("STOP_VISUALIZE");
+        return;
+      }
       // I have to put back the weights if another algorithm is visited them
       await axios
         .get("http://localhost:8000/api/getTypes")

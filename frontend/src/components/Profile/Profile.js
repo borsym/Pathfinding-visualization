@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
+import axios from "axios";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { firebase } from "../../Firebase/firebase";
 import Button from "../Button";
-import PropTypes from "prop-types";
 
 const Profile = (props) => {
   const [user, setUser] = useState({});
@@ -11,6 +12,9 @@ const Profile = (props) => {
 
   const SignOut = () => {
     firebase.auth().signOut();
+    axios.post("http://localhost:8000/", {
+      is_refreshed: true,
+    });
   };
 
   const getUser = () => {

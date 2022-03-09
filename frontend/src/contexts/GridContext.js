@@ -55,12 +55,14 @@ GridProvider.propTypes = {
 const cleareBoard = async (conditions) => {
   // clear the board
   clearPreviousVisualization(conditions);
-  await axios.post("http://localhost:8000/api/clearForMaze", {
-    // indicated the clear
-    is_refreshed: true,
-  }).catch(() => {
-    errorMessage("A szerver nem elérhető!");
-  });
+  await axios
+    .post("http://localhost:8000/api/clearForMaze", {
+      // indicated the clear
+      is_refreshed: true,
+    })
+    .catch(() => {
+      errorMessage("A szerver nem elérhető!");
+    });
 };
 
 const clearPreviousVisualization = (conditions) => {

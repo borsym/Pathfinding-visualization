@@ -10,7 +10,7 @@ const names = {
   Speed: {
     10: "Fast",
     50: "Normal",
-    500: "Slow",
+    100: "Slow",
   },
   Type: {
     0: "Empty [0]",

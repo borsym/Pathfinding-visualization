@@ -35,7 +35,7 @@ const Node = (props) => {
       {isStart && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 animate-fillBox"
+          className="sm:w-4 sm:h-4 xl:w-6 xl:h-6 2xl:w-8 2xl:h-8 animate-fillBox"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -53,7 +53,7 @@ const Node = (props) => {
       {isFinish && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 animate-fillBox"
+          className="sm:w-4 sm:h-4 xl:w-6 xl:h-6 2xl:w-8 2xl:h-8 animate-fillBox"
           viewBox="0 0 20 20"
           fill="currentColor"
           id="end"
