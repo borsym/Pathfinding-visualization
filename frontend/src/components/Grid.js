@@ -216,10 +216,12 @@ const getNewGridWithWallToggled = (grid, row, col, isControl, type) => {
           .className.includes("wall"));
 
   newGrid[row][col] = newNode;
-  if (!newNode.isWall) {
-    // ez nem teljesen így kéne erre más ötlet kell (hafalat generálok és kiszedem ez arra van)
-    document.getElementById(`node-${row}-${col}`).className = "node node-style";
-  }
+  !newNode.isWall
+    ? (document.getElementById(`node-${row}-${col}`).className =
+        "node node-style")
+    : (newNode.type = 0);
+  // ez nem teljesen így kéne erre más ötlet kell (hafalat generálok és kiszedem ez arra van)
+
   return newGrid;
 };
 
