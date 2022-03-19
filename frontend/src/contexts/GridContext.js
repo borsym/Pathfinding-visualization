@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import errorMessage from "../functions/ErrorMessage";
+import warningMessage from "../functions/WarningMessage";
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
@@ -21,6 +22,9 @@ export const GridProvider = (props) => {
         cleareBoard(payload.conditions);
         return;
       case "VISUALIZE_ALGORITHM":
+        if(payload.shortestPath.length === 0) {
+          warningMessage("There is no path to the finish!");
+        }
         clearPreviousVisualization(payload.conditions);
         animateAlgorithm(payload.path, payload.shortestPath, payload.speed);
         return;
