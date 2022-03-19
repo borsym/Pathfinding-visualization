@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
+import { useDroppable } from "@dnd-kit/core";
 import PropTypes from "prop-types";
 import React from "react";
-import { useDroppable } from "@dnd-kit/core";
 
 const DroppableContainer = (props) => {
   const { setNodeRef, id } = useDroppable({

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
@@ -28,6 +28,10 @@ const DropdownQuestion = () => {
       }
     });
   };
+
+  useEffect(() => {
+    console.log("curr", currentQuestion);
+  }, [currentQuestion]);
 
   const getValuesFromSelect = () => {
     let currentQuestionId = null;
@@ -87,12 +91,13 @@ const DropdownQuestion = () => {
           className="max-h-28 max-w-xs"
         />
       </div>
+      {/* ujra rendelődik mindig itt van  probléma , erre valamit ki kell találni mert ha submitolom akkor újra tölti a kompoenst memo nem oldja meg*/}
       {Object.keys(currentQuestion).map(
         (key, idx) =>
           key !== "kep" && (
             <select key={key} name={key} id={key} className="flex p-1 m-1">
               {currentQuestion[key].map((question, index) => (
-                <option value={question} key={`${key}-${question}-${uuidv4()}`}>
+                <option value={question} key={`${key}-${question}`}>
                   {replacing[key]}: {question}
                 </option>
               ))}

@@ -51,4 +51,32 @@ export default [
       ],
     },
   ],
+  [
+    {
+      title: "Different Types!",
+      subtitle:
+        "There are many different type of weights which can be added to the grid. You can add a weight to a node by clicking on it while pressing Ctrl.",
+      text: ['You can choose the weights from the "Type" drop-down menu'],
+    },
+  ],
+  [
+    {
+      title: "Questions!",
+      subtitle:
+        "For each algorithm there are a few questions that you can solve.",
+      text: [
+        "Click on the question button to see the question.",
+        "There are 3 types of questions.",
+        "Multiple choice questions - Dropdown answer questions - Drag and Drop",
+      ],
+    },
+  ],
+  [
+    {
+      title: "Enjoy!",
+      subtitle:
+        "I hope you have just as much fun playing around with this visualization tool as I had building it!",
+      text: ["Contact me at:", "borsymatee@gmail.com - github.com/borsym - "],
+    },
+  ],
 ];

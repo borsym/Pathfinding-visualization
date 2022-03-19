@@ -10,6 +10,7 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import axios from "axios";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
 import errorMessage from "../../functions/ErrorMessage";
@@ -173,40 +174,40 @@ const Dnd = (props) => {
   };
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto" key={uuidv4()}>
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancle}
-        key={props.taskid}
+        key={uuidv4()}
       >
-        <div className="flex-col items-start ">
-          <div>
+        <div className="flex-col items-start" key={uuidv4()}>
+          <div key={uuidv4()}>
             {childrenWithBlanks.map((child, index) => {
               const { id } = child;
               if (id) {
                 const { items: blankItems, isCorrect: isBlankCorrect } =
                   items[id];
                 return (
-                  <>
+                  <div key={index}>
                     {" "}
                     <DroppableContainer
                       id={id}
                       key={id}
                       isCorrect={isBlankCorrect}
                     >
-                      {blankItems.map((value) => {
+                      {blankItems.map((value, index) => {
                         return (
                           <SortableItem
-                            key={`sortable-item-${value}`}
+                            key={`sortable-item-${index}`}
                             id={value}
                             taskid={props.taskid}
                           />
                         );
                       })}
                     </DroppableContainer>
-                  </>
+                  </div>
                 );
               } else {
                 return child;
@@ -257,7 +258,7 @@ const Dnd = (props) => {
 
 Dnd.propTypes = {
   children: PropTypes.node.isRequired,
-  taskid: PropTypes.int,
+  taskid: PropTypes.number.isRequired,
   currentQuestionId: PropTypes.string.isRequired,
   words: PropTypes.array.isRequired,
   questionState: PropTypes.object,

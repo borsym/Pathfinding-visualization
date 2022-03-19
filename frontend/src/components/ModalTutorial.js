@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import DataTutorial from "../Data/DataTutorial";
 import PropTypes from "prop-types";
 
-const cardsidx = [0, 1, 2, 3, 4]; // how many tutorial cards do i have
+const cardsidx = [0, 1, 2, 3, 4, 5, 6, 7]; // how many tutorial cards do i have
 const ModalTutorial = (props) => {
   const [counter, setCounter] = useState(0);
   const handleButtonClick = (value) => {

@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import PickAlgoGif from "../images/algorithms.gif";
 import WallWeight from "../images/wallWeight.gif";
+import Types from "../images/types.gif";
+import Questions from "../images/questions.gif";
 
 const Card = (props) => {
   return (
@@ -11,7 +13,9 @@ const Card = (props) => {
           <h1 className="text-position-tutorial title">{item.title}</h1>
           <h3 className="text-position-tutorial subtitle">{item.subtitle}</h3>
           {item.text.map((text) => (
-            <p className="text-tutorial" key={text}>{text}</p>
+            <p className="text-tutorial" key={text}>
+              {text}
+            </p>
           ))}
           {props.cardIdx === 3 && (
             <img
@@ -24,6 +28,20 @@ const Card = (props) => {
             <img
               src={WallWeight}
               alt="wall-weight"
+              className=" inset-x-0 bottom-0 m-auto"
+            />
+          )}
+          {props.cardIdx === 5 && (
+            <img
+              src={Types}
+              alt="Types"
+              className=" inset-x-0 bottom-0 m-auto"
+            />
+          )}
+          {props.cardIdx === 6 && (
+            <img
+              src={Questions}
+              alt="Questions"
               className=" inset-x-0 bottom-0 m-auto"
             />
           )}

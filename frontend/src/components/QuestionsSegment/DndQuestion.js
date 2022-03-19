@@ -3,7 +3,7 @@ import Blank from "../DnD/Blank";
 import Dnd from "../DnD/Dnd";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import React, { useContext } from "react";
-
+import { v4 as uuidv4 } from "uuid";
 const DndQuestion = () => {
   const [quizeState, dispatch] = useContext(QuestionContext);
   let currentQuestionId = null;
@@ -29,16 +29,16 @@ const DndQuestion = () => {
   });
 
   return (
-    <>
+    <div key={uuidv4()}>
       <Dnd
         taskid={parseInt(quizeState.currentQuestionIndex)}
         words={currentQuestion.answers}
-        key={parseInt(quizeState.currentQuestionIndex)}
+        key={uuidv4()}
         currentQuestionId={currentQuestionId}
       >
         {text}
       </Dnd>
-    </>
+    </div>
   );
 };
 
