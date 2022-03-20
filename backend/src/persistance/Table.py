@@ -109,7 +109,7 @@ class Table:
     def refresh_board(self, start_x, start_y, end_x, end_y):
         if self.is_not_valid(start_x,start_y) or self.is_not_valid(end_x,end_y):
             raise Exception("Invalid position, out of range")
-        if start_x == end_x or start_x == end_y or start_y == end_x or start_y == end_y:
+        if (start_x == end_x and start_y == end_y) or (start_y == end_x and start_x == end_y):
             raise Exception("Start and end are on the same cell")
             
         self.__grid = self.__make_matrix(self.size_x, self.size_y)
