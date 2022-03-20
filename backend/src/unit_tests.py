@@ -1072,10 +1072,10 @@ class TestTable(unittest.TestCase):
         self.assertEqual(self.table.get_node_field(10, 15), Fields.START)
         self.assertEqual(self.table.get_node_field(10, 35), Fields.END)
 
-        self.table.refresh_board(10, 10, 10, 11)
+        self.table.refresh_board(10, 10, 11, 11)
 
         self.assertEqual(self.table.get_node_field(10, 10), Fields.START)
-        self.assertEqual(self.table.get_node_field(10, 11), Fields.END)
+        self.assertEqual(self.table.get_node_field(11, 11), Fields.END)
 
 
 class TestBarricade(unittest.TestCase):

@@ -63,12 +63,12 @@ class TestIntegration(unittest.TestCase):
     def test_node_multiple_operation(self):
         node_start = Node(10, 30, Fields.START)
         node_end = Node(10, 35, Fields.END)
-        node_wall = Node(10,34, Fields.WALL)
-        node_wall_2 = Node(10,36, Fields.WALL)
-        node_grass = Node(10,33, Fields.GRASS)
-        node_water = Node(10,32, Fields.WATER)
-        node_stone = Node(10,31, Fields.STONE)
-        node_empty = Node(10,29, Fields.EMPTY)
+        node_wall = Node(10, 34, Fields.WALL)
+        node_wall_2 = Node(10, 36, Fields.WALL)
+        node_grass = Node(10, 33, Fields.GRASS)
+        node_water = Node(10, 32, Fields.WATER)
+        node_stone = Node(10, 31, Fields.STONE)
+        node_empty = Node(10, 29, Fields.EMPTY)
 
         self.assertTrue(node_wall == node_wall_2)
         self.assertFalse(node_grass == node_water)
@@ -122,11 +122,11 @@ class TestIntegration(unittest.TestCase):
             self.table.set_node_field(0, 100, Fields.START)
             self.table.set_node_field(100, 0, Fields.START)
             self.table.set_node_field(100, 100, Fields.START)
-            
+
             self.table.change_start(0, 100)
             self.table.change_start(100, 0)
             self.table.change_start(1000, 100)
-            
+
             self.table.change_end(0, 100)
             self.table.change_end(100, 0)
             self.table.change_end(1000, 100)
@@ -138,22 +138,22 @@ class TestIntegration(unittest.TestCase):
             self.table.get_node(0, 100)
             self.table.get_node(100, 0)
             self.table.get_node(1000, 100)
-            
+
             self.table.get_node_field(0, 100)
             self.table.get_node_field(100, 0)
             self.table.get_node_field(1000, 100)
 
-            self.table.refresh_board(100, 12,1,1)
-            self.table.refresh_board(0, 100,1,1)
-            self.table.refresh_board(0, 10,100,1)
-            self.table.refresh_board(0, 12,1,100)
+            self.table.refresh_board(100, 12, 1, 1)
+            self.table.refresh_board(0, 100, 1, 1)
+            self.table.refresh_board(0, 10, 100, 1)
+            self.table.refresh_board(0, 12, 1, 100)
 
-            self.table.refresh_board(1, 1,1,1)
-            self.table.refresh_board(1, 1,1,0)
-            self.table.refresh_board(1, 1,0,1)
-            self.table.refresh_board(1, 0,0,1)
-            self.table.refresh_board(0, 1,0,1)
-            self.table.refresh_board(0, 1,1,0)
+            self.table.refresh_board(1, 1, 1, 1)
+            self.table.refresh_board(1, 1, 1, 0)
+            self.table.refresh_board(1, 1, 0, 1)
+            self.table.refresh_board(1, 0, 0, 1)
+            self.table.refresh_board(0, 1, 0, 1)
+            self.table.refresh_board(0, 1, 1, 0)
 
     def test_algorithms_with_walls(self):
         astar = Astar(
