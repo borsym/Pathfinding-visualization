@@ -56,7 +56,7 @@ export default function App() {
     </GridProvider>
   ) : (
     // if the user is not signed in, show the sign in page
-      <SignIn />
+    <SignIn />
   );
   // this is how I uploaded image and get the url
   // const onChange = async (e) => {
@@ -65,8 +65,6 @@ export default function App() {
   //   const fileRef = storageRef.child(file.name);
   //   await fileRef.put(file);
   //   const fileUrl = await fileRef.getDownloadURL();
-  //   console.log("hi");
-  //   console.log(fileUrl);
   // };
   // const onSubmit = (e) => {
   //   e.preventDefault();

@@ -15,8 +15,6 @@ export default function OverConfetti() {
 
   const handleShow = (toggle) => {
     setShow(toggle);
-    console.log(width);
-    console.log(height);
   };
 
   return (

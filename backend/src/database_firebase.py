@@ -12,9 +12,6 @@ db = firestore.client()
 def get_solution_qtype_id(
     algorithm, questiontype, id
 ):  # u? lehet törölni kell, itt id lehet nem lesz jó és idx kell
-    print("alg", algorithm)
-    print("qtype", questiontype)
-    print("id", id)
     doc = db.collection("solutions").document(algorithm).get()
     if doc.exists:
         return doc.to_dict()[questiontype][id]
@@ -22,25 +19,18 @@ def get_solution_qtype_id(
 
 
 def set_user_points(uid, points):
-    print("u", uid)
-    print("benne a pontok", points)
     doc = db.collection("users").document(uid).get()
-    print("doc", doc.to_dict())
     if doc.exists:
         curr_points = doc.to_dict()["points"]
-        print("ez meg mi xd", curr_points)
         doc.reference.update({"points": curr_points + points})
     else:
         raise Exception("User not found")
 
 
 def set_user_points_zero(uid):
-    print("u", uid)
     doc = db.collection("users").document(uid).get()
     if doc.exists:
         doc.reference.set({"points": int(0), "name": doc.to_dict()["name"]})
-        print("ez megtortént")
-        print(db.collection("users").document(uid).get().to_dict())
     else:
         raise Exception("User not found")
 

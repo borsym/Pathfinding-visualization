@@ -15,13 +15,11 @@ def parse_json(data):
     return json.loads(json_util.dumps(data))
 
 async def fetch_one_question(algorithm):
-    print(algorithm)
     document = conn.local.questions.find_one({'algorithm': algorithm})
     document = parse_json(document)
     return document
 
 async def fetch_one_solution(algorithm):
-    print(algorithm)
     document = conn.local.solutions.find_one({'algorithm': algorithm})
     document = parse_json(document)
     return document

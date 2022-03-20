@@ -14,7 +14,6 @@ const ModalTutorial = (props) => {
       : counter + value > max
       ? setCounter(max)
       : setCounter(counter + value);
-    console.log(counter);
   };
 
   return props.showModal ? (

@@ -29,9 +29,7 @@ const DropdownQuestion = () => {
     });
   };
 
-  useEffect(() => {
-    console.log("curr", currentQuestion);
-  }, [currentQuestion]);
+  useEffect(() => {}, [currentQuestion]);
 
   const getValuesFromSelect = () => {
     let currentQuestionId = null;
@@ -95,7 +93,12 @@ const DropdownQuestion = () => {
       {Object.keys(currentQuestion).map(
         (key, idx) =>
           key !== "kep" && (
-            <select key={key} name={key} id={key} className="flex p-1 m-1">
+            <select
+              key={key}
+              name={key}
+              id={key}
+              className="flex p-1 m-1 border-4 hover:border-t-8 border-gray-300"
+            >
               {currentQuestion[key].map((question, index) => (
                 <option value={question} key={`${key}-${question}`}>
                   {replacing[key]}: {question}

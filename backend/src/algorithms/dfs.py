@@ -49,10 +49,3 @@ class DFS(CommonPropertys):
                     )  # es majd egy backtracking
         return list(self.visited_nodes_order), []
 
-
-# table = Table(20,50, Node(10,15,Fields.START), Node(10,35,Fields.END))
-# dfs = DFS(table, Node(10,15,Fields.START))
-# a,b = dfs.start_dfs()
-# print(a)
-# print()
-# print(b)

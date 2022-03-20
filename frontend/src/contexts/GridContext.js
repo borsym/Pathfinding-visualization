@@ -19,10 +19,11 @@ export const GridProvider = (props) => {
   const dispatchGridEvent = async (actionType, payload) => {
     switch (actionType) {
       case "CLEAR_BOARD":
+        clearBoard(grid);
         cleareBoard(payload.conditions);
         return;
       case "VISUALIZE_ALGORITHM":
-        if(payload.shortestPath.length === 0) {
+        if (payload.shortestPath.length === 0) {
           warningMessage("There is no path to the finish!");
         }
         clearPreviousVisualization(payload.conditions);
@@ -76,6 +77,14 @@ const clearPreviousVisualization = (conditions) => {
       if (!conditions.some((e) => node.classList.value.includes(e))) {
         node.className = "node-style";
       }
+    }
+  }
+};
+
+const clearBoard = (grid) => {
+  for (let row = 0; row < 20; row++) {
+    for (let col = 0; col < 50; col++) {
+      grid[row][col].isWall = false;
     }
   }
 };

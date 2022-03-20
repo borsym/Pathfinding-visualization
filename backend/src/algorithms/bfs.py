@@ -33,22 +33,3 @@ class BFS(CommonPropertys):
                         )
 
         return self.order_of_visited_nodes, []
-
-
-# start = Node(10,15 , Fields.START)
-# end = Node(10, 35, Fields.END)
-# table = Table(20, 50, start, end)
-
-# # start = Node(1,0 , Fields.START)
-# # end = Node(9, 8, Fields.END)
-# # table = Table(10, 10, start, end)
-# # table.print_grid()
-# # # table.set_node_field(10, 16, Fields.WALL)
-# # # table.set_node_field(9, 16, Fields.WALL)
-# # print(table.get_row_size())
-# # print(table.get_column_size())
-# # print()
-# bfs = BFS(table, (10, 15))
-# order, path = bfs.start_bfs()
-# # # # print("hallo\n")
-# print(order, '\n', path)

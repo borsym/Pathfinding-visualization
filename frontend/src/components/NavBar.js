@@ -48,6 +48,7 @@ const NavBar = ({
   ] = useContext(GridContext);
   const [questionState, dispatchQuestion] = useContext(QuestionContext);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleClearBoard = () => {
     dispatchGridEvent("CLEAR_BOARD", {
@@ -88,6 +89,12 @@ const NavBar = ({
   };
 
   const openProfile = () => {
+    const db = firebase.firestore();
+    const user = db
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
+      .get();
+    user.then((user) => setUser(user.data()));
     setIsOpenProfile(true);
   };
 
@@ -208,6 +215,7 @@ const NavBar = ({
         setIsOpenProfile={setIsOpenProfile}
         showModelTutorial={showModelTutorial}
         setShowModelTutorial={setShowModelTutorial}
+        user={user}
       />
       <Button name="Profile" function={openProfile} />
       <Dropdown

@@ -15,11 +15,53 @@ const Over = () => {
       .get();
     user.then((user) => setUser(user.data()));
   }, []);
-  console.log(user);
+
   return (
-    <div>
-      <h1>Congratulations {user?.name}!</h1>
-      <h3>Your points: {user?.points} out of 14</h3>
+    <div className="text-center text-2xl">
+      <h1>
+        Congratulations <b>{user?.name}</b>!
+      </h1>
+      <h3>
+        Your points: <b>{user?.points}</b> out of <b>14</b>
+      </h3>
+
+      {user?.points < 4 ? (
+        <>
+          <h3> You need to improve your knowledge!</h3>
+          <h5>Your grade would be</h5>
+          <h6>1</h6>
+        </>
+      ) : user?.points < 7 ? (
+        <>
+          <h3> You are doing well but you still need to improve</h3>
+          <h5>Your grade would be</h5>
+          <h6>2</h6>
+        </>
+      ) : user?.points < 10 ? (
+        <>
+          <h3> You are doing great!</h3>
+          <h5>Your grade would be</h5>
+          <h6>3</h6>
+        </>
+      ) : user?.points < 13 ? (
+        <>
+          <h3> You are doing really well!</h3>
+          <h5>Your grade would be</h5>
+          <h6>4</h6>
+        </>
+      ) : user?.points == 14 ? (
+        <>
+          <h3> Confetti for you!!!</h3>
+          <h5>Your grade would be</h5>
+          <h6>5</h6>
+        </>
+      ) : (
+        <>
+          <h3> You are doing really well!</h3>
+          <h5>Your grade would be</h5>
+          <h6>5</h6>
+        </>
+      )}
       {user?.points === 14 ? <OverConfetti /> : null}
     </div>
   );

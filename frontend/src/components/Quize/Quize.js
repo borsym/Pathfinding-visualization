@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Button from "../Button";
 import Question from "./Question";
 import { QuestionContext } from "../../contexts/QuestionsContext";
@@ -18,12 +19,6 @@ const Quize = () => {
   return (
     <div className="quize">
       <div>
-        <div className="flex justify-center">
-          <div className="bg-blue-100 p-2 font-bold">
-            Question {questionState.currentQuestionIndex + 1}/
-            {Object.keys(questionState.questions.quize).length}
-          </div>
-        </div>
         <Question disabled={disabled} setDisabled={setDisabled} />
         <div className="float-right">
           <Button

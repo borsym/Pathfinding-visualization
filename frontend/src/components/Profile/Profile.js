@@ -7,7 +7,6 @@ import { firebase } from "../../Firebase/firebase";
 import Button from "../Button";
 
 const Profile = (props) => {
-  const [user, setUser] = useState({});
   const db = firebase.firestore();
 
   const SignOut = () => {
@@ -17,14 +16,14 @@ const Profile = (props) => {
     });
   };
 
-  const getUser = () => {
-    db.collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .get()
-      .then((doc) => {
-        setUser(doc.data());
-      });
-  };
+  // const getUser = () => {
+  //   db.collection("users")
+  //     .doc(firebase.auth().currentUser.uid)
+  //     .get()
+  //     .then((doc) => {
+  //       setUser(doc.data());
+  //     });
+  // };
   // get the user data but its not the right solution...
   // useEffect(() => {
   //   // const updateUser = () => {
@@ -49,10 +48,10 @@ const Profile = (props) => {
         />
         <div className="grid place-items-center">
           <div className="text-xl">
-            <b>Name:</b> {user.name}
+            <b>Name:</b> {props.user?.name}
           </div>
           <div className="text-xl">
-            <b>Points:</b> {user.points}
+            <b>Points:</b> {props.user?.points}
           </div>
           <div className="pt-2">
             <Button function={SignOut} name="Sign out" questionSection={true} />
@@ -66,11 +65,6 @@ const Profile = (props) => {
               name="Help"
               questionSection={true}
             />
-          </div>
-
-          <div>
-            bugos, idő kell mire frissiti ujra kell tölteni az oldalt, erre majd
-            valamit ki kell talani
           </div>
         </div>
       </div>
@@ -91,6 +85,7 @@ Profile.propTypes = {
   isOpenProfile: PropTypes.bool.isRequired,
   setIsOpenProfile: PropTypes.func.isRequired,
   setShowModelTutorial: PropTypes.func.isRequired,
+  user: PropTypes.object,
 };
 
 export default Profile;

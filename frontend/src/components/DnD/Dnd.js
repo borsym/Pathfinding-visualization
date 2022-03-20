@@ -231,25 +231,27 @@ const Dnd = (props) => {
             {activeId ? <Item label={activeId} /> : null}
           </DragOverlay>
         </div>
-        {!isSubmitted ? (
-          <Button
-            function={() => {
-              handleSubmit();
-              setIsSubmitted(true);
-            }}
-            name="Submit"
-            questionSection={true}
-          />
-        ) : (
-          <Button
-            function={() => {
-              dispatchQuestion({ type: "NEXT_QUESTION" });
-              setIsSubmitted(false);
-            }}
-            name="Next"
-            questionSection={true}
-          />
-        )}
+        <div className="pt-4">
+          {!isSubmitted ? (
+            <Button
+              function={() => {
+                handleSubmit();
+                setIsSubmitted(true);
+              }}
+              name="Submit"
+              questionSection={true}
+            />
+          ) : (
+            <Button
+              function={() => {
+                dispatchQuestion({ type: "NEXT_QUESTION" });
+                setIsSubmitted(false);
+              }}
+              name="Next"
+              questionSection={true}
+            />
+          )}
+        </div>
       </DndContext>
     </div>
   );
