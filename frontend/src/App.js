@@ -8,7 +8,7 @@ import { QuestionProvider } from "./contexts/QuestionsContext";
 import { firebase } from "./Firebase/firebase";
 import errorMessage from "./functions/ErrorMessage";
 import SignIn from "./components/SignIn";
-import ModalTutorial from "./components/ModalTutorial";
+// import ModalTutorial from "./components/ModalTutorial";
 
 export default function App() {
   const [showModal, setShowModal] = useState(false);
@@ -41,7 +41,7 @@ export default function App() {
   return isUserSignedIn ? (
     // Grid provider for shareing the grid between every component
     <GridProvider>
-      <ModalTutorial showModal={showModal} setShowModal={setShowModal} />
+      {/* <ModalTutorial showModal={showModal} setShowModal={setShowModal} /> */}
       {/* sharing the questions between different components in the question segment */}
       <QuestionProvider>
         <NavBar

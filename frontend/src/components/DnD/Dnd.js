@@ -174,23 +174,22 @@ const Dnd = (props) => {
   };
 
   return (
-    <div className="mx-auto" key={uuidv4()}>
+    <div className="mx-auto">
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancle}
-        key={uuidv4()}
       >
-        <div className="flex-col items-start" key={uuidv4()}>
-          <div key={uuidv4()}>
+        <div className="flex-col items-start">
+          <div>
             {childrenWithBlanks.map((child, index) => {
               const { id } = child;
               if (id) {
                 const { items: blankItems, isCorrect: isBlankCorrect } =
                   items[id];
                 return (
-                  <div key={index}>
+                  <>
                     {" "}
                     <DroppableContainer
                       id={id}
@@ -207,7 +206,7 @@ const Dnd = (props) => {
                         );
                       })}
                     </DroppableContainer>
-                  </div>
+                  </>
                 );
               } else {
                 return child;

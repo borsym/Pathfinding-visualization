@@ -24,11 +24,22 @@ class Table:
     def get_grid(self):
         return self.__grid
 
+    def is_not_valid(self, x, y):
+        return x < 0 or x >= self.get_row_size() or y < 0 or y >= self.get_column_size()
+    
     def change_start(self, x, y):
+        if self.is_not_valid(x,y):
+            raise Exception("Invalid position, out of range")
+
+        self.__grid[self.start.get_x()][self.start.get_y()].set_field(Fields.EMPTY)
         self.start = Node(x, y, Fields.START)
         self.__grid[x][y].set_field(Fields.START)
 
     def change_end(self, x, y):
+        if self.is_not_valid(x,y):
+            raise Exception("Invalid position, out of range")
+
+        self.__grid[self.end.get_x()][self.end.get_y()].set_field(Fields.EMPTY)
         self.end = Node(x, y, Fields.END)
         self.__grid[x][y].set_field(Fields.END)
 
@@ -42,21 +53,31 @@ class Table:
         return len(self.__grid[0])
 
     def get_node_weight(self, x, y):
+        if self.is_not_valid(x,y):
+            raise Exception("Invalid position, out of range")
         return self.__grid[x][y].get_weight()
 
     def set_node_weight(self, x, y, value):
+        if self.is_not_valid(x,y):
+            raise Exception("Invalid position, out of range")
         self.__grid[x][y].set_weight(value)
 
     def get_start(self):
         return self.start
 
     def get_node(self, x, y):
+        if self.is_not_valid(x,y):
+            raise Exception("Invalid position, out of range")
         return self.__grid[x][y]
 
     def get_node_field(self, x, y):
+        if self.is_not_valid(x,y):
+            raise Exception("Invalid position, out of range")
         return self.__grid[x][y].field
 
     def set_node_field(self, x, y, field):
+        if self.is_not_valid(x,y):
+            raise Exception("Invalid position, out of range")
         self.__grid[x][y].set_field(field)
 
     def get_end(self):
@@ -86,6 +107,11 @@ class Table:
         self.print_grid()
 
     def refresh_board(self, start_x, start_y, end_x, end_y):
+        if self.is_not_valid(start_x,start_y) or self.is_not_valid(end_x,end_y):
+            raise Exception("Invalid position, out of range")
+        if start_x == end_x or start_x == end_y or start_y == end_x or start_y == end_y:
+            raise Exception("Start and end are on the same cell")
+            
         self.__grid = self.__make_matrix(self.size_x, self.size_y)
         self.__grid[start_x][start_y].set_field(Fields.START)
         self.start = Node(start_x, start_y, Fields.START)
