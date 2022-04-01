@@ -114,7 +114,7 @@ describe("interact with Navbar", () => {
 
   it("interaction with Type", () => {
     cy.contains("Type").click();
-    const algorithms = ["Empty [0]", "Grass [10]", "Water [20]", "Stone [30]"]; // lehet elirva
+    const algorithms = ["Grass [10]", "Water [20]", "Stone [30]"]; // lehet elirva
     algorithms.forEach((value) => {
       cy.contains(value);
     });

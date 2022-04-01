@@ -13,7 +13,6 @@ const names = {
     100: "Slow",
   },
   Type: {
-    0: "Empty [0]",
     10: "Grass [10]",
     20: "Water [20]",
     30: "Stone [30]",

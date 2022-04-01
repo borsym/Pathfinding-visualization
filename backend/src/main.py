@@ -24,13 +24,12 @@ from database_firebase import (
     set_user_points_zero,
     new_user,
 )
-
+import gc
 start_x, start_y, end_x, end_y, map_x, map_y = 10, 15, 10, 35, 20, 50
 start = Node(start_x, start_y, Fields.START)
 end = Node(end_x, end_y, Fields.END)
 table = Table(map_x, map_y, start, end)
 distance = Distance()
-
 
 # change the heuristic
 class Distance(BaseModel):
@@ -236,7 +235,8 @@ async def refresh_table(item: CordinatesItem):
                 )
                 if [i, j] not in [[start_x, start_y], [end_x, end_y]]:
                     table.set_node_field(i, j, field_type)
-
+    del list
+    gc.collect()
     return item
 
 
@@ -248,7 +248,6 @@ async def set_distance_formula(item: Distance):
 
 @app.post("/api/moveStartEnd")
 async def move_start_end(item: CordinatesStartMove):
-    item.print_cords()
     end = item.get_end()
     start = item.get_start()
 

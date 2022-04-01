@@ -1,7 +1,7 @@
 from persistance.Fields import Fields
 from algorithms.common_propertys import CommonPropertys
 import sys
-
+import gc
 sys.path.append("..")
 
 
@@ -38,6 +38,9 @@ class Dijkstra(CommonPropertys):
                 while current is not None:
                     path.append((current.get_x(), current.get_y()))
                     current = current.previous_node
+                del self.open_list
+                del self.closed_list
+                gc.collect()
                 return (
                     list(self.visited_nodes_order),
                     path[::-1],

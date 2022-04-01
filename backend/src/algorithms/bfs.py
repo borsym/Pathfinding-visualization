@@ -1,7 +1,7 @@
 import sys
 from persistance.Fields import Fields
 from algorithms.common_propertys import CommonPropertys
-
+import gc
 sys.path.append("..")
 
 
@@ -27,6 +27,8 @@ class BFS(CommonPropertys):
                     self.order_of_visited_nodes.append(tmp)
                     if self.grid.get_node_field(adjx, adjy) == Fields.END:
                         self.ptr = self.grid.get_node(adjx, adjy)
+                        del self.q
+                        gc.collect()
                         return (
                             self.order_of_visited_nodes,
                             self.get_nodes_in_shortest_path_order(),

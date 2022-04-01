@@ -1,7 +1,7 @@
 import sys
 from persistance.Fields import Fields
 from algorithms.common_propertys import CommonPropertys
-
+import gc
 sys.path.append("..")
 
 
@@ -9,6 +9,7 @@ sys.path.append("..")
 # Traversal on the matrix grid[]
 class DFS(CommonPropertys):
     def start_dfs(self, Node=None):
+        print(len( gc.get_objects() ) )
         # Iterate until the
         # stack is not empty
         while len(self.stack):
@@ -43,6 +44,9 @@ class DFS(CommonPropertys):
 
                 if self.grid.get_node_field(row, col) == Fields.END:
                     self.ptr = self.grid.get_node(row, col)
+                    del self.stack
+                    gc.collect()
+                    print(len( gc.get_objects() ) )
                     return (
                         list(self.visited_nodes_order),
                         self.get_nodes_in_shortest_path_order(),

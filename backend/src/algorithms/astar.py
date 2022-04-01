@@ -1,12 +1,13 @@
 from algorithms.common_propertys import CommonPropertys
 from persistance.Fields import Fields
 import sys
-
+import gc
 sys.path.append("..")
 
 
 class Astar(CommonPropertys):
     def start_astar(self):
+        print("ciuca",len( gc.get_objects() ) )
         # Initialize both open and closed list
         # Add the self.start node
         self.open_list.append(self.start)
@@ -34,6 +35,10 @@ class Astar(CommonPropertys):
                 while current is not None:
                     path.append((current.get_x(), current.get_y()))
                     current = current.previous_node
+                del self.open_list
+                del self.closed_list
+                gc.collect()
+                print(len( gc.get_objects() ) )
                 return (
                     list(self.visited_nodes_order),
                     path[::-1],
