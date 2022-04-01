@@ -4,7 +4,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
-import errorMessage from "../../functions/ErrorMessage";
 import Button from "../Button";
 
 const DropdownQuestion = () => {
@@ -65,9 +64,7 @@ const DropdownQuestion = () => {
             : "flex p-1 m-1 bg-red-100";
         });
       })
-      .catch(() => {
-        errorMessage("A szerver nem elérhető!");
-      });
+      .catch(() => {});
 
     setIsSubmitted(true);
   };
@@ -86,7 +83,7 @@ const DropdownQuestion = () => {
         <img
           src={currentQuestion["kep"]}
           alt="kep"
-          className="max-h-28 max-w-xs"
+          className="max-h-45 max-w-md"
         />
       </div>
       {/* ujra rendelődik mindig itt van  probléma , erre valamit ki kell találni mert ha submitolom akkor újra tölti a kompoenst memo nem oldja meg*/}

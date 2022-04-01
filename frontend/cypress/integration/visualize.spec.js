@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import testAlgorithms from "../support/testAlgorithms";
+import testAlgorithmsWithWall from "../support/testAlgorithmsWithWall";
 describe("Run the algorithms", () => {
   it("Check if the board is ready", () => {
     cy.visit("http://localhost:3000/");
@@ -18,10 +19,23 @@ describe("Run the algorithms", () => {
     cy.wait(1000);
   });
 
-  it("Visualize the algorithms with Clear Board", () => {
+  it("Visualize the algorithms with wall", () => {
     const algorithms = ["BFS", "DFS", "Dijkstra", "Astar"];
-    testAlgorithms(algorithms, 15, 35);
+    // click on the id and relase
+    cy.get("#node-10-16").trigger("mousedown");
+    cy.get("#node-10-16").trigger("mouseup");
+    testAlgorithmsWithWall(algorithms, false);
     cy.contains("Clear Board").click();
+    cy.wait(1000);
+  });
+
+  it("Visualize the algorithms with wall and clearboard", () => {
+    const algorithms = ["BFS", "Astar", "Dijkstra", "DFS"];
+    // click on the id and relase
+    cy.get("#node-10-16").trigger("mousedown");
+    cy.get("#node-10-16").trigger("mouseup");
+    cy.contains("Clear Board").click();
+    testAlgorithms(algorithms, 15, 35);
     cy.wait(1000);
   });
 
@@ -31,5 +45,8 @@ describe("Run the algorithms", () => {
     cy.get("#visualize", { timeout: 30000 })
       .should("have.css", "background-color")
       .and("eq", "rgb(8, 145, 178)");
+    cy.contains("Maze").click();
+    cy.contains("Recursive Division").click();
+    testAlgorithms(["Astar"], 15, 35);
   });
 });

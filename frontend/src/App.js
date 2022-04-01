@@ -65,6 +65,7 @@ export default function App() {
   //   const fileRef = storageRef.child(file.name);
   //   await fileRef.put(file);
   //   const fileUrl = await fileRef.getDownloadURL();
+  //   console.log(fileUrl);
   // };
   // const onSubmit = (e) => {
   //   e.preventDefault();

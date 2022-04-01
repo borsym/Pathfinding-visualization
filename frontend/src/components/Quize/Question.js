@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
-import errorMessage from "../../functions/ErrorMessage";
 import Answer from "./Answer";
 
 const Question = (props) => {
@@ -38,9 +37,7 @@ const Question = (props) => {
             : "border-2 w-full flex justify-center font-semibold bg-red-100";
         });
       })
-      .catch(() => {
-        errorMessage("A szerver nem elérhető!");
-      });
+      .catch(() => {});
   };
 
   return (

@@ -13,7 +13,6 @@ import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
-import errorMessage from "../../functions/ErrorMessage";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
 import { Item } from "./Item";
@@ -168,9 +167,7 @@ const Dnd = (props) => {
             : `blank-style bg-red-700`;
         });
       })
-      .catch(() => {
-        errorMessage("A szerver nem elérhető!");
-      });
+      .catch(() => {});
   };
 
   return (
