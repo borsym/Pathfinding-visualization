@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { GridContext } from "../contexts/GridContext";
 import errorMessage from "../functions/ErrorMessage";
 import Node from "./Node";
-
+import {PATH} from "../fileWithConstan";
 const Grid = () => {
   const [grid, setGrid, type, setType, dispatch, isVisualize, setIsVisualize] =
     useContext(GridContext);
@@ -23,7 +23,7 @@ const Grid = () => {
     };
 
     function saveFormData() {
-      axios.post("http://localhost:8000/", {
+      axios.post(`${PATH}/`, {
         is_refreshed: true,
       });
     }
@@ -85,7 +85,7 @@ const Grid = () => {
     setMouseIsPressed(false);
     if (isMoveStartEnd) {
       axios
-        .post("http://localhost:8000/api/moveStartEnd", {
+        .post(`${PATH}/api/moveStartEnd`, {
           start: [parseInt(changes[0].row), parseInt(changes[0].col)], // innen indult ki
           end: [
             // ide raktam le
@@ -142,7 +142,7 @@ const Grid = () => {
       }
 
       axios
-        .post("http://localhost:8000/api/wallUpdate", {
+        .post(`${PATH}/api/wallUpdate`, {
           cordinates: unique,
           type: isControl ? type : 99999, // bad practie 999...
         })

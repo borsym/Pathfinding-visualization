@@ -9,6 +9,7 @@ import { firebase } from "./Firebase/firebase";
 import errorMessage from "./functions/ErrorMessage";
 import SignIn from "./components/SignIn";
 // import ModalTutorial from "./components/ModalTutorial";
+import {PATH} from "./fileWithConstan";
 
 export default function App() {
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +22,7 @@ export default function App() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         axios
-          .post("http://localhost:8000/api/user", {
+          .post(`${PATH}/api/user`, {
             uid: user.uid,
             name: user.displayName,
           })

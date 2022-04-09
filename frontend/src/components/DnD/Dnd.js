@@ -10,14 +10,13 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import axios from "axios";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { QuestionContext } from "../../contexts/QuestionsContext";
+import {PATH} from "../../fileWithConstan";
 import { firebase } from "../../Firebase/firebase";
 import Button from "../Button";
 import DroppableContainer from "./DroppableContainer";
 import { Item } from "./Item";
 import { SortableItem } from "./SortableItem";
-
 export const WORD_BANK = "WORD_BANK";
 
 const Dnd = (props) => {
@@ -153,7 +152,7 @@ const Dnd = (props) => {
   const handleSubmit = async () => {
     const answers = gatherAnswers();
     axios
-      .post(`http://localhost:8000/api/dnd/${questionState.algorithm}`, {
+      .post(`${PATH}/api/dnd/${questionState.algorithm}`, {
         answers: answers,
         algorithm: questionState.algorithm,
         questionsType: questionState.currentQuestionType,

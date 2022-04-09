@@ -1,24 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from model import (
+from src.model import (
     AnswersQuestions,
     UserId,
     UserIdName,
     CordinatesItem,
     CordinatesStartMove,
 )
-from persistance.Table import Table
-from algorithms.bfs import BFS
-from algorithms.dfs import DFS
-from algorithms.astar import Astar
-from algorithms.dijkstra import Dijkstra
-from algorithms.recursive_division import RecursiveDivison
-from algorithms.random_maze import RandomMaze
-from algorithms.distances import Distance
-from persistance.Node import Node
-from persistance.Fields import Fields
-from database_firebase import (
+from src.persistance.Table import Table
+from src.algorithms.bfs import BFS
+from src.algorithms.dfs import DFS
+from src.algorithms.astar import Astar
+from src.algorithms.dijkstra import Dijkstra
+from src.algorithms.recursive_division import RecursiveDivison
+from src.algorithms.random_maze import RandomMaze
+from src.algorithms.distances import Distance
+from src.persistance.Node import Node
+from src.persistance.Fields import Fields
+from src.database_firebase import (
     get_solution_qtype_id,
     set_user_points,
     set_user_points_zero,
@@ -262,6 +262,6 @@ async def move_start_end(item: CordinatesStartMove):
     return item
 
 
-# uvicorn main:app --reload
+# backend -> uvicorn src.main:app --reload
 # https://developer.redis.com/develop/python/fastapi/
 # el kell indítani a dockert is mongodbvel

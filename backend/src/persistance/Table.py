@@ -1,6 +1,7 @@
 from .Node import Node
 from .Fields import Fields
-
+import sys
+sys.path.append("..")
 
 class Table:
     def __init__(self, size_x, size_y, start, end):

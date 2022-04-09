@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="FILTER_RESOLVED_ITEMS" value="false" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="ca0fc84d-c702-410e-9827-b319cfa42451" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistance/Fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/persistance/Fields.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistance/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/persistance/Node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistance/Table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/persistance/Table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,6 +21,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="2" />
   </component>
   <component name="ProjectId" id="236xcXvoPeobUuf0X09EHtSUfLR" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -23,6 +35,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -34,6 +49,8 @@
       <updated>1641068424805</updated>
       <workItem from="1641068427972" duration="10000" />
       <workItem from="1645725555384" duration="32000" />
+      <workItem from="1649441302008" duration="700000" />
+      <workItem from="1649442678080" duration="5158000" />
     </task>
     <servers />
   </component>

@@ -1,13 +1,29 @@
-FROM python:3.9-slim
+# FROM python:3.9-slim
 # ez nem jo
-RUN mkdir /app
-ADD ./src /app
-COPY ./requirements.txt /app/
 
-WORKDIR /app
+# RUN mkdir /app
+# ADD . /app
 
-RUN pip3 install -r requirements.txt
+# WORKDIR /app
+# RUN pip3 install --no-cache-dir --upgrade -r requirements.txt
 
-EXPOSE 8000
-WORKDIR /src
-CMD ["uvicorn", "main:app", "--host=0.0.0.0", "--reload"]
+# CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+FROM python:3.9
+
+# 
+WORKDIR /code
+
+# 
+COPY ./requirements.txt /code/requirements.txt
+
+# 
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip3 install firebase-admin
+
+# 
+COPY ./src /code/src
+
+# 
+# CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "src.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8000"]

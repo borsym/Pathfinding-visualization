@@ -5,13 +5,13 @@ import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { firebase } from "../../Firebase/firebase";
 import Button from "../Button";
-
+import {PATH} from "../../fileWithConstan";
 const Profile = (props) => {
   const db = firebase.firestore();
 
   const SignOut = () => {
     firebase.auth().signOut();
-    axios.post("http://localhost:8000/", {
+    axios.post(`${PATH}/`, {
       is_refreshed: true,
     });
   };

@@ -1,5 +1,6 @@
 from enum import Enum
-
+import sys
+sys.path.append("..")
 
 class Fields(Enum):
     EMPTY = 0

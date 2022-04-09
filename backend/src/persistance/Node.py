@@ -1,5 +1,6 @@
 from .Fields import Fields
-
+import sys
+sys.path.append("..")
 
 class Node:
     def __init__(self, x, y, field, parent=None):

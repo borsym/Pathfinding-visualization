@@ -1,5 +1,5 @@
-from algorithms.common_propertys import CommonPropertys
-from persistance.Fields import Fields
+from src.algorithms.common_propertys import CommonPropertys
+from src.persistance.Fields import Fields
 import sys
 import gc
 sys.path.append("..")

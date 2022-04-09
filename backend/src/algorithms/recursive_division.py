@@ -1,7 +1,7 @@
 import sys
 import math
 from collections import deque as queue
-from persistance.Fields import Fields
+from src.persistance.Fields import Fields
 from random import randrange
 
 # https://www.youtube.com/watch?v=sVcB8vUFlmU labirintusok

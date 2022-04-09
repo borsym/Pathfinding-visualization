@@ -1,8 +1,7 @@
 import sys
-from persistance.Fields import Fields
+from src.persistance.Fields import Fields
 from collections import deque as queue
-from random import seed
-from random import random
+from random import seed, random
 
 sys.path.append("..")
 seed(1)

@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import errorMessage from "../functions/ErrorMessage";
 import warningMessage from "../functions/WarningMessage";
+import {PATH} from "../fileWithConstan";
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
@@ -61,7 +62,7 @@ const cleareBoard = async (conditions) => {
   // clear the board
   clearPreviousVisualization(conditions);
   await axios
-    .post("http://localhost:8000/api/clearForMaze", {
+    .post(`${PATH}/api/clearForMaze`, {
       // indicated the clear
       is_refreshed: true,
     })

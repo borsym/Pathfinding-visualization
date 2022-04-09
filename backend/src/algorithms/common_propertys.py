@@ -1,6 +1,6 @@
 from collections import deque as queue
-from persistance.Node import Node
-from persistance.Fields import Fields
+from src.persistance.Node import Node
+from src.persistance.Fields import Fields
 import sys
 sys.path.append(".")
 

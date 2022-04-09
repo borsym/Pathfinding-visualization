@@ -19,7 +19,7 @@ import Profile from "./Profile/Profile";
 import DndQuestion from "./QuestionsSegment/DndQuestion";
 import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Quize from "./Quize/Quize";
-
+import {PATH} from "../fileWithConstan";
 const NavBar = ({
   algorithm,
   setAlgorithm,
@@ -58,7 +58,7 @@ const NavBar = ({
 
   const handleVisualizeMaze = async (maze) => {
     await axios
-      .post("http://localhost:8000/api/clearForMaze", {
+      .post(`${PATH}/api/clearForMaze`, {
         // indicated the clear
         is_refreshed: true,
       })
@@ -67,7 +67,7 @@ const NavBar = ({
       });
 
     await axios
-      .get(`http://localhost:8000/api/${maze}`)
+      .get(`${PATH}/api/${maze}`)
       .then((res) => {
         setIsVisualize(true);
         setIsDisabled(true);
@@ -100,7 +100,7 @@ const NavBar = ({
 
   const handleDistanceFormula = (distanceFormula) => {
     // change the distance formula for the heuristic alogrithm
-    axios.post("http://localhost:8000/api/changeDistance", {
+    axios.post(`${PATH}/api/changeDistance`, {
       distance: distanceFormula,
     });
   };
@@ -115,7 +115,7 @@ const NavBar = ({
       }
       // I have to put back the weights if another algorithm is visited them
       await axios
-        .get("http://localhost:8000/api/getTypes")
+        .get(`${PATH}/api/getTypes`)
         .then((res) => {
           Object.values(res.data).map((key, value) => {
             Object.entries(key).map(([key, value]) => {
@@ -145,7 +145,7 @@ const NavBar = ({
       setIsVisualize(true);
       // and now visualize the algorithm
       await axios
-        .get(`http://localhost:8000/api/${algorithm}`)
+        .get(`${PATH}/api/${algorithm}`)
         .then((res) => {
           setIsDisabled(true);
           dispatchGridEvent("VISUALIZE_ALGORITHM", {
@@ -169,7 +169,7 @@ const NavBar = ({
   const handleGetQuestions = async (algorithm) => {
     // every time he starts a new quize we set the points to 0
     await axios
-      .post(`http://localhost:8000/api/restartpoints`, {
+      .post(`${PATH}/api/restartpoints`, {
         uid: firebase.auth().currentUser.uid,
       })
       .catch(() => {

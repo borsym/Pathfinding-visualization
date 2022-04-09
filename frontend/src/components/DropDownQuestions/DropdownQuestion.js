@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
 import Button from "../Button";
-
+import {PATH} from "../../fileWithConstan";
 const DropdownQuestion = () => {
   const [quizeState, dispatch] = useContext(QuestionContext);
   const [isSubmitted, setIsSubmitted] = useState(false); // if submitted we change the button to next
@@ -50,7 +50,7 @@ const DropdownQuestion = () => {
     });
 
     axios
-      .post(`http://localhost:8000/api/dropdown/${quizeState.algorithm}`, {
+      .post(`${PATH}/api/dropdown/${quizeState.algorithm}`, {
         answers: answers,
         algorithm: quizeState.algorithm,
         questionsType: quizeState.currentQuestionType,

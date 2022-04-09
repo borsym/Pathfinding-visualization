@@ -5,7 +5,7 @@ import React, { useContext } from "react";
 import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
 import Answer from "./Answer";
-
+import {PATH} from "../../fileWithConstan";
 const Question = (props) => {
   const [quizeState, dispatch] = useContext(QuestionContext);
   let currentQuestionId = null;
@@ -23,7 +23,7 @@ const Question = (props) => {
     answers[index] = answer;
     props.setDisabled("pointer-events-none"); // disable all answers
     axios
-      .post(`http://localhost:8000/api/quize/${quizeState.algorithm}`, {
+      .post(`${PATH}/api/quize/${quizeState.algorithm}`, {
         answers: answers,
         algorithm: quizeState.algorithm,
         questionsType: quizeState.currentQuestionType,

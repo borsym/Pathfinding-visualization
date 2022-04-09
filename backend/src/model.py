@@ -1,5 +1,7 @@
 from pydantic import BaseModel
-
+import sys
+sys.path.append("./")
+# sys.path.append(".")
 
 class Questions(BaseModel):
     algorithm: str
