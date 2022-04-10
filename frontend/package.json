@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
     "canvas-confetti": "^1.4.0",
+    "dotenv": "^16.0.0",
     "firebase": "^9.6.6",
     "framer-motion": "^5.6.0",
     "lodash": "^4.17.21",
