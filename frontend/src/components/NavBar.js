@@ -29,7 +29,7 @@ const NavBar = ({
   const optionsAlgorithms = ["Astar", "Dijkstra", "BFS", "DFS"];
   const optionsMazes = ["Recursive Division", "Random"];
   const optionsSpeed = ["Fast", "Normal", "Slow"];
-  const optionsType = ["Grass [10]", "Water [20]", "Stone [30]"];
+  const optionsType = ["Grass [3]", "Water [5]", "Stone [8]"];
   const optionDistance = ["Euclidean", "Manhattan", "Chebyshev"];
   const db = firebase.firestore();
   const [maze, setMaze] = useState("");
@@ -120,15 +120,15 @@ const NavBar = ({
           Object.values(res.data).map((key, value) => {
             Object.entries(key).map(([key, value]) => {
               switch (value) {
-                case 10:
+                case 3:
                   document.getElementById(key).className =
                     "node node-style node-type bg-green-900 animate-fillBox";
                   break;
-                case 20:
+                case 5:
                   document.getElementById(key).className =
                     "node node-style node-type bg-blue-900 animate-fillBox";
                   break;
-                case 30:
+                case 8:
                   document.getElementById(key).className =
                     "node node-style node-type bg-neutral-400 animate-fillBox";
                   break;

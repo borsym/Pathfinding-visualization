@@ -114,12 +114,12 @@ describe("interact with Navbar", () => {
 
   it("interaction with Type", () => {
     cy.contains("Type").click();
-    const algorithms = ["Grass [10]", "Water [20]", "Stone [30]"]; // lehet elirva
+    const algorithms = ["Grass [3]", "Water [5]", "Stone [8]"]; // lehet elirva
     algorithms.forEach((value) => {
       cy.contains(value);
     });
 
     cy.contains("Water").click();
-    cy.contains("Type: Water [20]");
+    cy.contains("Type: Water [5]");
   });
 });

@@ -13,9 +13,9 @@ const names = {
     100: "Slow",
   },
   Type: {
-    10: "Grass [10]",
-    20: "Water [20]",
-    30: "Stone [30]",
+    3: "Grass [3]",
+    5: "Water [5]",
+    8: "Stone [8]",
   },
 };
 

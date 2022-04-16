@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import errorMessage from "../functions/ErrorMessage";
 import warningMessage from "../functions/WarningMessage";
-import {PATH} from "../fileWithConstan";
+import { PATH } from "../fileWithConstan";
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
@@ -13,7 +13,7 @@ export const GridContext = createContext();
 
 export const GridProvider = (props) => {
   const [grid, setGrid] = useState(getInitialGrid());
-  const [type, setType] = useState(10); // current weight, what we are putting when pressing control
+  const [type, setType] = useState(3); // current weight, what we are putting when pressing control
   const [isVisualize, setIsVisualize] = useState(false); // if we are visualizing the grid is disabled
 
   // communication between components
