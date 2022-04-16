@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { GridContext } from "../contexts/GridContext";
 import errorMessage from "../functions/ErrorMessage";
 import Node from "./Node";
-import {PATH} from "../fileWithConstan";
+import { PATH } from "../fileWithConstan";
 const Grid = () => {
   const [grid, setGrid, type, setType, dispatch, isVisualize, setIsVisualize] =
     useContext(GridContext);
@@ -30,8 +30,8 @@ const Grid = () => {
   }, []);
 
   const handleMouseDown = (e, row, col) => {
-    // bit bugy
     if (isVisualize) return;
+
     if (e.target.id.includes("start") || e.target.id.includes("end")) {
       setChanges([...changes, { row, col }]);
       setStartOrEnd(e.target.id.includes("start") ? "start" : "end");
@@ -55,7 +55,13 @@ const Grid = () => {
   };
 
   const handleMouseEnter = (e, row, col) => {
-    if (!mouseIsPressed || isVisualize) return;
+    if (
+      !mouseIsPressed ||
+      isVisualize ||
+      grid[row][col].isStart ||
+      grid[row][col].isFinish
+    )
+      return;
 
     if (isMoveStartEnd) {
       setPrevStart({ row, col });
