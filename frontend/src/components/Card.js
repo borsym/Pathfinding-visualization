@@ -9,9 +9,13 @@ const Card = (props) => {
   return (
     <div>
       {props.data[props.cardIdx].map((item) => (
-        <>
-          <h1 className="text-position-tutorial title">{item.title}</h1>
-          <h3 className="text-position-tutorial subtitle">{item.subtitle}</h3>
+        <div key={item.title + item.subtitle}>
+          <h1 className="text-position-tutorial title" key={item.title}>
+            {item.title}
+          </h1>
+          <h3 className="text-position-tutorial subtitle" key={item.subtitle}>
+            {item.subtitle}
+          </h3>
           {item.text.map((text) => (
             <p className="text-tutorial" key={text}>
               {text}
@@ -45,7 +49,7 @@ const Card = (props) => {
               className=" inset-x-0 bottom-0 m-auto"
             />
           )}
-        </>
+        </div>
       ))}
     </div>
   );
