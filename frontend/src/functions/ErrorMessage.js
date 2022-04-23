@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-const warningMessage = (msg) => {
+const errorMessage = (msg) => {
   toast.error(msg, {
     position: "top-right",
     autoClose: 2500,
@@ -12,4 +12,4 @@ const warningMessage = (msg) => {
   });
 };
 
-export default warningMessage;
+export default errorMessage;

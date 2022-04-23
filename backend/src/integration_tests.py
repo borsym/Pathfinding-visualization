@@ -54,11 +54,11 @@ class TestIntegration(unittest.TestCase):
 
         self.table.set_node_field(10, 10, Fields.GRASS)
         self.assertEqual(self.table.get_node_field(10, 10), Fields.GRASS)
-        self.assertEqual(self.table.get_node_weight(10, 10), 10)
+        self.assertEqual(self.table.get_node_weight(10, 10), 3)
 
         self.table.set_node_field(10, 10, Fields.STONE)
         self.assertEqual(self.table.get_node_field(10, 10), Fields.STONE)
-        self.assertEqual(self.table.get_node_weight(10, 10), 30)
+        self.assertEqual(self.table.get_node_weight(10, 10), 8)
 
     def test_node_multiple_operation(self):
         node_start = Node(10, 30, Fields.START)

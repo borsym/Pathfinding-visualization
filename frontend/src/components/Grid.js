@@ -154,7 +154,7 @@ const Grid = () => {
         })
         .then(function (response) {})
         .catch(function () {
-          errorMessage("A szerver nem elérhető!");
+          errorMessage("The server is not available");
         })
         .finally(function () {
           setChanges([]);

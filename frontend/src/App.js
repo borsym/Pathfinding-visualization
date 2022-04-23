@@ -27,7 +27,7 @@ export default function App() {
             name: user.displayName,
           })
           .catch(() => {
-            errorMessage("Nincs kapcsolat a szerverrel!");
+            errorMessage("The server is not available");
           });
         return setIsUserSignedIn(true);
       }

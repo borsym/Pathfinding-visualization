@@ -13,7 +13,7 @@ db = firestore.client()
 
 def get_solution_qtype_id(
     algorithm, questiontype, id
-):  # u? lehet törölni kell, itt id lehet nem lesz jó és idx kell
+):
     doc = db.collection("solutions").document(algorithm).get()
     if doc.exists:
         return doc.to_dict()[questiontype][id]

@@ -19,7 +19,7 @@ import Profile from "./Profile/Profile";
 import DndQuestion from "./QuestionsSegment/DndQuestion";
 import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Quize from "./Quize/Quize";
-import {PATH} from "../fileWithConstan";
+import { PATH } from "../fileWithConstan";
 const NavBar = ({
   algorithm,
   setAlgorithm,
@@ -63,7 +63,7 @@ const NavBar = ({
         is_refreshed: true,
       })
       .catch(() => {
-        errorMessage("A szerver nem elérhető!");
+        errorMessage("The server is not available");
       });
 
     await axios
@@ -84,7 +84,7 @@ const NavBar = ({
         }, 20 * res.data.order.length);
       })
       .catch(() => {
-        errorMessage("A szerver nem elérhető!");
+        errorMessage("The server is not available");
       });
   };
 
@@ -139,7 +139,7 @@ const NavBar = ({
           });
         })
         .catch(() => {
-          errorMessage("A szerver nem elérhető!");
+          errorMessage("The server is not available");
         });
 
       setIsVisualize(true);
@@ -161,7 +161,7 @@ const NavBar = ({
           }, speed * res.data.path.length + 50 * res.data.shortestPath.length);
         })
         .catch(() => {
-          errorMessage("A szerver nem elérhető!");
+          errorMessage("The server is not available");
         });
     }
   };
@@ -173,7 +173,7 @@ const NavBar = ({
         uid: firebase.auth().currentUser.uid,
       })
       .catch(() => {
-        errorMessage("A szerver nem elérhető!");
+        errorMessage("The server is not available");
       });
 
     const questions = await db // get the questions from the database related to the current algorithm

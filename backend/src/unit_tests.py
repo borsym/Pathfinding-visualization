@@ -12,7 +12,7 @@ from persistance.Node import Node
 from persistance.Fields import Fields
 
 
-# unit_tests.py -v
+# # unit_tests.py -v
 class TestAlgorithms(unittest.TestCase):
     def setUp(self):
         self.start = Node(10, 15, Fields.START)
@@ -212,7 +212,8 @@ class TestAlgorithms(unittest.TestCase):
         )
 
     def test_bfs(self):
-        bfs = BFS(self.table, Node(10, 30, Fields.START))
+        self.table.start = Node(10, 30, Fields.START)
+        bfs = BFS(self.table, self.table.get_start())
         assert bfs is not None
 
         order, shorthest_path = bfs.start_bfs()
@@ -221,7 +222,6 @@ class TestAlgorithms(unittest.TestCase):
 
         self.assertFalse(order == [])
         self.assertFalse(shorthest_path == [])
-
         self.assertGreaterEqual(len(order), len(shorthest_path))
         self.assertEqual(
             order,
@@ -1004,7 +1004,7 @@ class TestAlgorithms(unittest.TestCase):
 
         count = 0
         for node in self.table.get_all_nodes():
-            count += 1 if node.get_is_wall() else 0
+            count += 1 if node.get_field().value == Fields.WALL.value else 0
 
         self.assertEqual(count, len(order))
         self.assertGreaterEqual(len(order), 350)
@@ -1022,13 +1022,13 @@ class TestAlgorithms(unittest.TestCase):
         assert random_maze is not None
 
         order = random_maze.generate()
+
         assert order is not None
-
         self.assertFalse(order == [])
-
+        
         count = 0
         for node in self.table.get_all_nodes():
-            count += 1 if node.get_is_wall() else 0
+            count += 1 if node.get_field().value == Fields.WALL.value else 0
 
         self.assertEqual(count, len(order))
         self.assertGreaterEqual(len(order), 180)
@@ -1097,6 +1097,7 @@ class TestBarricade(unittest.TestCase):
             self.table.get_end(),
             self.distance.get_distance(self.distance_formula),
         )
+        
         assert astar is not None
 
         order, shorthest_path = astar.start_astar()
@@ -1285,7 +1286,7 @@ class TestTypes(unittest.TestCase):
             ],
         )
         self.assertLess(len(shorthest_path2), len(shorthest_path))
-        self.assertLess(len(order), len(order2))
+        self.assertLess(len(order2), len(order))
 
     def test_dijkstra_type(self):
         dijkstra = Dijkstra(
@@ -1425,8 +1426,8 @@ class TestTypes(unittest.TestCase):
         self.assertLess(len(order), len(order2))
 
 
-class TestDB(unittest.TestCase):
-    pass
+# class TestDB(unittest.TestCase):
+#     pass
 
 
 if __name__ == "__main__":

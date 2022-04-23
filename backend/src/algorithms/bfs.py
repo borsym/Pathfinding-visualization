@@ -14,6 +14,7 @@ class BFS(CommonPropertys):
 
             # Go to the adjacent cells
             for dr, dc in self.directions:
+                
                 adjx = x + dr
                 adjy = y + dc
                 if self.isValid(
@@ -25,7 +26,7 @@ class BFS(CommonPropertys):
                     tmp = (adjx, adjy)
                     self.q.append(tmp)
                     self.order_of_visited_nodes.append(tmp)
-                    if self.grid.get_node_field(adjx, adjy) == Fields.END:
+                    if self.grid.get_node(adjx, adjy) == self.end:
                         self.ptr = self.grid.get_node(adjx, adjy)
                         del self.q
                         gc.collect()

@@ -264,4 +264,3 @@ async def move_start_end(item: CordinatesStartMove):
 
 # backend -> uvicorn src.main:app --reload
 # https://developer.redis.com/develop/python/fastapi/
-# el kell indítani a dockert is mongodbvel

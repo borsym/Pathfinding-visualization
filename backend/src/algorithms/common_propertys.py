@@ -38,7 +38,7 @@ class CommonPropertys:
     def isValid(self, rr, cc, size_x, size_y):
         if (
             not (0 <= rr < size_x and 0 <= cc < size_y)
-            or self.grid.get_node_field(rr, cc) == Fields.WALL
+            or self.grid.get_node_field(rr, cc).value == Fields.WALL.value  # in the testing section every time the setup generates a new object from fields and they can't be comperd only just value
         ):
             return False
         return False if (rr, cc) in self.order_of_visited_nodes else True

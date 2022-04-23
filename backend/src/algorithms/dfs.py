@@ -41,7 +41,7 @@ class DFS(CommonPropertys):
 
                 self.stack.append((adjx, adjy))
 
-                if self.grid.get_node_field(row, col) == Fields.END:
+                if self.grid.get_node(row, col) == self.end:
                     self.ptr = self.grid.get_node(row, col)
                     del self.stack
                     gc.collect()

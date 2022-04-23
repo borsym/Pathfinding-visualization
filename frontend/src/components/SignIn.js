@@ -1,34 +1,7 @@
 import React from "react";
 import { firebase } from "../Firebase/firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-// const db = firebase.firestore();
 
-// const SignInFirebase = () => {
-//   console.log("bennevan");
-//   // const googleProvider = new firebase.auth.GoogleAuthProvider();
-//   // firebase
-//   //   .auth()
-//   //   .signInWithPopup(googleProvider)
-//   //   .then((result) => {
-//   db.collection("users")
-//     .doc(firebase.auth().currentUser.uid)
-//     .get()
-//     .then((doc) => {
-//       if (!doc.exists) {
-//         return db
-//           .collection("users")
-//           .doc(firebase.auth().currentUser.uid)
-//           .set({
-//             name: firebase.auth().displayName,
-//             points: Number(0),
-//           });
-//       }
-//     });
-//   // })
-//   // .catch((error) => {
-//   //   console.log(error);
-//   // });
-// };
 // Configure FirebaseUI.
 const uiConfig = {
   // Popup signin flow rather than redirect flow.
