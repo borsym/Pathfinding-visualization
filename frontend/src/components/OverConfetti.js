@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 
+// Showing confetti rain after the user solved the puzzle with max score
 export default function OverConfetti() {
   const [height, setHeight] = useState(null);
   const [width, setWidth] = useState(null);

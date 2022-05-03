@@ -10,9 +10,9 @@ import errorMessage from "./functions/ErrorMessage";
 import SignIn from "./components/SignIn";
 import ModalTutorial from "./components/ModalTutorial";
 import { PATH } from "./fileWithConstan";
-
+// Initial point
 export default function App() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); // Showing the help modal
   const [algorithm, setAlgorithm] = useState("");
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
 

@@ -68,7 +68,7 @@ class RecursiveDivison:
         dy = 0 if horizontal else 1
 
         # how long will the wall be?
-        length = width if horizontal else height  # ez lehet fordíva
+        length = width if horizontal else height
 
         for _ in range(length):
             if wx != px or wy != py:

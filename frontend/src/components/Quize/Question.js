@@ -6,6 +6,7 @@ import { QuestionContext } from "../../contexts/QuestionsContext";
 import { firebase } from "../../Firebase/firebase";
 import Answer from "./Answer";
 import {PATH} from "../../fileWithConstan";
+
 const Question = (props) => {
   const [quizeState, dispatch] = useContext(QuestionContext);
   let currentQuestionId = null;
@@ -21,7 +22,7 @@ const Question = (props) => {
   const handleSelectAnswer = async (answer, index) => {
     let answers = {};
     answers[index] = answer;
-    props.setDisabled("pointer-events-none"); // disable all answers
+    props.setDisabled("pointer-events-none"); // disable all answers if you select one
     axios
       .post(`${PATH}/api/quize/${quizeState.algorithm}`, {
         answers: answers,

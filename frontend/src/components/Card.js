@@ -4,7 +4,7 @@ import PickAlgoGif from "../images/algorithms.gif";
 import WallWeight from "../images/wallWeight.gif";
 import Types from "../images/types.gif";
 import Questions from "../images/questions.gif";
-
+// An element from the modal
 const Card = (props) => {
   return (
     <div>

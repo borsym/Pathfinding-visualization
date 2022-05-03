@@ -29,7 +29,7 @@ const Grid = () => {
     }
   }, []);
 
-  const handleMouseDown = (e, row, col) => {
+  const handleMouseDown = (e, row, col) => {  // putting down walls and weights
     if (isVisualize) return;
 
     if (e.target.id.includes("start") || e.target.id.includes("end")) {
@@ -87,14 +87,13 @@ const Grid = () => {
 
   const handleMouseUp = (e) => {
     // check if the paramter row and col is in the changes arrey
-    //remove all duplicated elements from the changes array
+    // remove all duplicated elements from the changes array
     setMouseIsPressed(false);
     if (isMoveStartEnd) {
       axios
         .post(`${PATH}/api/moveStartEnd`, {
           start: [parseInt(changes[0].row), parseInt(changes[0].col)], // innen indult ki
           end: [
-            // ide raktam le
             StartOrEnd === "start"
               ? parseInt(getStartPosition(grid).row)
               : parseInt(getEndPosition(grid).row),
@@ -150,7 +149,7 @@ const Grid = () => {
       axios
         .post(`${PATH}/api/wallUpdate`, {
           cordinates: unique,
-          type: isControl ? type : 99999, // bad practie 999...
+          type: isControl ? type : 99999,
         })
         .then(function (response) {})
         .catch(function () {

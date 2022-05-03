@@ -76,7 +76,7 @@ export default [
       title: "Enjoy!",
       subtitle:
         "I hope you have just as much fun playing around with this visualization tool as I had building it!",
-      text: ["Contact me at:", "borsymatee@gmail.com - github.com/borsym - "],
+      text: ["Contact me at:", "borsymatee@gmail.com - github.com/borsym"],
     },
   ],
 ];

@@ -1,7 +1,7 @@
 import React from "react";
 import descriptionAlgorithm from "../Data/DataAlgoDestcription";
 import PropTypes from "prop-types";
-
+// Description for the elements in the grid
 const Legend = ({ algorithm }) => {
   return (
     <>

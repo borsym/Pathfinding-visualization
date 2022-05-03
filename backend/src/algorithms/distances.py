@@ -23,7 +23,7 @@ class Distance:
     def manhattan(self, end, new_node):
         return abs(new_node.get_x() - end.get_x()) + abs(new_node.get_y() - end.get_y())
 
-    def chebyshev(self, end, new_node):  # leglassabb
+    def chebyshev(self, end, new_node):
         return max(
             abs(new_node.get_x() - end.get_x()), abs(new_node.get_y() - end.get_y())
         )

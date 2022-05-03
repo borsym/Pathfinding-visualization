@@ -52,7 +52,7 @@ app = FastAPI()
 app.distance_formula = "Euclidean"
 
 origins = ["http://localhost:3000", "localhost:3000"]
-
+# define CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -62,7 +62,7 @@ app.add_middleware(
 )
 
 
-# if the user whisited the site refresh the board
+# if the user visited the site refresh the board
 @app.post("/", tags=["root"])
 async def get_table(refreshed: InitialState):
     refreshed.refresh_board(refreshed.is_refreshed, start_x, start_y, end_x, end_y)
@@ -127,7 +127,7 @@ async def get_recursive_divison() -> dict:
         table.get_end(),
     )
     order = recdiv.start_divide()
-    return {"order": order}  # mazelesz ebből
+    return {"order": order}
 
 
 @app.get("/api/Random", tags=["Maze generation"])
@@ -142,7 +142,7 @@ async def get_random_maze() -> dict:
         table.get_end(),
     )
     order = random_maze.generate()
-    return {"order": order}  # mazelesz ebből
+    return {"order": order}
 
 
 # Types
@@ -262,5 +262,4 @@ async def move_start_end(item: CordinatesStartMove):
     return item
 
 
-# backend -> uvicorn src.main:app --reload
-# https://developer.redis.com/develop/python/fastapi/
+# ./backend -> uvicorn src.main:app --reload

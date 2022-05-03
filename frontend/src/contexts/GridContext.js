@@ -114,8 +114,6 @@ const createNode = (col, row) => {
 };
 
 const anmiteMaze = (maze, conditions) => {
-  // speed
-  // cleareBoard(conditions);
   clearPreviousVisualization(conditions);
   for (let i = 0; i < maze.length; i++) {
     setTimeout(() => {

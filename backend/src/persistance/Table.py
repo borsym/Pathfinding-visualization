@@ -102,11 +102,6 @@ class Table:
                 nodes.append(node)
         return nodes
 
-    def print_path(self, path):
-        for i in path:
-            self.__grid[i.x][i.y].set_field(Fields.PATH)
-        self.print_grid()
-
     def refresh_board(self, start_x, start_y, end_x, end_y):
         if self.is_not_valid(start_x,start_y) or self.is_not_valid(end_x,end_y):
             raise Exception("Invalid position, out of range")
@@ -118,22 +113,3 @@ class Table:
         self.start = Node(start_x, start_y, Fields.START)
         self.__grid[end_x][end_y].set_field(Fields.END)
         self.end = Node(end_x, end_y, Fields.END)
-
-    def print_grid(self):
-        f = open("its_me.txt", "w")
-        for row in self.__grid:
-            for cell in row:
-                f.write(str(cell.weight) + " ")
-            f.write("\n")
-        print(
-            "\n".join(
-                ["\t".join([str(cell.weight) for cell in row]) for row in self.__grid]
-            )
-        )
-
-    def print_grid_2(self):
-        print(
-            "\n".join(
-                ["\t".join([str(cell.distance) for cell in row]) for row in self.__grid]
-            )
-        )

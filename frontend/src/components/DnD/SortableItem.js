@@ -11,7 +11,7 @@ export function SortableItem(props) {
     listeners,
     setNodeRef,
     transform,
-    transition, // szep atmenet
+    transition,
   } = useSortable({ id: props.id });
 
   const style = {

@@ -4,8 +4,7 @@ import { QuestionContext } from "../contexts/QuestionsContext";
 import { firebase } from "../Firebase/firebase";
 import OverConfetti from "./OverConfetti";
 
-const Over = () => {
-  const [quizeState, dispatch] = useContext(QuestionContext);
+const Over = () => { // Showing the result after the user solved the puzzle
   const [user, setUser] = useState(null);
   const db = firebase.firestore();
   useEffect(() => {

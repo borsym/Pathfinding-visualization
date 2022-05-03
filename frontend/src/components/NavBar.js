@@ -20,6 +20,7 @@ import DndQuestion from "./QuestionsSegment/DndQuestion";
 import ModalStuktos from "./QuestionsSegment/ModalStuktos";
 import Quize from "./Quize/Quize";
 import { PATH } from "../fileWithConstan";
+
 const NavBar = ({
   algorithm,
   setAlgorithm,
@@ -192,7 +193,6 @@ const NavBar = ({
     setShowModal(true);
   };
 
-  // for future myself, if you want to stop the algorithm you have to disable the dropdowns make a div around the menu and disable that with pointern event
   return (
     <nav
       className="flex justify-center items-center mx-auto bg-slate-800 p-4"
@@ -200,7 +200,7 @@ const NavBar = ({
     >
       <ToastContainer />
 
-      <ModalStuktos showModal={showModal} setShowModal={setShowModal}>
+      <ModalStuktos showModal={showModal} setShowModal={setShowModal}>  {/* modal for the questions */}
         {questionState.currentQuestionType === "quize" && <Quize />}
         {questionState.currentQuestionType === "dropdown" && (
           <DropdownQuestion />

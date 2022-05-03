@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import "../Node.css";
-
+// One cell from the grid
 const Node = (props) => {
   const {
     col,

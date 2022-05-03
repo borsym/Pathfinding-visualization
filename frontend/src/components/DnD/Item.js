@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
-
+// represents an elemenet from the wordbank
 export const Item = forwardRef(({ label, style, ...props }, ref) => {
   return (
     <div className="p-1" style={{ ...style }} {...props} ref={ref}>
