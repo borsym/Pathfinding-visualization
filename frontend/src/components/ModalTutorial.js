@@ -21,6 +21,7 @@ const ModalTutorial = (props) => {
       <div className="relative p-8 w-full max-w-3xl max-h-[38rem] md:min-h-[24rem] bg-zinc-100 rounded-md border-2 border-black sm:min-w-0 min-h-0">
         <AiOutlineClose
           key="Close"
+          id="profileClose"
           onClick={() => {
             props.setShowModal(false);
             setCounter(0);

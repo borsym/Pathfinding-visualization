@@ -16,17 +16,11 @@
 /// <reference types="cypress" />
 
 // import { getLoginButton, getTitle } from "../support/commands";
-describe("Home", () => {
-  it("can log in and view dashbord", () => {
+describe("Logout", () => {
+  it("logout", () => {
     cy.visit("http://localhost:3000/");
-    cy.wait(1000);
-    cy.get("body").then(($body) => {
-      if ($body.find("#profileClose").length === 1) {
-        cy.log("already loged in");
-      } else {
-        cy.login();
-        cy.contains("Sign in with Google").click();
-      }
-    });
+    cy.get("#profileClose").click();
+    cy.contains("Profile").click();
+    cy.contains("Sign out").click();
   });
 });

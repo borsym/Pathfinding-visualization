@@ -31,8 +31,11 @@ class CommonPropertys:
             nodes_in_shortest_path_order.insert(
                 0, (current_node.get_x(), current_node.get_y())
             )
+            if current_node.get_field() == Fields.START:
+                break
             current_node = current_node.previous_node
-
+            
+        
         return nodes_in_shortest_path_order
 
     def isValid(self, rr, cc, size_x, size_y):
@@ -41,4 +44,4 @@ class CommonPropertys:
             or self.grid.get_node_field(rr, cc).value == Fields.WALL.value  # in the testing section every time the setup generates a new object from fields and they can't be comperd only just value
         ):
             return False
-        return False if (rr, cc) in self.order_of_visited_nodes else True
+        return False if (rr, cc) in self.visited_nodes_order else True

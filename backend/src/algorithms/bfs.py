@@ -11,7 +11,7 @@ class BFS(CommonPropertys):
             arr = self.q.popleft()
             x = arr[0]
             y = arr[1]
-
+            self.visited_nodes_order.append((x,y))
             # Go to the adjacent cells
             for dr, dc in self.directions:
                 
@@ -25,14 +25,14 @@ class BFS(CommonPropertys):
                     )
                     tmp = (adjx, adjy)
                     self.q.append(tmp)
-                    self.order_of_visited_nodes.append(tmp)
+                    self.visited_nodes_order.append(tmp)
                     if self.grid.get_node(adjx, adjy) == self.end:
                         self.ptr = self.grid.get_node(adjx, adjy)
                         del self.q
                         gc.collect()
                         return (
-                            self.order_of_visited_nodes,
+                            list(self.visited_nodes_order),
                             self.get_nodes_in_shortest_path_order(),
                         )
 
-        return self.order_of_visited_nodes, []
+        return list(self.visited_nodes_order), []

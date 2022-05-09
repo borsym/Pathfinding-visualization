@@ -4,6 +4,7 @@ import testAlgorithmsWithWall from "../support/testAlgorithmsWithWall";
 describe("Run the algorithms", () => {
   it("Check if the board is ready", () => {
     cy.visit("http://localhost:3000/");
+    cy.get("#profileClose").click();
     for (let i = 0; i < 20; i += 2) {
       for (let j = 0; j < 50; j += 5) {
         if (!((i === 10 && j === 15) || (i === 10 && j === 35))) {
@@ -42,11 +43,16 @@ describe("Run the algorithms", () => {
   it("Maze generation", () => {
     cy.contains("Maze").click();
     cy.contains("Random").click();
+    cy.wait(1000);
     cy.get("#visualize", { timeout: 30000 })
       .should("have.css", "background-color")
       .and("eq", "rgb(8, 145, 178)");
+
     cy.contains("Maze").click();
     cy.contains("Recursive Division").click();
-    testAlgorithms(["Astar"], 15, 35);
+    cy.get("#visualize", { timeout: 30000 })
+      .should("have.css", "background-color")
+      .and("eq", "rgb(8, 145, 178)");
+    cy.wait(1000);
   });
 });

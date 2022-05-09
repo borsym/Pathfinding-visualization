@@ -4,6 +4,7 @@
 describe("Check Navbar", () => {
   it("everything is loaded in the navbar", () => {
     cy.visit("http://localhost:3000/");
+
     const navbar = [
       "Profile",
       "Distance Formula",
@@ -16,6 +17,7 @@ describe("Check Navbar", () => {
       "Type",
     ];
 
+    cy.get("#profileClose").click(); // close the profile
     navbar.forEach((value) => {
       cy.contains(value);
     });
