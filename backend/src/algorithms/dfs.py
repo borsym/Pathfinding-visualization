@@ -24,7 +24,7 @@ class DFS(CommonPropertys):
                 continue
             # Mark the current
             # cell as visited
-            self.visited_nodes_order.append((row, col))
+            self.order_of_visited_nodes.append((row, col))
             self.vis.add((row, col))
 
             self.grid.get_node(row, col).set_previous_node(Node)
@@ -46,8 +46,8 @@ class DFS(CommonPropertys):
                     del self.stack
                     gc.collect()
                     return (
-                        list(self.visited_nodes_order),
+                        self.order_of_visited_nodes,
                         self.get_nodes_in_shortest_path_order(),
-                    )  # es majd egy backtracking
-        return list(self.visited_nodes_order), []
+                    )
+        return self.order_of_visited_nodes, []
 
