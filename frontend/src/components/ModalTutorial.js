@@ -38,7 +38,7 @@ const ModalTutorial = (props) => {
           onClick={() => handleButtonClick(-1)}
           className="absolute bottom-0 left-0 m-2 btn-tutorial"
         >
-          Previouse{" "}
+          Previous{" "}
         </button>
         {counter === cardsidx.length - 1 ? (
           <button
