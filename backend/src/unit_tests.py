@@ -21,7 +21,7 @@ class TestAlgorithms(unittest.TestCase):
         self.distance = Distance()
         self.distance_formula = "Euclidean"
 
-    def test_aster(self):
+    def test_astar(self):
         astar = Astar(
             self.table,
             self.table.get_start(),
@@ -231,51 +231,83 @@ class TestAlgorithms(unittest.TestCase):
                 (10, 31),
                 (9, 30),
                 (11, 30),
+                (10, 29),
                 (10, 28),
                 (9, 29),
                 (11, 29),
+                (10, 31),
                 (10, 32),
                 (9, 31),
                 (11, 31),
+                (9, 30),
                 (8, 30),
+                (11, 30),
                 (12, 30),
+                (10, 28),
                 (10, 27),
                 (9, 28),
                 (11, 28),
+                (9, 29),
                 (8, 29),
+                (11, 29),
                 (12, 29),
+                (10, 32),
                 (10, 33),
                 (9, 32),
                 (11, 32),
+                (9, 31),
                 (8, 31),
+                (11, 31),
                 (12, 31),
+                (8, 30),
                 (7, 30),
+                (12, 30),
                 (13, 30),
+                (10, 27),
                 (10, 26),
                 (9, 27),
                 (11, 27),
+                (9, 28),
                 (8, 28),
+                (11, 28),
                 (12, 28),
+                (8, 29),
                 (7, 29),
+                (12, 29),
                 (13, 29),
+                (10, 33),
                 (10, 34),
                 (9, 33),
                 (11, 33),
+                (9, 32),
                 (8, 32),
+                (11, 32),
                 (12, 32),
+                (8, 31),
                 (7, 31),
+                (12, 31),
                 (13, 31),
+                (7, 30),
                 (6, 30),
+                (13, 30),
                 (14, 30),
+                (10, 26),
                 (10, 25),
                 (9, 26),
                 (11, 26),
+                (9, 27),
                 (8, 27),
+                (11, 27),
                 (12, 27),
+                (8, 28),
                 (7, 28),
+                (12, 28),
                 (13, 28),
+                (7, 29),
                 (6, 29),
+                (13, 29),
                 (14, 29),
+                (10, 34),
                 (10, 35),
             ],
         )
@@ -360,6 +392,7 @@ class TestAlgorithms(unittest.TestCase):
             order,
             [
                 (12, 35),
+                (12, 35),
                 (13, 35),
                 (14, 35),
                 (15, 35),
@@ -660,8 +693,10 @@ class TestAlgorithms(unittest.TestCase):
                 (10, 35),
             ],
         )
-        
-        self.assertEqual(shorthest_path,[
+
+        self.assertEqual(
+            shorthest_path,
+            [
                 (12, 35),
                 (13, 35),
                 (14, 35),
@@ -961,7 +996,8 @@ class TestAlgorithms(unittest.TestCase):
                 (8, 35),
                 (9, 35),
                 (10, 35),
-            ],)
+            ],
+        )
 
         self.assertNotEqual(order, [(12, 35), (11, -35), (10, 35)])
         self.assertNotEqual(shorthest_path, [(-12, 35), (11, 35), (10, 35)])
@@ -1025,7 +1061,7 @@ class TestAlgorithms(unittest.TestCase):
 
         assert order is not None
         self.assertFalse(order == [])
-        
+
         count = 0
         for node in self.table.get_all_nodes():
             count += 1 if node.get_field().value == Fields.WALL.value else 0
@@ -1097,7 +1133,7 @@ class TestBarricade(unittest.TestCase):
             self.table.get_end(),
             self.distance.get_distance(self.distance_formula),
         )
-        
+
         assert astar is not None
 
         order, shorthest_path = astar.start_astar()
@@ -1154,7 +1190,7 @@ class TestBarricade(unittest.TestCase):
         self.assertFalse(order == [])
         self.assertTrue(shorthest_path == [])
 
-        self.assertEqual(order, [(10, 15)])
+        self.assertEqual(order, [(10, 15), (10, 15)])
         self.assertEqual(shorthest_path, [])
 
         dfs = DFS(self.table, Node(10, 18, Fields.START))
@@ -1423,11 +1459,7 @@ class TestTypes(unittest.TestCase):
         order2, shorthest_path2 = dfs.start_dfs()
 
         self.assertLess(len(shorthest_path), len(shorthest_path2))
-        self.assertLess(len(order), len(order2))
-
-
-# class TestDB(unittest.TestCase):
-#     pass
+        self.assertLess(len(order2), len(order))
 
 
 if __name__ == "__main__":
