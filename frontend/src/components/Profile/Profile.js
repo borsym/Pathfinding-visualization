@@ -1,40 +1,18 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { firebase } from "../../Firebase/firebase";
 import Button from "../Button";
-import {PATH} from "../../fileWithConstan";
+import { PATH } from "../../fileWithConstan";
 const Profile = (props) => {
-  const db = firebase.firestore();
-
   const SignOut = () => {
     firebase.auth().signOut();
     axios.post(`${PATH}/`, {
       is_refreshed: true,
     });
   };
-
-  // const getUser = () => {
-  //   db.collection("users")
-  //     .doc(firebase.auth().currentUser.uid)
-  //     .get()
-  //     .then((doc) => {
-  //       setUser(doc.data());
-  //     });
-  // };
-  // get the user data but its not the right solution...
-  // useEffect(() => {
-  //   // const updateUser = () => {
-  //   getUser();
-  //   // };
-
-  //   // setInterval(updateUser, 5000);
-  //   // return () => {
-  //   //   clearInterval(updateUser);
-  //   // };
-  // }, []);
 
   return props.isOpenProfile ? (
     <div className="fixed top-0 left-0 w-full h-screen bg-grey-800 flex justify-center items-center -mt-[90px] z-10">
@@ -73,13 +51,6 @@ const Profile = (props) => {
     ""
   );
 };
-// {db
-//     .collection("users")
-//     .doc(result.user.uid)
-//     .get()
-//     .then((result) => {
-//       console.log("result", result);
-//     })}
 
 Profile.propTypes = {
   isOpenProfile: PropTypes.bool.isRequired,

@@ -52,13 +52,11 @@ describe("interact with Navbar", () => {
   it("interaction with Questions", () => {
     cy.contains("Questions").click();
     cy.contains("You have to pick an algorithm!");
-    //cy.contains("itt a warningra keresek rá");
   });
 
   it("interaction with Visualize", () => {
     cy.contains("Visualize").click();
     cy.contains("You have to pick an algorithm!");
-    //cy.contains("itt a warningra keresek rá");
   });
 
   it("interaction with ALgorithms", () => {
@@ -97,7 +95,7 @@ describe("interact with Navbar", () => {
 
   it("interaction with Maze", () => {
     cy.contains("Maze").click();
-    const algorithms = ["Random", "Recursive Division"]; // lehet elirva
+    const algorithms = ["Random", "Recursive Division"];
     algorithms.forEach((value) => {
       cy.contains(value);
     });
@@ -116,7 +114,7 @@ describe("interact with Navbar", () => {
 
   it("interaction with Type", () => {
     cy.contains("Type").click();
-    const algorithms = ["Grass [3]", "Water [5]", "Stone [8]"]; // lehet elirva
+    const algorithms = ["Grass [3]", "Water [5]", "Stone [8]"];
     algorithms.forEach((value) => {
       cy.contains(value);
     });

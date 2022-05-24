@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## How to start cypress?
+
+You have to start the backend first after inside the /frontend folder, following the frontend with a loged out frontend after: type 'npx cypress open'
+
 ## Available Scripts
 
 In the project directory, you can run:

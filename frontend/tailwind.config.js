@@ -38,7 +38,6 @@ module.exports = {
         },
 
         fillBoxVisited: {
-          // hogy kéne körből - négyzetet csinálni animáció közben
           "0%": {
             transform: "scale(0)",
             backgroundColor: "#c472ff",

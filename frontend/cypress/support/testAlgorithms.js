@@ -10,7 +10,5 @@ export default (algorithms, start, end) => {
     for (let i = start; i <= end; i++) {
       cy.get(`#node-${10}-${i}`).should("have.class", "bg-yellow-200");
     }
-
-    //check if the board is clear
   });
 };
